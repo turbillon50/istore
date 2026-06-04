@@ -6,11 +6,39 @@ import { PwaRegister } from "@/components/pwa-register";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
+const description =
+  "Plataforma SaaS premium para talleres de reparación de celulares, tablets y computadoras. Órdenes, diagnósticos, inventario, POS, CRM y analytics.";
+
 export const metadata: Metadata = {
-  title: "iStore Pro — Sistema para talleres de reparación",
-  description:
-    "Plataforma SaaS premium para talleres de reparación de celulares, tablets y computadoras. Órdenes, diagnósticos, inventario, POS, CRM y analytics.",
+  metadataBase: new URL("https://istore-pro.demo"),
+  title: {
+    default: "iStore Pro — Sistema para talleres de reparación",
+    template: "%s · iStore Pro",
+  },
+  description,
+  applicationName: "iStore Pro",
   manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  openGraph: {
+    type: "website",
+    title: "iStore Pro — Sistema inteligente para talleres de reparación",
+    description,
+    siteName: "iStore Pro",
+    locale: "es_MX",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "iStore Pro" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "iStore Pro",
+    description,
+    images: ["/og.png"],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",

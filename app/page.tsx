@@ -23,11 +23,11 @@ const features = [
 
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
+    <div className="noise relative min-h-screen overflow-hidden bg-background text-foreground">
       {/* Fondo */}
       <div className="absolute inset-0 grid-bg opacity-40" />
-      <div className="absolute -top-40 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-primary/20 blur-[140px]" />
-      <div className="absolute bottom-0 right-0 h-[400px] w-[500px] rounded-full bg-purple-600/10 blur-[120px]" />
+      <div className="absolute -top-40 left-1/2 h-[500px] w-[800px] -translate-x-1/2 animate-aurora rounded-full bg-primary/20 blur-[140px]" />
+      <div className="absolute bottom-0 right-0 h-[400px] w-[500px] animate-aurora rounded-full bg-purple-600/10 blur-[120px] [animation-delay:-8s]" />
 
       <div className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-12 px-6 py-10 lg:grid-cols-2 lg:gap-8">
         {/* Hero */}
@@ -40,7 +40,7 @@ export default function LandingPage() {
 
           <h1 className="max-w-xl text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
             Controla cada reparación desde{" "}
-            <span className="text-gradient">una sola plataforma.</span>
+            <span className="text-shine">una sola plataforma.</span>
           </h1>
 
           <p className="mt-5 max-w-md text-base text-muted-foreground">
@@ -79,8 +79,11 @@ export default function LandingPage() {
         </div>
 
         {/* Login card */}
-        <div className="flex items-center justify-center lg:justify-end">
-          <LoginCard />
+        <div className="relative flex items-center justify-center lg:justify-end">
+          <div className="absolute h-72 w-72 animate-aurora rounded-full bg-primary/25 blur-[100px]" />
+          <div className="gradient-border relative">
+            <LoginCard />
+          </div>
         </div>
       </div>
     </div>

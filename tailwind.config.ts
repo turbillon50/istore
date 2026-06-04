@@ -77,12 +77,26 @@ const config: Config = {
         shimmer: {
           "100%": { transform: "translateX(100%)" },
         },
+        aurora: {
+          "0%, 100%": { transform: "translate(-8%, -6%) scale(1)", opacity: "0.7" },
+          "50%": { transform: "translate(8%, 6%) scale(1.18)", opacity: "1" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+        "border-spin": {
+          "100%": { transform: "rotate(360deg)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.4s ease-out both",
         shimmer: "shimmer 2s infinite",
+        aurora: "aurora 16s ease-in-out infinite",
+        float: "float 6s ease-in-out infinite",
+        "border-spin": "border-spin 6s linear infinite",
       },
     },
   },
