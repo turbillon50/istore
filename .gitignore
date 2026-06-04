@@ -37,3 +37,6 @@ next-env.d.ts
 
 # screenshots temporales (la galeria versionada vive en docs/screenshots)
 /shots/
+
+# zip de demo (artefacto)
+/iStorePro-demo.zip
