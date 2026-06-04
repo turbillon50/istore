@@ -1,0 +1,32 @@
+{
+  "name": "iStore Pro — Repair Management",
+  "short_name": "iStore Pro",
+  "description": "Sistema SaaS para talleres de reparación de celulares, tablets y computadoras.",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0A0A0A",
+  "theme_color": "#0A0A0A",
+  "categories": ["business", "productivity", "utilities"],
+  "lang": "es-MX",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Nueva recepción", "url": "/recepciones" },
+    { "name": "Órdenes", "url": "/ordenes" },
+    { "name": "Punto de venta", "url": "/ventas" }
+  ]
+}
