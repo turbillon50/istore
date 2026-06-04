@@ -5,6 +5,7 @@
   "description": "iStore Pro — Sistema SaaS para talleres de reparación de celulares, tablets y computadoras (demo frontend)",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node brand/fetch-ai.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
