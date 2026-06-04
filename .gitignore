@@ -34,3 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# screenshots temporales (la galeria versionada vive en docs/screenshots)
+/shots/

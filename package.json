@@ -9,7 +9,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "brand": "node brand/generate-assets.mjs"
+    "brand": "node brand/generate-assets.mjs",
+    "shots": "node scripts/screenshot.cjs"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.1",
@@ -37,12 +38,14 @@
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
-    "sharp": "^0.34.5",
+    "@sparticuz/chromium": "^149.0.0",
     "@types/node": "^20.17.10",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
+    "puppeteer-core": "^25.1.0",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.7.2"

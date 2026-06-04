@@ -40,6 +40,22 @@ analytics y operación multisucursal — con una experiencia de usuario impecabl
 - 🤖 **iStore AI** — asistente de negocio con insights simulados.
 - 🧩 Componentes premium: metric cards, tablas, timeline, drawer, modales, badges de estado, glass effects y micro-interacciones.
 
+## 📸 Capturas
+
+> Capturas reales de la app en ejecución (no son renders). Regenéralas con `npm run shots` (levanta el server en `:3120` y usa un Chromium headless).
+
+| Landing | Dashboard | Detalle de orden |
+|---|---|---|
+| ![Landing](docs/screenshots/01-landing.png) | ![Dashboard](docs/screenshots/02-dashboard.png) | ![Orden](docs/screenshots/04-orden-detalle.png) |
+
+| Diagnóstico | Punto de venta | Analytics |
+|---|---|---|
+| ![Diagnóstico](docs/screenshots/05-diagnosticos.png) | ![POS](docs/screenshots/08-pos.png) | ![Analytics](docs/screenshots/10-analytics.png) |
+
+| iStore AI | Inventario | Móvil (PWA) |
+|---|---|---|
+| ![AI](docs/screenshots/11-istore-ai.png) | ![Inventario](docs/screenshots/06-inventario.png) | ![Móvil](docs/screenshots/13-mobile-dashboard.png) |
+
 ## 🧱 Arquitectura
 
 ```
