@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/toast";
 import { diagnosticChecklist, type CheckState } from "@/lib/mock-data";
 import { Logo } from "@/components/logo";
 import { cn } from "@/lib/utils";
@@ -91,6 +92,7 @@ export default function DiagnosticosPage() {
 }
 
 function ReportDialog({ items }: { items: typeof diagnosticChecklist }) {
+  const { toast } = useToast();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -124,9 +126,9 @@ function ReportDialog({ items }: { items: typeof diagnosticChecklist }) {
           </div>
         </div>
         <div className="grid grid-cols-3 gap-2">
-          <Button variant="success" size="sm"><MessageCircle className="h-4 w-4" /> WhatsApp</Button>
-          <Button variant="secondary" size="sm"><Mail className="h-4 w-4" /> Correo</Button>
-          <Button size="sm"><Download className="h-4 w-4" /> PDF</Button>
+          <Button variant="success" size="sm" onClick={() => toast({ title: "Reporte enviado por WhatsApp", description: "Juan Pérez · #OS-00041", tone: "success" })}><MessageCircle className="h-4 w-4" /> WhatsApp</Button>
+          <Button variant="secondary" size="sm" onClick={() => toast({ title: "Reporte enviado por correo", description: "juan.perez@mail.com", tone: "info" })}><Mail className="h-4 w-4" /> Correo</Button>
+          <Button size="sm" onClick={() => toast({ title: "PDF generado", description: "Reporte-OS-00041.pdf listo para descargar.", tone: "success" })}><Download className="h-4 w-4" /> PDF</Button>
         </div>
       </DialogContent>
     </Dialog>

@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 import {
   User, Smartphone, Camera, PenTool, Check, Upload, ChevronRight,
@@ -23,6 +24,7 @@ function LabeledInput({ label, ...props }: { label: string } & React.InputHTMLAt
 }
 
 export default function RecepcionesPage() {
+  const { toast } = useToast();
   const [step, setStep] = React.useState(0);
 
   return (
@@ -122,7 +124,7 @@ export default function RecepcionesPage() {
               {step < steps.length - 1 ? (
                 <Button onClick={() => setStep((s) => s + 1)}>Continuar</Button>
               ) : (
-                <Button variant="success"><Check className="h-4 w-4" /> Generar orden #OS-00059</Button>
+                <Button variant="success" onClick={() => { toast({ title: "Orden #OS-00059 generada", description: "Se envió un WhatsApp de 'Equipo recibido' a Juan Pérez.", tone: "success" }); setStep(0); }}><Check className="h-4 w-4" /> Generar orden #OS-00059</Button>
               )}
             </div>
           </CardContent>

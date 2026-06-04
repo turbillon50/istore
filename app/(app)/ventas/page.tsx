@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/components/ui/toast";
 import { posCatalog } from "@/lib/mock-data";
 import { formatCurrency } from "@/lib/utils";
 import { Search, Plus, Minus, Trash2, CreditCard, Banknote, Smartphone, QrCode, Tag } from "lucide-react";
@@ -20,6 +21,7 @@ const methods = [
 ];
 
 export default function VentasPage() {
+  const { toast } = useToast();
   const [cart, setCart] = React.useState<CartLine[]>([
     { id: "p1", name: "Pantalla iPhone 13 Pro", price: 2350, qty: 1 },
     { id: "p4", name: "Cristal Templado 9H", price: 120, qty: 2 },
@@ -42,6 +44,16 @@ export default function VentasPage() {
   const tax = Math.round((subtotal - discount) * 0.16);
   const total = subtotal - discount + tax;
   const filtered = posCatalog.filter((p) => p.name.toLowerCase().includes(q.toLowerCase()));
+
+  const checkout = () => {
+    const folio = Math.floor(1000 + Math.random() * 9000);
+    toast({
+      title: `Venta cobrada · ${formatCurrency(total)}`,
+      description: `Ticket #V-${folio} · ${method} · ${cart.length} artículos`,
+      tone: "success",
+    });
+    setCart([]);
+  };
 
   return (
     <div className="space-y-6">
@@ -116,7 +128,7 @@ export default function VentasPage() {
               </div>
             </div>
 
-            <Button className="w-full" size="lg" disabled={cart.length === 0}>
+            <Button className="w-full" size="lg" disabled={cart.length === 0} onClick={checkout}>
               Cobrar {formatCurrency(total)}
             </Button>
           </CardContent>

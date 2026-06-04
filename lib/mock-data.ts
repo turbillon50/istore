@@ -175,7 +175,7 @@ function makeClients(n: number): Client[] {
   return out;
 }
 
-export const clients = makeClients(48); // muestra navegable de 1,500 simulados
+export const clients = makeClients(64); // muestra navegable de 1,500 simulados
 
 // --------------------------- Órdenes ---------------------------
 const devices = [
@@ -234,7 +234,7 @@ function makeOrders(n: number): Order[] {
   return out;
 }
 
-export const orders = makeOrders(36);
+export const orders = makeOrders(60);
 
 export function getOrder(id: string) {
   return orders.find((o) => o.id === id) ?? orders[0];

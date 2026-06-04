@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/components/ui/toast";
 import { notifications, autoMessages } from "@/lib/mock-data";
 import { timeAgo } from "@/lib/utils";
 import {
@@ -24,10 +25,11 @@ const typeIcon: Record<string, { icon: any; cls: string }> = {
 };
 
 export default function NotificacionesPage() {
+  const { toast } = useToast();
   return (
     <div className="space-y-6">
       <PageHeader title="Notificaciones" description="Centro de mensajes multicanal: WhatsApp, correo, SMS y push.">
-        <Button size="sm"><Send className="h-4 w-4" /> Enviar notificación</Button>
+        <Button size="sm" onClick={() => toast({ title: "Notificación enviada", description: "Push + WhatsApp a 1,500 clientes.", tone: "success" })}><Send className="h-4 w-4" /> Enviar notificación</Button>
       </PageHeader>
 
       <div className="grid gap-6 lg:grid-cols-3">
