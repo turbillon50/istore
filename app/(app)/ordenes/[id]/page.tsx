@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { getOrder, orders, diagnosticChecklist } from "@/lib/mock-data";
+import { diagnosticChecklist } from "@/lib/mock-data";
+import { getOrderById } from "@/lib/data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,9 +19,7 @@ import {
   Printer,
 } from "lucide-react";
 
-export function generateStaticParams() {
-  return orders.map((o) => ({ id: o.id }));
-}
+export const dynamic = "force-dynamic";
 
 const timeline = [
   { label: "Equipo recibido", time: "13 May · 11:30", done: true, by: "Recepción" },
@@ -32,8 +31,8 @@ const timeline = [
   { label: "Listo para entrega", time: "Pendiente", done: false, by: "—" },
 ];
 
-export default function OrderDetailPage({ params }: { params: { id: string } }) {
-  const order = getOrder(params.id);
+export default async function OrderDetailPage({ params }: { params: { id: string } }) {
+  const order = (await getOrderById(params.id)) ?? (await import("@/lib/mock-data")).orders[0];
 
   return (
     <div className="space-y-6">

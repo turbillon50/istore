@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { users, roles } from "@/lib/mock-data";
 import { initials } from "@/lib/utils";
 import { Plus, ShieldCheck, UserPlus, Settings2 } from "lucide-react";
 
@@ -11,7 +10,12 @@ const roleVariant: Record<string, any> = {
   Administrador: "default", Gerente: "purple", Técnico: "secondary", Recepción: "success", Cajero: "warning",
 };
 
-export default function UsuariosPage() {
+import { getUsers, getRoles } from "@/lib/data";
+
+export const dynamic = "force-dynamic";
+
+export default async function UsuariosPage() {
+  const [users, roles] = await Promise.all([getUsers(), getRoles()]);
   return (
     <div className="space-y-6">
       <PageHeader title="Usuarios y permisos" description="Gestiona el acceso de tu equipo y sus roles.">

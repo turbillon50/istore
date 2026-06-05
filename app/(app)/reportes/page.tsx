@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BarSeries } from "@/components/charts";
-import { salesByMonth } from "@/lib/mock-data";
 import {
   FileSpreadsheet, FileText, DollarSign, Package, Users, Wrench, UserCog, TrendingUp, Download,
 } from "lucide-react";
@@ -17,7 +16,12 @@ const reports = [
   { name: "Utilidades", desc: "Margen y rentabilidad por categoría", icon: TrendingUp, tone: "text-success" },
 ];
 
-export default function ReportesPage() {
+import { getSalesByMonth } from "@/lib/data";
+
+export const dynamic = "force-dynamic";
+
+export default async function ReportesPage() {
+  const [salesByMonth] = await Promise.all([getSalesByMonth()]);
   return (
     <div className="space-y-6">
       <PageHeader title="Reportes" description="Genera y exporta reportes detallados de tu operación.">

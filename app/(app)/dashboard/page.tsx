@@ -6,14 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { StatusBadge, PriorityBadge } from "@/components/status-badge";
 import { AreaTrend, DonutChart } from "@/components/charts";
-import {
-  kpis,
-  salesByDay,
-  incomeByCategory,
-  orders,
-  technicians,
-  notifications,
-} from "@/lib/mock-data";
 import { formatCurrency, formatNumber, timeAgo } from "@/lib/utils";
 import {
   Smartphone,
@@ -28,7 +20,12 @@ import {
   Star,
 } from "lucide-react";
 
-export default function DashboardPage() {
+import { getKpis, getSalesByDay, getIncomeByCategory, getOrders, getTechnicians, getNotifications } from "@/lib/data";
+
+export const dynamic = "force-dynamic";
+
+export default async function DashboardPage() {
+  const [kpis, salesByDay, incomeByCategory, orders, technicians, notifications] = await Promise.all([getKpis(), getSalesByDay(), getIncomeByCategory(), getOrders(), getTechnicians(), getNotifications()]);
   const recent = orders.slice(0, 6);
 
   return (

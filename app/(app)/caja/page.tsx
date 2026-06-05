@@ -3,7 +3,6 @@ import { MetricCard } from "@/components/metric-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { cashMovements } from "@/lib/mock-data";
 import { formatCurrency, formatDateTime } from "@/lib/utils";
 import { ArrowDownLeft, ArrowUpRight, Wallet, TrendingUp, TrendingDown, Lock } from "lucide-react";
 
@@ -11,7 +10,12 @@ const methodColor: Record<string, any> = {
   Efectivo: "success", Stripe: "default", Transferencia: "purple", "Mercado Pago": "warning", Terminal: "secondary",
 };
 
-export default function CajaPage() {
+import { getCashMovements } from "@/lib/data";
+
+export const dynamic = "force-dynamic";
+
+export default async function CajaPage() {
+  const [cashMovements] = await Promise.all([getCashMovements()]);
   const ingresos = cashMovements.filter((m) => m.type === "Ingreso").reduce((s, m) => s + m.amount, 0);
   const egresos = cashMovements.filter((m) => m.type === "Egreso").reduce((s, m) => s + m.amount, 0);
   const balance = ingresos - egresos;

@@ -5,13 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { AreaTrend, BarSeries, DonutChart } from "@/components/charts";
-import {
-  salesByMonth, salesByDay, incomeByCategory, technicians, topParts,
-} from "@/lib/mock-data";
 import { formatCurrency } from "@/lib/utils";
 import { DollarSign, TrendingUp, Wrench, Users, Calendar, Star } from "lucide-react";
 
-export default function AnalyticsPage() {
+import { getSalesByMonth, getSalesByDay, getIncomeByCategory, getTechnicians, getTopParts } from "@/lib/data";
+
+export const dynamic = "force-dynamic";
+
+export default async function AnalyticsPage() {
+  const [salesByMonth, salesByDay, incomeByCategory, technicians, topParts] = await Promise.all([getSalesByMonth(), getSalesByDay(), getIncomeByCategory(), getTechnicians(), getTopParts()]);
   return (
     <div className="space-y-6">
       <PageHeader title="Analytics" description="Inteligencia de negocio · 1 ene – 4 jun 2026">

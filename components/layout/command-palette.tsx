@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { allNavItems } from "@/components/nav-config";
-import { orders, clients } from "@/lib/mock-data";
+import type { Order, Client } from "@/lib/mock-data";
 import { Search, CornerDownLeft } from "lucide-react";
 
 export function CommandPalette({
@@ -20,6 +20,19 @@ export function CommandPalette({
   onOpenChange: (v: boolean) => void;
 }) {
   const router = useRouter();
+  const [orders, setOrders] = React.useState<Order[]>([]);
+  const [clients, setClients] = React.useState<Client[]>([]);
+
+  React.useEffect(() => {
+    if (!open || orders.length) return;
+    fetch("/api/data?k=orders,clients")
+      .then((r) => r.json())
+      .then((d) => {
+        setOrders(d.orders ?? []);
+        setClients(d.clients ?? []);
+      })
+      .catch(() => {});
+  }, [open, orders.length]);
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {

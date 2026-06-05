@@ -5,11 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { BarSeries } from "@/components/charts";
-import { branches } from "@/lib/mock-data";
 import { formatCurrency } from "@/lib/utils";
 import { Building2, DollarSign, Wrench, Users, Plus, MapPin } from "lucide-react";
 
-export default function SucursalesPage() {
+import { getBranches } from "@/lib/data";
+
+export const dynamic = "force-dynamic";
+
+export default async function SucursalesPage() {
+  const [branches] = await Promise.all([getBranches()]);
   const totalSales = branches.reduce((s, b) => s + b.sales, 0);
   const chartData = branches.map((b) => ({ label: b.name, ventas: b.sales }));
 
