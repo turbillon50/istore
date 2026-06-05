@@ -5,16 +5,22 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatCurrency(value: number, currency = "MXN") {
+// Coacciona cualquier entrada (null/undefined/NaN/string) a un número finito.
+const toFinite = (v: unknown) => {
+  const n = Number(v ?? 0);
+  return Number.isFinite(n) ? n : 0;
+};
+
+export function formatCurrency(value: number | null | undefined, currency = "MXN") {
   return new Intl.NumberFormat("es-MX", {
     style: "currency",
     currency,
     maximumFractionDigits: 0,
-  }).format(value);
+  }).format(toFinite(value));
 }
 
-export function formatNumber(value: number) {
-  return new Intl.NumberFormat("es-MX").format(value);
+export function formatNumber(value: number | null | undefined) {
+  return new Intl.NumberFormat("es-MX").format(toFinite(value));
 }
 
 export function formatDate(date: string | Date) {

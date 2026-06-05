@@ -6,7 +6,7 @@ import { sql } from "./db";
 import { ensureSchema } from "./schema";
 import type { Client, Order, Product, NotificationItem } from "./types";
 
-const num = (v: unknown) => Number(v ?? 0);
+const num = (v: unknown) => { const n = Number(v ?? 0); return Number.isFinite(n) ? n : 0; };
 
 export async function getClients(): Promise<Client[]> {
   await ensureSchema();
@@ -145,15 +145,15 @@ export async function getKpis() {
   const [c] = (await sql`SELECT count(*)::int AS clients FROM clients`) as any[];
   const [p] = (await sql`SELECT coalesce(sum(stock),0)::int AS parts FROM products`) as any[];
   const [m] = (await sql`SELECT
-      coalesce(sum(amount) FILTER (WHERE type='Ingreso'),0) AS sales_today,
-      coalesce(sum(amount) FILTER (WHERE type='Ingreso'),0) - coalesce(sum(amount) FILTER (WHERE type='Egreso'),0) AS profit_today
+      coalesce(sum(amount) FILTER (WHERE type='Ingreso'),0)::float8 AS sales_today,
+      (coalesce(sum(amount) FILTER (WHERE type='Ingreso'),0) - coalesce(sum(amount) FILTER (WHERE type='Egreso'),0))::float8 AS profit_today
     FROM cash_movements
     WHERE (time AT TIME ZONE 'America/Mexico_City')::date = (now() AT TIME ZONE 'America/Mexico_City')::date
       AND amount IS NOT NULL`) as any[];
   const [y] = (await sql`SELECT coalesce(sum(ventas),0) AS annual FROM sales_monthly`) as any[];
   return {
     devicesInShop: o.devices_in_shop, activeRepairs: o.active_repairs,
-    salesToday: num(m.sales_today), profitToday: num(m.profit_today),
+    salesToday: num(m?.sales_today), profitToday: num(m?.profit_today),
     partsAvailable: p.parts, clients: c.clients, openTickets: o.open_tickets,
     delivered: o.delivered, annualSales: num(y.annual), totalOrders: o.total_orders,
   };

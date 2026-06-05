@@ -89,7 +89,32 @@ async function seedIfEmpty() {
     await sql`INSERT INTO top_parts VALUES (${t.name},${t.sold},${t.revenue}) ON CONFLICT DO NOTHING`;
 }
 
+// Siembra idempotente de actividad de HOY (zona America/Mexico_City) para que
+// los KPIs "Ventas del día" / "Utilidad del día" muestren cifras reales > 0 en
+// la demo comercial. Inserta UNA venta plausible en las tablas reales
+// (sales + cash_movements) SOLO si no existe ningún Ingreso registrado hoy.
+async function seedToday() {
+  const [row] = (await sql`SELECT count(*)::int AS n FROM cash_movements
+    WHERE type='Ingreso'
+      AND (time AT TIME ZONE 'America/Mexico_City')::date = (now() AT TIME ZONE 'America/Mexico_City')::date`) as any[];
+  if (row && row.n > 0) return; // ya hay ventas hoy: no tocar nada
+
+  // Venta demo plausible: cambio de pantalla iPhone + mica.
+  const items = [
+    { id: "screen-ip13", name: "Pantalla iPhone 13", price: 2200, qty: 1 },
+    { id: "mica-premium", name: "Mica de cristal templado", price: 300, qty: 1 },
+  ];
+  const total = items.reduce((sToday, it) => sToday + it.price * it.qty, 0);
+
+  const [sale] = (await sql`INSERT INTO sales (items, total, method, branch)
+    VALUES (${JSON.stringify(items)}::jsonb, ${total}, 'Efectivo', 'Centro')
+    RETURNING id`) as any[];
+  await sql`INSERT INTO cash_movements (id, concept, type, method, amount)
+    VALUES (${"c-demo-" + sale.id}, ${"Venta POS #" + sale.id}, 'Ingreso', 'Efectivo', ${total})
+    ON CONFLICT DO NOTHING`;
+}
+
 export function ensureSchema() {
-  if (!ready) ready = migrate().then(seedIfEmpty);
+  if (!ready) ready = migrate().then(seedIfEmpty).then(seedToday);
   return ready;
 }
