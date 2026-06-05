@@ -11,7 +11,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
-import type { Client } from "@/lib/mock-data";
+import type { Client } from "@/lib/types";
 import { formatCurrency, formatDate, initials } from "@/lib/utils";
 import { Search, Plus, Users, Star, Repeat, Phone, Mail, Smartphone } from "lucide-react";
 

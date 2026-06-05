@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import type { OrderStatus, Priority, CheckState } from "@/lib/mock-data";
+import type { OrderStatus, Priority, CheckState } from "@/lib/types";
 
 const statusMap: Record<OrderStatus, { variant: any; dot: string }> = {
   Recibido: { variant: "secondary", dot: "bg-muted-foreground" },

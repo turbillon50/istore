@@ -3,11 +3,6 @@
 // Si las tablas de Neon ya existen con datos (auditoría), esto es no-op.
 // =====================================================================
 import { sql } from "./db";
-import {
-  clients, orders, products, technicians, branches, notifications,
-  cashMovements, users, roles, posCatalog, salesByDay, salesByMonth,
-  incomeByCategory, topParts,
-} from "./mock-data";
 
 let ready: Promise<void> | null = null;
 
@@ -54,6 +49,12 @@ async function migrate() {
 }
 
 async function seedIfEmpty() {
+  // Seed de demo SOLO bajo flag explícita. En producción nunca se re-siembra
+  // mock data aunque las tablas estén vacías.
+  if (process.env.SEED_DEMO !== "true") return;
+  const { clients, orders, products, technicians, branches, notifications,
+    cashMovements, users, roles, posCatalog, salesByDay, salesByMonth,
+    incomeByCategory, topParts } = await import("./mock-data");
   const [{ n }] = (await sql`SELECT count(*)::int AS n FROM clients`) as { n: number }[];
   if (n > 0) return;
   for (const c of clients)

@@ -27,7 +27,7 @@ export default async function CajaPage() {
       </PageHeader>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <MetricCard label="Ingresos del día" value={formatCurrency(ingresos)} icon={TrendingUp} tone="success" delta={12.5} />
+        <MetricCard label="Ingresos del día" value={formatCurrency(ingresos)} icon={TrendingUp} tone="success" />
         <MetricCard label="Egresos del día" value={formatCurrency(egresos)} icon={TrendingDown} tone="danger" />
         <MetricCard label="Balance en caja" value={formatCurrency(balance)} icon={Wallet} tone="primary" />
         <MetricCard label="Fondo inicial" value={formatCurrency(2000)} icon={Wallet} tone="purple" />

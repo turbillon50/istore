@@ -9,7 +9,8 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/toast";
-import { diagnosticChecklist, type CheckState } from "@/lib/mock-data";
+import { diagnosticChecklistItems } from "@/lib/config";
+import type { CheckState } from "@/lib/types";
 import { Logo } from "@/components/logo";
 import { cn } from "@/lib/utils";
 import {
@@ -23,7 +24,9 @@ const stateConfig: Record<CheckState, { icon: any; cls: string; ring: string }> 
 };
 
 export default function DiagnosticosPage() {
-  const [items, setItems] = React.useState(diagnosticChecklist);
+  const [items, setItems] = React.useState<{ label: string; state: CheckState }[]>(
+    diagnosticChecklistItems.map((label) => ({ label, state: "Revisar" as CheckState }))
+  );
 
   const cycle = (i: number) => {
     const order: CheckState[] = ["Aprobado", "Revisar", "Falla"];
@@ -91,7 +94,7 @@ export default function DiagnosticosPage() {
   );
 }
 
-function ReportDialog({ items }: { items: typeof diagnosticChecklist }) {
+function ReportDialog({ items }: { items: { label: string; state: CheckState }[] }) {
   const { toast } = useToast();
   return (
     <Dialog>

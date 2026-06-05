@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { diagnosticChecklist } from "@/lib/mock-data";
+import { notFound } from "next/navigation";
+import { diagnosticChecklistItems } from "@/lib/config";
 import { getOrderById } from "@/lib/data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -32,7 +33,8 @@ const timeline = [
 ];
 
 export default async function OrderDetailPage({ params }: { params: { id: string } }) {
-  const order = (await getOrderById(params.id)) ?? (await import("@/lib/mock-data")).orders[0];
+  const order = await getOrderById(params.id);
+  if (!order) notFound();
 
   return (
     <div className="space-y-6">
@@ -95,10 +97,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                     <span className="text-muted-foreground">{order.issue}. El Face ID no funciona.</span>
                   </div>
                   <div className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
-                    {diagnosticChecklist.map((c) => (
-                      <div key={c.label} className="flex items-center justify-between border-b border-border/40 py-2">
-                        <span className="text-sm text-muted-foreground">{c.label}</span>
-                        <CheckBadge state={c.state} />
+                    {diagnosticChecklistItems.map((label) => (
+                      <div key={label} className="flex items-center justify-between border-b border-border/40 py-2">
+                        <span className="text-sm text-muted-foreground">{label}</span>
+                        <CheckBadge state={label === "Face ID" && /face id/i.test(order.issue ?? "") ? "Falla" : "Revisar"} />
                       </div>
                     ))}
                   </div>

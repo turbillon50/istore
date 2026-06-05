@@ -1,75 +1,9 @@
 // =====================================================================
-// iStore Pro — Capa de datos simulados ("brain" del demo)
-// Todo es mock determinista. No hay backend ni APIs reales.
+// iStore Pro — Datos de DEMO. SOLO se usan para seed cuando SEED_DEMO=true.
+// Nunca importar desde código de runtime.
 // =====================================================================
-
-export type OrderStatus =
-  | "Recibido"
-  | "Diagnóstico"
-  | "Autorización Pendiente"
-  | "En Reparación"
-  | "Terminado"
-  | "Entregado"
-  | "Cancelado";
-
-export type Priority = "Baja" | "Media" | "Alta" | "Urgente";
-
-export type Branch = "Centro" | "Norte" | "Sur";
-
-export interface Client {
-  id: string;
-  name: string;
-  phone: string;
-  email: string;
-  avatar?: string;
-  totalSpent: number;
-  visits: number;
-  devices: number;
-  tag: "VIP" | "Frecuente" | "Nuevo" | "Mayoreo";
-  since: string;
-  notes?: string;
-}
-
-export interface Order {
-  id: string;
-  client: string;
-  clientPhone: string;
-  device: string;
-  brand: string;
-  imei: string;
-  issue: string;
-  technician: string;
-  cost: number;
-  status: OrderStatus;
-  priority: Priority;
-  branch: Branch;
-  createdAt: string;
-  promiseAt: string;
-  category: "Reparación" | "Refacción" | "Accesorio" | "Diagnóstico";
-}
-
-export interface Product {
-  id: string;
-  name: string;
-  category: string;
-  sku: string;
-  stock: number;
-  minStock: number;
-  cost: number;
-  price: number;
-  supplier: string;
-  branch: Branch;
-}
-
-export interface NotificationItem {
-  id: string;
-  title: string;
-  body: string;
-  channel: "WhatsApp" | "Correo" | "SMS" | "Push";
-  time: string;
-  read: boolean;
-  type: "info" | "success" | "warning" | "payment";
-}
+import type { OrderStatus, Priority, Branch, Client, Order, Product, NotificationItem, CheckState } from "./types";
+export type { OrderStatus, Priority, Branch, Client, Order, Product, NotificationItem, CheckState } from "./types";
 
 // --------------------------- Helpers ---------------------------
 function daysFromNow(d: number) {
@@ -241,7 +175,6 @@ export function getOrder(id: string) {
 }
 
 // --------------------------- Diagnóstico -----------------------
-export type CheckState = "Aprobado" | "Falla" | "Revisar";
 export const diagnosticChecklist: { label: string; state: CheckState }[] = [
   { label: "Pantalla", state: "Aprobado" },
   { label: "Touch", state: "Aprobado" },

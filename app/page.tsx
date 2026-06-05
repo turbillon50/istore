@@ -35,7 +35,7 @@ export default function LandingPage() {
           <Logo size={40} className="mb-8" />
 
           <Badge variant="default" className="mb-5 w-fit gap-1.5 py-1">
-            <Sparkles className="h-3.5 w-3.5" /> Nueva generación · v1.0 Demo
+            <Sparkles className="h-3.5 w-3.5" /> Nueva generación
           </Badge>
 
           <h1 className="max-w-xl text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">

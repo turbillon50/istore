@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { allNavItems } from "@/components/nav-config";
-import type { Order, Client } from "@/lib/mock-data";
+import type { Order, Client } from "@/lib/types";
 import { Search, CornerDownLeft } from "lucide-react";
 
 export function CommandPalette({

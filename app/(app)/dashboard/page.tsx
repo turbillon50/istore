@@ -44,14 +44,14 @@ export default async function DashboardPage() {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <MetricCard label="Equipos en taller" value={formatNumber(kpis.devicesInShop)} delta={6.2} icon={Smartphone} tone="primary" />
-        <MetricCard label="Reparaciones activas" value={formatNumber(kpis.activeRepairs)} delta={3.1} icon={Wrench} tone="purple" />
-        <MetricCard label="Ventas del día" value={formatCurrency(kpis.salesToday)} delta={12.5} icon={DollarSign} tone="success" />
-        <MetricCard label="Utilidad del día" value={formatCurrency(kpis.profitToday)} delta={8.4} icon={TrendingUp} tone="success" />
-        <MetricCard label="Refacciones disponibles" value={formatNumber(kpis.partsAvailable)} delta={-2.3} icon={Package} tone="warning" />
-        <MetricCard label="Clientes registrados" value={formatNumber(kpis.clients)} delta={4.7} icon={Users} tone="primary" />
-        <MetricCard label="Tickets abiertos" value={formatNumber(kpis.openTickets)} delta={-1.8} icon={Ticket} tone="danger" />
-        <MetricCard label="Equipos entregados" value={formatNumber(kpis.delivered)} delta={9.6} icon={PackageCheck} tone="success" />
+        <MetricCard label="Equipos en taller" value={formatNumber(kpis.devicesInShop)} icon={Smartphone} tone="primary" />
+        <MetricCard label="Reparaciones activas" value={formatNumber(kpis.activeRepairs)} icon={Wrench} tone="purple" />
+        <MetricCard label="Ventas del día" value={formatCurrency(kpis.salesToday)} icon={DollarSign} tone="success" />
+        <MetricCard label="Utilidad del día" value={formatCurrency(kpis.profitToday)} icon={TrendingUp} tone="success" />
+        <MetricCard label="Refacciones disponibles" value={formatNumber(kpis.partsAvailable)} icon={Package} tone="warning" />
+        <MetricCard label="Clientes registrados" value={formatNumber(kpis.clients)} icon={Users} tone="primary" />
+        <MetricCard label="Tickets abiertos" value={formatNumber(kpis.openTickets)} icon={Ticket} tone="danger" />
+        <MetricCard label="Equipos entregados" value={formatNumber(kpis.delivered)} icon={PackageCheck} tone="success" />
       </div>
 
       {/* Charts */}
@@ -62,7 +62,6 @@ export default async function DashboardPage() {
               <CardTitle>Ventas y utilidad</CardTitle>
               <p className="mt-1 text-sm text-muted-foreground">Últimos 7 días</p>
             </div>
-            <Badge variant="success">+12.5% vs semana previa</Badge>
           </CardHeader>
           <CardContent>
             <AreaTrend

@@ -14,6 +14,7 @@ export async function GET() {
       (SELECT count(*) FROM products)::int AS products`) as any[];
     return NextResponse.json({ ok: true, ...r });
   } catch (e) {
-    return NextResponse.json({ ok: false, error: String(e) }, { status: 500 });
+    console.error("[api/health]", e);
+    return NextResponse.json({ ok: false, error: "Error interno" }, { status: 500 });
   }
 }

@@ -8,7 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast";
-import { autoMessages, type NotificationItem } from "@/lib/mock-data";
+import { autoMessages } from "@/lib/config";
+import type { NotificationItem } from "@/lib/types";
 import { timeAgo } from "@/lib/utils";
 import {
   MessageCircle, Mail, Smartphone, Bell, CheckCircle2, DollarSign, AlertTriangle, Info, Send,

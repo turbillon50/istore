@@ -4,7 +4,7 @@
 // =====================================================================
 import { sql } from "./db";
 import { ensureSchema } from "./schema";
-import type { Client, Order, Product, NotificationItem } from "./mock-data";
+import type { Client, Order, Product, NotificationItem } from "./types";
 
 const num = (v: unknown) => Number(v ?? 0);
 
@@ -147,7 +147,9 @@ export async function getKpis() {
   const [m] = (await sql`SELECT
       coalesce(sum(amount) FILTER (WHERE type='Ingreso'),0) AS sales_today,
       coalesce(sum(amount) FILTER (WHERE type='Ingreso'),0) - coalesce(sum(amount) FILTER (WHERE type='Egreso'),0) AS profit_today
-    FROM cash_movements WHERE time::date = now()::date`) as any[];
+    FROM cash_movements
+    WHERE (time AT TIME ZONE 'America/Mexico_City')::date = (now() AT TIME ZONE 'America/Mexico_City')::date
+      AND amount IS NOT NULL`) as any[];
   const [y] = (await sql`SELECT coalesce(sum(ventas),0) AS annual FROM sales_monthly`) as any[];
   return {
     devicesInShop: o.devices_in_shop, activeRepairs: o.active_repairs,
@@ -158,11 +160,32 @@ export async function getKpis() {
 }
 
 // ------- Mutaciones (POS / caja / órdenes) -------
-export async function createSale(items: { id: string; name: string; price: number; qty: number }[], method: string, branch?: string) {
+// El precio SIEMPRE se resuelve en DB (pos_catalog, fallback products).
+// Devuelve { error } si algún id no existe; el total se calcula en servidor.
+export async function createSale(
+  items: { id: string; qty: number }[],
+  method: string,
+  branch?: string
+): Promise<{ id: number; total: number; createdAt: string } | { error: string }> {
   await ensureSchema();
-  const total = items.reduce((s, it) => s + it.price * it.qty, 0);
+  const ids = items.map((i) => i.id);
+  const catalogRows = (await sql`SELECT id, name, price FROM pos_catalog WHERE id = ANY(${ids})`) as any[];
+  const productRows = (await sql`SELECT id, name, price FROM products WHERE id = ANY(${ids})`) as any[];
+  const priceMap = new Map<string, { name: string; price: number }>();
+  for (const r of [...productRows, ...catalogRows]) priceMap.set(r.id, { name: r.name, price: num(r.price) });
+
+  const resolved: { id: string; name: string; price: number; qty: number }[] = [];
+  for (const it of items) {
+    const found = priceMap.get(it.id);
+    if (!found) return { error: `Producto no existe: ${it.id}` };
+    if (!Number.isInteger(it.qty) || it.qty < 1 || it.qty > 999) return { error: `Cantidad inválida para ${it.id}` };
+    resolved.push({ id: it.id, name: found.name, price: found.price, qty: it.qty });
+  }
+  const total = resolved.reduce((s, it) => s + it.price * it.qty, 0);
+  if (!Number.isFinite(total)) return { error: "Total inválido" };
+
   const [row] = (await sql`INSERT INTO sales (items, total, method, branch)
-    VALUES (${JSON.stringify(items)}::jsonb, ${total}, ${method}, ${branch ?? "Centro"})
+    VALUES (${JSON.stringify(resolved)}::jsonb, ${total}, ${method}, ${branch ?? "Centro"})
     RETURNING id, total, created_at`) as any[];
   await sql`INSERT INTO cash_movements (id, concept, type, method, amount)
     VALUES (${"c-" + row.id}, ${"Venta POS #" + row.id}, 'Ingreso', ${method}, ${total})`;

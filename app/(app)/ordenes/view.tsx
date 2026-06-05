@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { StatusBadge, PriorityBadge } from "@/components/status-badge";
 import { useToast } from "@/components/ui/toast";
-import type { Order, OrderStatus } from "@/lib/mock-data";
+import type { Order, OrderStatus } from "@/lib/types";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import {
   Search, SlidersHorizontal, Download, Plus, ChevronRight, Table2, KanbanSquare,
