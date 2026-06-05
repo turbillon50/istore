@@ -94,10 +94,14 @@ async function seedIfEmpty() {
 // la demo comercial. Inserta UNA venta plausible en las tablas reales
 // (sales + cash_movements) SOLO si no existe ningún Ingreso registrado hoy.
 async function seedToday() {
-  const [row] = (await sql`SELECT count(*)::int AS n FROM cash_movements
-    WHERE type='Ingreso'
+  // El criterio DEBE coincidir con el del KPI (amount no nulo > 0); si solo
+  // existe un Ingreso con amount NULL hoy, el KPI mostraría 0 y aun así
+  // debemos sembrar una venta real para la demo.
+  const [row] = (await sql`SELECT coalesce(sum(amount),0)::float8 AS ingresos
+    FROM cash_movements
+    WHERE type='Ingreso' AND amount IS NOT NULL
       AND (time AT TIME ZONE 'America/Mexico_City')::date = (now() AT TIME ZONE 'America/Mexico_City')::date`) as any[];
-  if (row && row.n > 0) return; // ya hay ventas hoy: no tocar nada
+  if (row && Number(row.ingresos) > 0) return; // ya hay ventas reales hoy: no tocar nada
 
   // Venta demo plausible: cambio de pantalla iPhone + mica.
   const items = [
