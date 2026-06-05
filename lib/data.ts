@@ -191,3 +191,16 @@ export async function createSale(
     VALUES (${"c-" + row.id}, ${"Venta POS #" + row.id}, 'Ingreso', ${method}, ${total})`;
   return { id: row.id, total: num(row.total), createdAt: row.created_at };
 }
+
+// TEMP DIAG (qa) — eliminar después de verificar el seed de hoy.
+export async function getDiagToday() {
+  await ensureSchema();
+  const rows = (await sql`SELECT type, amount,
+      (time AT TIME ZONE 'America/Mexico_City')::date AS mx_date,
+      (now() AT TIME ZONE 'America/Mexico_City')::date AS mx_today
+    FROM cash_movements
+    WHERE (time AT TIME ZONE 'America/Mexico_City')::date = (now() AT TIME ZONE 'America/Mexico_City')::date
+    ORDER BY time DESC`) as any[];
+  const [cnt] = (await sql`SELECT count(*)::int AS total_cm FROM cash_movements`) as any[];
+  return { todayRows: rows, totalCashMovements: cnt.total_cm };
+}
