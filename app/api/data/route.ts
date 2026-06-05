@@ -17,7 +17,6 @@ const map: Record<string, () => Promise<unknown>> = {
   salesByMonth: data.getSalesByMonth,
   incomeByCategory: data.getIncomeByCategory,
   topParts: data.getTopParts,
-  diagToday: data.getDiagToday,
 };
 
 // TODO(Clerk): cuando haya auth, exponer estas keys solo a usuarios autenticados.

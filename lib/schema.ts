@@ -46,6 +46,11 @@ async function migrate() {
     name text PRIMARY KEY, value numeric, color text)`;
   await sql`CREATE TABLE IF NOT EXISTS top_parts (
     name text PRIMARY KEY, sold int, revenue numeric)`;
+
+  // Saneo idempotente: valores numeric 'NaN' (heredados de datos previos)
+  // envenenan sum() y rompen los KPIs. Los normalizamos a NULL.
+  await sql`UPDATE cash_movements SET amount = NULL WHERE amount = 'NaN'::numeric`;
+  await sql`UPDATE sales SET total = 0 WHERE total = 'NaN'::numeric`;
 }
 
 async function seedIfEmpty() {
@@ -99,7 +104,7 @@ async function seedToday() {
   // debemos sembrar una venta real para la demo.
   const [row] = (await sql`SELECT coalesce(sum(amount),0)::float8 AS ingresos
     FROM cash_movements
-    WHERE type='Ingreso' AND amount IS NOT NULL
+    WHERE type='Ingreso' AND amount IS NOT NULL AND amount != 'NaN'::numeric
       AND (time AT TIME ZONE 'America/Mexico_City')::date = (now() AT TIME ZONE 'America/Mexico_City')::date`) as any[];
   if (row && Number(row.ingresos) > 0) return; // ya hay ventas reales hoy: no tocar nada
 
