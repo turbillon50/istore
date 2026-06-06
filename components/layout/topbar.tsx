@@ -10,20 +10,18 @@ import {
   Sun,
   Moon,
   Plus,
-  Menu,
   Command as CommandIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/logo";
 import { CommandPalette } from "./command-palette";
 import { UserMenu } from "@/components/auth/user-menu";
-import { MobileNav } from "./mobile-nav";
 import { allNavItems } from "@/components/nav-config";
 
 export function Topbar() {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const [cmdOpen, setCmdOpen] = React.useState(false);
-  const [mobileOpen, setMobileOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
 
@@ -34,14 +32,10 @@ export function Topbar() {
 
   return (
     <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-border bg-background/70 px-4 pt-[env(safe-area-inset-top)] backdrop-blur-xl lg:px-6">
-      <Button
-        variant="ghost"
-        size="icon"
-        className="lg:hidden"
-        onClick={() => setMobileOpen(true)}
-      >
-        <Menu className="h-5 w-5" />
-      </Button>
+      {/* Marca compacta en móvil (la navegación vive en la bottom nav + drawer "Más") */}
+      <Link href="/dashboard" className="lg:hidden" aria-label="iStore Pro">
+        <Logo showText={false} size={32} />
+      </Link>
 
       <div className="hidden items-center gap-2 text-sm text-muted-foreground sm:flex">
         <span>iStore Pro</span>
@@ -90,7 +84,6 @@ export function Topbar() {
       <UserMenu />
 
       <CommandPalette open={cmdOpen} onOpenChange={setCmdOpen} />
-      <MobileNav open={mobileOpen} onOpenChange={setMobileOpen} />
     </header>
   );
 }
