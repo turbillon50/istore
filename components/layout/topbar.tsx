@@ -14,17 +14,8 @@ import {
   Command as CommandIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
 import { CommandPalette } from "./command-palette";
+import { UserMenu } from "@/components/auth/user-menu";
 import { MobileNav } from "./mobile-nav";
 import { allNavItems } from "@/components/nav-config";
 
@@ -42,7 +33,7 @@ export function Topbar() {
     )?.label ?? "Dashboard";
 
   return (
-    <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-border bg-background/70 px-4 backdrop-blur-xl lg:px-6">
+    <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-border bg-background/70 px-4 pt-[env(safe-area-inset-top)] backdrop-blur-xl lg:px-6">
       <Button
         variant="ghost"
         size="icon"
@@ -96,36 +87,7 @@ export function Topbar() {
         </Link>
       </Button>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <button className="flex items-center gap-2 rounded-lg p-1 pr-2 transition-colors hover:bg-accent">
-            <Avatar className="h-8 w-8">
-              <AvatarFallback>LT</AvatarFallback>
-            </Avatar>
-            <div className="hidden text-left leading-tight md:block">
-              <p className="text-sm font-medium">Luis de la Torre</p>
-              <p className="text-[11px] text-muted-foreground">Administrador</p>
-            </div>
-          </button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            <Link href="/configuracion">Configuración</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href="/usuarios">Usuarios y permisos</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Sucursal: <Badge variant="secondary" className="ml-auto">Centro</Badge>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem asChild className="text-destructive">
-            <Link href="/">Cerrar sesión</Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <UserMenu />
 
       <CommandPalette open={cmdOpen} onOpenChange={setCmdOpen} />
       <MobileNav open={mobileOpen} onOpenChange={setMobileOpen} />

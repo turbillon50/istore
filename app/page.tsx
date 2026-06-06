@@ -11,6 +11,7 @@ import {
   BarChart3,
 } from "lucide-react";
 import { LoginCard } from "./login-card";
+import { clerkEnabled } from "@/lib/auth";
 
 const features = [
   "Recepción de equipos con firma y fotos",
@@ -60,8 +61,9 @@ export default function LandingPage() {
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <Button size="lg" asChild>
-              <Link href="/dashboard">
-                Entrar a la demo <ArrowRight className="h-4 w-4" />
+              <Link href={clerkEnabled ? "/registro" : "/dashboard"}>
+                {clerkEnabled ? "Crear cuenta gratis" : "Entrar a la demo"}{" "}
+                <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
             <div className="flex items-center gap-4 text-xs text-muted-foreground">
@@ -82,7 +84,7 @@ export default function LandingPage() {
         <div className="relative flex items-center justify-center lg:justify-end">
           <div className="absolute h-72 w-72 animate-aurora rounded-full bg-primary/25 blur-[100px]" />
           <div className="gradient-border relative">
-            <LoginCard />
+            <LoginCard clerkEnabled={clerkEnabled} />
           </div>
         </div>
       </div>

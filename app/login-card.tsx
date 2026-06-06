@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, Loader2, Mail, Lock } from "lucide-react";
 
-export function LoginCard() {
+export function LoginCard({ clerkEnabled = false }: { clerkEnabled?: boolean }) {
   const router = useRouter();
   const [show, setShow] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -15,6 +15,11 @@ export function LoginCard() {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (clerkEnabled) {
+      // Auth real: el formulario vive en Clerk (/login | /registro).
+      router.push(mode === "login" ? "/login" : "/registro");
+      return;
+    }
     setLoading(true);
     setTimeout(() => router.push("/dashboard"), 900);
   };
@@ -88,7 +93,7 @@ export function LoginCard() {
       <Button
         variant="secondary"
         className="w-full"
-        onClick={() => router.push("/dashboard")}
+        onClick={() => router.push(clerkEnabled ? "/login" : "/dashboard")}
       >
         <svg className="h-4 w-4" viewBox="0 0 24 24">
           <path

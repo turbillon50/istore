@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { PwaRegister } from "@/components/pwa-register";
+import { ClerkProvider } from "@clerk/nextjs";
+import { esES } from "@clerk/localizations";
+import { clerkEnabled } from "@/lib/auth";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -51,6 +54,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -58,7 +62,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
+  const app = (
     <html lang="es" suppressHydrationWarning className={inter.variable}>
       <body className="min-h-screen font-sans">
         <ThemeProvider
@@ -72,5 +76,34 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
+  );
+
+  // Clerk envuelve toda la app SOLO si hay keys (pk_live/sk_live).
+  // signInUrl/signUpUrl propios → patrón anti-loop con redirectToSignIn.
+  if (!clerkEnabled) return app;
+  return (
+    <ClerkProvider
+      localization={esES}
+      signInUrl="/login"
+      signUpUrl="/registro"
+      afterSignOutUrl="/"
+      appearance={{
+        variables: {
+          colorPrimary: "#2563eb",
+          colorBackground: "#111111",
+          colorInputBackground: "#1c1c1c",
+          colorText: "#ffffff",
+          colorTextSecondary: "#a1a1aa",
+          colorInputText: "#ffffff",
+          borderRadius: "0.85rem",
+        },
+        elements: {
+          card: "shadow-2xl border border-white/[0.06] backdrop-blur-2xl",
+          formButtonPrimary: "bg-[#2563eb] hover:bg-[#1d4ed8] text-sm normal-case",
+        },
+      }}
+    >
+      {app}
+    </ClerkProvider>
   );
 }
