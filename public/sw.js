@@ -1,6 +1,6 @@
 // iStore Pro — Service Worker (demo)
 // Cache mínima de tipo "app shell" para soportar instalación PWA y modo offline básico.
-const CACHE = "istore-pro-v2";
+const CACHE = "istore-pro-v3";
 const APP_SHELL = ["/", "/dashboard", "/manifest.json", "/icon.svg"];
 
 self.addEventListener("install", (event) => {
