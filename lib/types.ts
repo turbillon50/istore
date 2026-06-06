@@ -63,6 +63,21 @@ export interface Product {
   branch: Branch;
 }
 
+export interface Store {
+  id: string;
+  name: string;
+  slug: string;
+  isPrincipal: boolean;
+  phone?: string;
+  email?: string;
+  address?: string;
+  plan: string;
+  status: string;
+  paymentProvider?: string;
+  paymentAccount?: string;
+  ownerEmail?: string;
+}
+
 export interface NotificationItem {
   id: string;
   title: string;

@@ -3,27 +3,22 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
 import {
   Search,
   Bell,
-  Sun,
-  Moon,
   Plus,
   Command as CommandIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
 import { CommandPalette } from "./command-palette";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { UserMenu } from "@/components/auth/user-menu";
 import { allNavItems } from "@/components/nav-config";
 
 export function Topbar() {
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
   const [cmdOpen, setCmdOpen] = React.useState(false);
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => setMounted(true), []);
 
   const current =
     allNavItems.find(
@@ -60,19 +55,7 @@ export function Topbar() {
         </Link>
       </Button>
 
-      {mounted && (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        >
-          {theme === "dark" ? (
-            <Sun className="h-5 w-5" />
-          ) : (
-            <Moon className="h-5 w-5" />
-          )}
-        </Button>
-      )}
+      <ThemeToggle />
 
       <Button variant="ghost" size="icon" className="relative" asChild>
         <Link href="/notificaciones">

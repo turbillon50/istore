@@ -25,7 +25,7 @@ export function LoginCard({ clerkEnabled = false }: { clerkEnabled?: boolean }) 
   };
 
   return (
-    <Card className="w-full max-w-sm border-white/[0.06] bg-card/70 p-7 shadow-2xl backdrop-blur-2xl">
+    <Card className="w-full max-w-sm border-border bg-card/70 p-7 shadow-2xl backdrop-blur-2xl">
       <div className="mb-6">
         <h2 className="text-xl font-semibold tracking-tight">
           {mode === "login" ? "Bienvenido de vuelta" : "Crea tu cuenta"}
@@ -43,7 +43,7 @@ export function LoginCard({ clerkEnabled = false }: { clerkEnabled?: boolean }) 
           <Input
             type="email"
             placeholder="tu@correo.com"
-            defaultValue="admin@istorepro.com"
+            autoComplete="email"
             className="pl-9"
             required
           />
@@ -53,7 +53,7 @@ export function LoginCard({ clerkEnabled = false }: { clerkEnabled?: boolean }) 
           <Input
             type={show ? "text" : "password"}
             placeholder="Contraseña"
-            defaultValue="demo1234"
+            autoComplete={mode === "login" ? "current-password" : "new-password"}
             className="px-9"
             required
           />

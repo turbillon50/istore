@@ -47,6 +47,19 @@ async function migrate() {
   await sql`CREATE TABLE IF NOT EXISTS top_parts (
     name text PRIMARY KEY, sold int, revenue numeric)`;
 
+  // ---- Modelo multi-tienda (marketplace). iStore es la tienda principal;
+  // se pueden sumar más tiendas. payment_provider/payment_account quedan
+  // listos para Mercado Pago Connect / Stripe Connect (aún SIN integrar). ----
+  await sql`CREATE TABLE IF NOT EXISTS stores (
+    id text PRIMARY KEY, name text NOT NULL, slug text UNIQUE, is_principal boolean DEFAULT false,
+    phone text, email text, address text, plan text DEFAULT 'free', status text DEFAULT 'Activa',
+    payment_provider text, payment_account text, owner_email text,
+    created_at timestamptz DEFAULT now())`;
+  // store_id aditivo en entidades operativas (nullable → no rompe datos previos).
+  await sql`ALTER TABLE orders   ADD COLUMN IF NOT EXISTS store_id text`;
+  await sql`ALTER TABLE products ADD COLUMN IF NOT EXISTS store_id text`;
+  await sql`ALTER TABLE sales    ADD COLUMN IF NOT EXISTS store_id text`;
+
   // Saneo idempotente: valores numeric 'NaN' (heredados de datos previos)
   // envenenan sum() y rompen los KPIs. Los normalizamos a NULL.
   await sql`UPDATE cash_movements SET amount = NULL WHERE amount = 'NaN'::numeric`;
@@ -123,7 +136,24 @@ async function seedToday() {
     ON CONFLICT DO NOTHING`;
 }
 
+// iStore SIEMPRE existe como la tienda PRINCIPAL dentro de su propio sistema
+// (no depende de SEED_DEMO: es el tenant real, no datos de demo). Idempotente.
+// Backfilla store_id de las filas operativas que aún no tengan tienda.
+export const PRINCIPAL_STORE_ID = "store-istore";
+async function seedPrincipalStore() {
+  await sql`INSERT INTO stores (id, name, slug, is_principal, email, plan, status)
+    VALUES (${PRINCIPAL_STORE_ID}, 'iStore', 'istore', true,
+            'firstcontact@allglobalholding.com', 'principal', 'Activa')
+    ON CONFLICT (id) DO UPDATE SET is_principal = true, name = 'iStore'`;
+  // Garantiza una sola principal.
+  await sql`UPDATE stores SET is_principal = false WHERE id <> ${PRINCIPAL_STORE_ID} AND is_principal = true`;
+  // Asigna a la principal las filas sin tienda (datos previos / demo).
+  await sql`UPDATE orders   SET store_id = ${PRINCIPAL_STORE_ID} WHERE store_id IS NULL`;
+  await sql`UPDATE products SET store_id = ${PRINCIPAL_STORE_ID} WHERE store_id IS NULL`;
+  await sql`UPDATE sales    SET store_id = ${PRINCIPAL_STORE_ID} WHERE store_id IS NULL`;
+}
+
 export function ensureSchema() {
-  if (!ready) ready = migrate().then(seedIfEmpty).then(seedToday);
+  if (!ready) ready = migrate().then(seedPrincipalStore).then(seedIfEmpty).then(seedToday);
   return ready;
 }

@@ -40,12 +40,24 @@ export default function OrdersPage({ seedOrders }: { seedOrders: Order[] }) {
   });
 
   const move = (id: string, status: OrderStatus) => {
-    setOrders((prev) => {
-      const o = prev.find((x) => x.id === id);
-      if (!o || o.status === status) return prev;
-      toast({ title: `Orden #${id} → ${status}`, description: `${o.client} · ${o.device}`, tone: "success" });
-      return prev.map((x) => (x.id === id ? { ...x, status } : x));
-    });
+    const o = orders.find((x) => x.id === id);
+    if (!o || o.status === status) return;
+    const prevStatus = o.status;
+    // Optimista: muevo la tarjeta y persisto; si falla, revierto.
+    setOrders((prev) => prev.map((x) => (x.id === id ? { ...x, status } : x)));
+    fetch("/api/orders", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, status }),
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error((await res.json().catch(() => ({})))?.error || "error");
+        toast({ title: `Orden #${id} → ${status}`, description: `${o.client} · ${o.device}`, tone: "success" });
+      })
+      .catch(() => {
+        setOrders((prev) => prev.map((x) => (x.id === id ? { ...x, status: prevStatus } : x)));
+        toast({ title: "No se pudo actualizar la orden", description: "Se revirtió el cambio.", tone: "warning" });
+      });
   };
 
   return (

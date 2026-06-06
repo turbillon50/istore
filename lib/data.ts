@@ -4,7 +4,7 @@
 // =====================================================================
 import { sql } from "./db";
 import { ensureSchema } from "./schema";
-import type { Client, Order, Product, NotificationItem } from "./types";
+import type { Client, Order, Product, NotificationItem, Store } from "./types";
 
 const num = (v: unknown) => { const n = Number(v ?? 0); return Number.isFinite(n) ? n : 0; };
 
@@ -190,5 +190,91 @@ export async function createSale(
   await sql`INSERT INTO cash_movements (id, concept, type, method, amount)
     VALUES (${"c-" + row.id}, ${"Venta POS #" + row.id}, 'Ingreso', ${method}, ${total})`;
   return { id: row.id, total: num(row.total), createdAt: row.created_at };
+}
+
+// Alta real de orden de servicio (recepción). Persiste en orders y devuelve
+// la orden creada. El folio se genera en servidor (OS-#####).
+export async function createOrder(input: {
+  client: string;
+  clientPhone?: string;
+  device: string;
+  brand?: string;
+  imei?: string;
+  issue?: string;
+  cost?: number;
+  priority?: string;
+  branch?: string;
+  category?: string;
+  technician?: string;
+}): Promise<Order> {
+  await ensureSchema();
+  const [{ n }] = (await sql`SELECT count(*)::int AS n FROM orders`) as { n: number }[];
+  const id = `OS-${String(n + 1).padStart(5, "0")}`;
+  const now = new Date();
+  const promise = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000);
+  const [row] = (await sql`INSERT INTO orders
+    (id, client, client_phone, device, brand, imei, issue, technician, cost,
+     status, priority, branch, created_at, promise_at, category)
+    VALUES (${id}, ${input.client}, ${input.clientPhone ?? null}, ${input.device},
+     ${input.brand ?? null}, ${input.imei ?? null}, ${input.issue ?? null},
+     ${input.technician ?? "Sin asignar"}, ${num(input.cost)}, 'Recibido',
+     ${input.priority ?? "Media"}, ${input.branch ?? "Centro"},
+     ${now.toISOString()}, ${promise.toISOString()}, ${input.category ?? "Reparación"})
+    RETURNING *`) as any[];
+  return mapOrder(row);
+}
+
+// ------- Tiendas (modelo marketplace multi-tienda) -------
+function mapStore(r: any): Store {
+  return {
+    id: r.id, name: r.name, slug: r.slug, isPrincipal: Boolean(r.is_principal),
+    phone: r.phone ?? undefined, email: r.email ?? undefined, address: r.address ?? undefined,
+    plan: r.plan, status: r.status,
+    paymentProvider: r.payment_provider ?? undefined,
+    paymentAccount: r.payment_account ?? undefined,
+    ownerEmail: r.owner_email ?? undefined,
+  };
+}
+
+export async function getStores(): Promise<Store[]> {
+  await ensureSchema();
+  const rows = (await sql`SELECT * FROM stores ORDER BY is_principal DESC, created_at`) as any[];
+  return rows.map(mapStore);
+}
+
+const slugify = (s: string) =>
+  s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "").slice(0, 40) || "tienda"; // diacríticos via NFD
+
+export async function createStore(input: {
+  name: string; email?: string; phone?: string; address?: string;
+  plan?: string; paymentProvider?: string; paymentAccount?: string; ownerEmail?: string;
+}): Promise<Store | { error: string }> {
+  await ensureSchema();
+  const name = input.name.trim();
+  if (!name) return { error: "Nombre de la tienda requerido" };
+  let slug = slugify(name);
+  const id = `store-${slug}-${Date.now().toString(36)}`;
+  // Evita choque de slug único.
+  const exists = (await sql`SELECT 1 FROM stores WHERE slug = ${slug} LIMIT 1`) as any[];
+  if (exists.length) slug = `${slug}-${Date.now().toString(36).slice(-4)}`;
+  const rows = (await sql`INSERT INTO stores
+    (id, name, slug, is_principal, phone, email, address, plan, status,
+     payment_provider, payment_account, owner_email)
+    VALUES (${id}, ${name}, ${slug}, false, ${input.phone ?? null}, ${input.email ?? null},
+     ${input.address ?? null}, ${input.plan ?? "free"}, 'Activa',
+     ${input.paymentProvider ?? null}, ${input.paymentAccount ?? null}, ${input.ownerEmail ?? null})
+    RETURNING *`) as any[];
+  return mapStore(rows[0]);
+}
+
+// Cambio de estado de una orden (acción de admin). Devuelve la orden o null.
+export async function updateOrderStatus(
+  id: string,
+  status: string
+): Promise<Order | null> {
+  await ensureSchema();
+  const rows = (await sql`UPDATE orders SET status = ${status} WHERE id = ${id} RETURNING *`) as any[];
+  return rows.length ? mapOrder(rows[0]) : null;
 }
 

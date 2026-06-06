@@ -143,7 +143,7 @@ export function OnboardingWizard() {
         <Logo size={34} />
       </div>
 
-      <Card className="relative z-10 w-full max-w-md border-white/[0.06] bg-card/70 p-7 shadow-2xl backdrop-blur-2xl">
+      <Card className="relative z-10 w-full max-w-md border-border bg-card/70 p-7 shadow-2xl backdrop-blur-2xl">
         {/* Progreso */}
         <div className="mb-6 flex items-center gap-2">
           {steps.map((_, i) => (

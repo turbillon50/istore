@@ -27,17 +27,26 @@ export default function ClientesPage({ clients }: { clients: Client[] }) {
     (c) => c.name.toLowerCase().includes(q.toLowerCase()) || c.phone.includes(q)
   );
 
+  // KPIs reales calculados sobre la lista de clientes.
+  const total = clients.length;
+  const vip = clients.filter((c) => c.tag === "VIP").length;
+  const recurrentes = clients.filter((c) => (c.visits ?? 0) > 1).length;
+  const recurrentesPct = total ? Math.round((recurrentes / total) * 100) : 0;
+  const ticketProm = total
+    ? clients.reduce((s, c) => s + (c.totalSpent || 0) / Math.max(1, c.visits || 1), 0) / total
+    : 0;
+
   return (
     <div className="space-y-6">
-      <PageHeader title="Clientes" description="1,500 clientes registrados · CRM integrado">
+      <PageHeader title="Clientes" description={`${total} clientes registrados · CRM integrado`}>
         <Button size="sm"><Plus className="h-4 w-4" /> Nuevo cliente</Button>
       </PageHeader>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <MetricCard label="Clientes totales" value="1,500" icon={Users} tone="primary" delta={4.7} />
-        <MetricCard label="Clientes VIP" value="142" icon={Star} tone="warning" />
-        <MetricCard label="Recurrentes" value="68%" icon={Repeat} tone="success" delta={2.1} />
-        <MetricCard label="Ticket promedio" value="$1,840" icon={Users} tone="purple" delta={3.4} />
+        <MetricCard label="Clientes totales" value={total.toLocaleString("es-MX")} icon={Users} tone="primary" />
+        <MetricCard label="Clientes VIP" value={vip.toLocaleString("es-MX")} icon={Star} tone="warning" />
+        <MetricCard label="Recurrentes" value={`${recurrentesPct}%`} icon={Repeat} tone="success" />
+        <MetricCard label="Ticket promedio" value={formatCurrency(ticketProm)} icon={Users} tone="purple" />
       </div>
 
       <Card className="p-4">

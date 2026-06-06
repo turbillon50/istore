@@ -69,12 +69,12 @@
 }
 
 @layer utilities {
-  /* Glassmorphism */
+  /* Glassmorphism — borde tokenizado para que funcione en claro y oscuro */
   .glass {
-    @apply bg-card/60 backdrop-blur-xl border border-white/[0.06];
+    @apply bg-card/60 backdrop-blur-xl border border-border;
   }
   .glass-strong {
-    @apply bg-background/80 backdrop-blur-2xl border border-white/[0.06];
+    @apply bg-background/80 backdrop-blur-2xl border border-border;
   }
 
   /* Premium subtle gradient surface */

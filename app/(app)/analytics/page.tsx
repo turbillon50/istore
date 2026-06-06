@@ -8,23 +8,34 @@ import { AreaTrend, BarSeries, DonutChart } from "@/components/charts";
 import { formatCurrency } from "@/lib/utils";
 import { DollarSign, TrendingUp, Wrench, Users, Calendar, Star } from "lucide-react";
 
-import { getSalesByMonth, getSalesByDay, getIncomeByCategory, getTechnicians, getTopParts } from "@/lib/data";
+import { getSalesByMonth, getSalesByDay, getIncomeByCategory, getTechnicians, getTopParts, getClients } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
 export default async function AnalyticsPage() {
-  const [salesByMonth, salesByDay, incomeByCategory, technicians, topParts] = await Promise.all([getSalesByMonth(), getSalesByDay(), getIncomeByCategory(), getTechnicians(), getTopParts()]);
+  const [salesByMonth, salesByDay, incomeByCategory, technicians, topParts, clients] = await Promise.all([getSalesByMonth(), getSalesByDay(), getIncomeByCategory(), getTechnicians(), getTopParts(), getClients()]);
+
+  // KPIs reales derivados de los datos.
+  const annualSales = salesByMonth.reduce((s, m) => s + (m.ventas || 0), 0);
+  const repaired = salesByMonth.reduce((s, m) => s + (m.equipos || 0), 0);
+  const newClients = clients.filter((c) => c.tag === "Nuevo").length;
+  // Margen estimado a partir de la utilidad semanal real (transparente: "est.").
+  const wVentas = salesByDay.reduce((s, d) => s + (d.ventas || 0), 0);
+  const wUtil = salesByDay.reduce((s, d) => s + (d.utilidad || 0), 0);
+  const margin = wVentas ? wUtil / wVentas : 0;
+  const estProfit = Math.round(annualSales * margin);
+
   return (
     <div className="space-y-6">
-      <PageHeader title="Analytics" description="Inteligencia de negocio · 1 ene – 4 jun 2026">
+      <PageHeader title="Analytics" description="Inteligencia de negocio">
         <Button variant="secondary" size="sm"><Calendar className="h-4 w-4" /> Este año</Button>
       </PageHeader>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <MetricCard label="Ventas del año" value={formatCurrency(2500000)} icon={DollarSign} tone="success" delta={18.2} />
-        <MetricCard label="Utilidad neta" value={formatCurrency(940000)} icon={TrendingUp} tone="primary" delta={12.4} />
-        <MetricCard label="Equipos reparados" value="3,200" icon={Wrench} tone="purple" delta={9.1} />
-        <MetricCard label="Clientes nuevos" value="486" icon={Users} tone="warning" delta={6.7} />
+        <MetricCard label="Ventas del año" value={formatCurrency(annualSales)} icon={DollarSign} tone="success" />
+        <MetricCard label="Utilidad neta (est.)" value={formatCurrency(estProfit)} icon={TrendingUp} tone="primary" />
+        <MetricCard label="Equipos reparados" value={repaired.toLocaleString("es-MX")} icon={Wrench} tone="purple" />
+        <MetricCard label="Clientes nuevos" value={newClients.toLocaleString("es-MX")} icon={Users} tone="warning" />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">

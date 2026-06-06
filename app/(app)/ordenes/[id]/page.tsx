@@ -8,12 +8,12 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { StatusBadge, PriorityBadge, CheckBadge } from "@/components/status-badge";
 import { formatCurrency, formatDateTime } from "@/lib/utils";
+import { StatusUpdater } from "./status-updater";
 import {
   ArrowLeft,
   Phone,
   MessageCircle,
   Smartphone,
-  FileText,
   Paperclip,
   CheckCircle2,
   Circle,
@@ -53,7 +53,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
         </div>
         <div className="ml-auto flex gap-2">
           <Button variant="secondary" size="sm"><Printer className="h-4 w-4" /> Imprimir</Button>
-          <Button size="sm">Actualizar estado</Button>
+          <StatusUpdater id={order.id} current={order.status} />
         </div>
       </div>
 
@@ -68,13 +68,13 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <div className="flex-1 space-y-3">
                 <div>
                   <h2 className="text-lg font-semibold">{order.device}</h2>
-                  <p className="text-sm text-muted-foreground">{order.brand} · 256 GB · Sierra Blue</p>
+                  <p className="text-sm text-muted-foreground">{order.brand}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3">
-                  <Field label="IMEI" value={order.imei} />
-                  <Field label="Serie" value="F2LDPQ0XQ7D1L" />
+                  <Field label="IMEI" value={order.imei || "—"} />
+                  <Field label="Sucursal" value={order.branch} />
                   <Field label="Prioridad" value={<PriorityBadge priority={order.priority} />} />
-                  <Field label="Accesorios" value="Caja, cable" />
+                  <Field label="Promesa" value={formatDateTime(order.promiseAt)} />
                   <Field label="Técnico" value={order.technician} />
                   <Field label="Categoría" value={order.category} />
                 </div>
@@ -94,7 +94,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                 <TabsContent value="diag">
                   <div className="mb-3 rounded-lg border border-warning/30 bg-warning/5 p-3 text-sm">
                     <span className="font-medium text-warning">Falla reportada: </span>
-                    <span className="text-muted-foreground">{order.issue}. El Face ID no funciona.</span>
+                    <span className="text-muted-foreground">{order.issue || "Sin descripción registrada."}</span>
                   </div>
                   <div className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
                     {diagnosticChecklistItems.map((label) => (

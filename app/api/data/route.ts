@@ -13,6 +13,7 @@ const map: Record<string, () => Promise<unknown>> = {
   notifications: data.getNotifications,
   technicians: data.getTechnicians,
   branches: data.getBranches,
+  stores: data.getStores,
   roles: data.getRoles,
   posCatalog: data.getPosCatalog,
   users: data.getUsers,
