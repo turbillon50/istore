@@ -40,3 +40,4 @@ next-env.d.ts
 
 # zip de demo (artefacto)
 /iStorePro-demo.zip
+package-lock.json

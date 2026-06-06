@@ -1,7 +1,15 @@
 // Descarga el ícono generado por Higgsfield (IA) y lo procesa a los tamaños PWA.
 // Se ejecuta en el build de Vercel (que SÍ tiene salida a Higgsfield/CloudFront).
 // Es tolerante a fallos: si la descarga falla, conserva los assets vectoriales ya presentes.
-import sharp from "sharp";
+// sharp se carga dinámico: si el binario nativo falla, el build NO se rompe
+// (se conservan los íconos ya presentes en /public).
+let sharp;
+try {
+  sharp = (await import("sharp")).default;
+} catch (e) {
+  console.warn("[brand] sharp no disponible, conservo assets existentes:", e?.message);
+  process.exit(0);
+}
 import { mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
