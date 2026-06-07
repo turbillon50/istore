@@ -4,7 +4,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { PwaRegister } from "@/components/pwa-register";
 import { ClerkProvider } from "@clerk/nextjs";
-import { esES } from "@clerk/localizations";
 import { clerkEnabled } from "@/lib/auth";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -87,7 +86,6 @@ export default function RootLayout({
   if (!clerkEnabled) return app;
   return (
     <ClerkProvider
-      localization={esES}
       signInUrl="/login"
       signUpUrl="/registro"
       afterSignOutUrl="/"

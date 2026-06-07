@@ -28,7 +28,7 @@ function AccountButton() {
         <UserButton appearance={{ elements: { avatarBox: "h-8 w-8" } }} userProfileMode="modal" />
       </SignedIn>
       <SignedOut>
-        <Button asChild variant="ghost" size="icon" aria-label="Iniciar sesión">
+        <Button asChild variant="ghost" size="icon" aria-label="Mi cuenta">
           <Link href="/login">
             <User className="h-5 w-5" />
           </Link>

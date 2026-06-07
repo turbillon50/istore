@@ -1,9 +1,7 @@
-import Link from "next/link";
 import { cookies } from "next/headers";
 import { Logo } from "@/components/logo";
 import { StoreHeader } from "@/components/store/store-header";
 import { Storefront } from "@/components/store/storefront";
-import { clerkEnabled } from "@/lib/auth";
 import { ACCESS_COOKIE, tokenRole } from "@/lib/access";
 
 // La HOME es LA TIENDA: vitrina pública de productos a la venta + servicios de
@@ -20,7 +18,7 @@ export default function StorePage() {
     <div className="min-h-screen bg-background text-foreground">
       <StoreHeader hasAdminKey={hasAdminKey} />
       <main>
-        <Storefront clerkEnabled={clerkEnabled} />
+        <Storefront />
       </main>
 
       <footer className="border-t border-border">
@@ -32,12 +30,9 @@ export default function StorePage() {
           <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} iStore · Garantía y factura en cada compra
           </p>
-          <Link
-            href="/pro"
-            className="text-xs text-muted-foreground/70 transition-colors hover:text-foreground"
-          >
-            ¿Tienes un taller? Conoce iStore Pro
-          </Link>
+          <p className="text-xs text-muted-foreground/70">
+            Envíos a todo México · Centro de reparación con técnicos expertos
+          </p>
         </div>
       </footer>
     </div>

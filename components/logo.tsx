@@ -4,7 +4,7 @@ export function Logo({
   className,
   showText = true,
   size = 32,
-  tagline = "Repair Management",
+  tagline = "Celulares & Reparación",
 }: {
   className?: string;
   showText?: boolean;
@@ -43,7 +43,7 @@ export function Logo({
       {showText && (
         <div className="leading-tight">
           <span className="block text-[15px] font-semibold tracking-tight">
-            iStore <span className="text-primary">Pro</span>
+            iStore
           </span>
           <span className="block text-[10px] text-muted-foreground">
             {tagline}

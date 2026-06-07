@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Star,
-  ArrowRight,
   ShoppingBag,
   CalendarCheck,
   X,
@@ -162,18 +161,16 @@ function ProductCard({
 // ----- Ficha completa (dialog expandido con galería) -----
 function ProductDialog({
   p,
-  clerkEnabled,
   onClose,
 }: {
   p: StoreProduct;
-  clerkEnabled: boolean;
   onClose: () => void;
 }) {
   const gallery = p.gallery?.length ? p.gallery : [p.image];
   const off = discount(p);
-  const buyHref = clerkEnabled
-    ? `/registro?redirect_url=/dashboard`
-    : `/onboarding`;
+  // El login/registro SOLO aparece al intentar comprar: la cuenta es el gate
+  // de compra, nunca un formulario plantado en la home.
+  const buyHref = `/login?redirect_url=${encodeURIComponent("/")}`;
 
   React.useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -284,9 +281,10 @@ function ProductDialog({
 }
 
 // ----- Tarjeta de servicio -----
-function ServiceCard({ s, clerkEnabled }: { s: StoreService; clerkEnabled: boolean }) {
+function ServiceCard({ s }: { s: StoreService }) {
   const Icon = SERVICE_ICONS[s.icon];
-  const href = clerkEnabled ? `/registro?redirect_url=/dashboard` : `/onboarding`;
+  // Agendar también pasa por el gate de cuenta, no por el panel del dueño.
+  const href = `/login?redirect_url=${encodeURIComponent("/")}`;
   return (
     <div className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-lg">
       <div className="flex items-center gap-3">
@@ -329,7 +327,7 @@ function ServiceCard({ s, clerkEnabled }: { s: StoreService; clerkEnabled: boole
 }
 
 // ===================================================================
-export function Storefront({ clerkEnabled }: { clerkEnabled: boolean }) {
+export function Storefront() {
   const [cat, setCat] = React.useState<ProductCategory | "Todos">("Todos");
   const [active, setActive] = React.useState<StoreProduct | null>(null);
 
@@ -462,27 +460,34 @@ export function Storefront({ clerkEnabled }: { clerkEnabled: boolean }) {
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s) => (
-              <ServiceCard key={s.id} s={s} clerkEnabled={clerkEnabled} />
+              <ServiceCard key={s.id} s={s} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ---------------- CTA registro gratis ---------------- */}
+      {/* ---------------- Cierre: confianza de tienda ---------------- */}
       <section className="mx-auto max-w-7xl px-6 py-14">
         <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-primary/10 to-purple-600/10 p-8 text-center sm:p-12">
           <h2 className="mx-auto max-w-lg text-2xl font-bold tracking-tight sm:text-3xl">
-            Crea tu cuenta gratis y sigue tus compras y reparaciones
+            Equipos originales, garantía y factura en cada compra
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
-            Recibe notificaciones del estado de tu orden, ofertas exclusivas y el
-            historial de tu equipo. Sin costo.
+            Explora todo el catálogo sin cuenta. Envíos a todo México y soporte
+            de técnicos expertos para tu celular.
           </p>
-          <Button asChild size="lg" className="mt-6">
-            <Link href={clerkEnabled ? "/registro?redirect_url=/dashboard" : "/onboarding"}>
-              Crear cuenta gratis <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Button>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Button asChild size="lg">
+              <a href="#productos">
+                <ShoppingBag className="h-4 w-4" /> Ver productos
+              </a>
+            </Button>
+            <Button asChild size="lg" variant="secondary">
+              <a href="#servicios">
+                <Wrench className="h-4 w-4" /> Reparar mi equipo
+              </a>
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -490,7 +495,6 @@ export function Storefront({ clerkEnabled }: { clerkEnabled: boolean }) {
         {active && (
           <ProductDialog
             p={active}
-            clerkEnabled={clerkEnabled}
             onClose={() => setActive(null)}
           />
         )}
