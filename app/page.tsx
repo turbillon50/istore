@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,9 +10,16 @@ import {
   ShieldCheck,
   Smartphone,
   BarChart3,
+  LayoutDashboard,
 } from "lucide-react";
 import { LoginCard } from "./login-card";
 import { clerkEnabled } from "@/lib/auth";
+import { ACCESS_COOKIE, tokenRole } from "@/lib/access";
+
+// La home es la cara PÚBLICA: cualquiera la navega libre. Si quien entra trae
+// la cookie de la liga-llave, le ofrecemos un acceso discreto al panel, pero
+// la tienda nunca se ve secuestrada hacia /admin.
+export const dynamic = "force-dynamic";
 
 const features = [
   "Recepción de equipos con firma y fotos",
@@ -23,12 +31,29 @@ const features = [
 ];
 
 export default function LandingPage() {
+  // Cookie de la liga-llave: solo decide si mostramos el botón discreto "Panel".
+  const hasAdminKey = Boolean(tokenRole(cookies().get(ACCESS_COOKIE)?.value));
+
   return (
     <div className="noise relative min-h-screen overflow-hidden bg-background text-foreground">
       {/* Fondo */}
       <div className="absolute inset-0 grid-bg opacity-40" />
       <div className="absolute -top-40 left-1/2 h-[500px] w-[800px] -translate-x-1/2 animate-aurora rounded-full bg-primary/20 blur-[140px]" />
       <div className="absolute bottom-0 right-0 h-[400px] w-[500px] animate-aurora rounded-full bg-purple-600/10 blur-[120px] [animation-delay:-8s]" />
+
+      {/* Acceso discreto al panel: solo visible si la cookie admin está presente. */}
+      {hasAdminKey && (
+        <Button
+          asChild
+          variant="secondary"
+          size="sm"
+          className="absolute right-4 top-4 z-20 gap-1.5 opacity-80 hover:opacity-100"
+        >
+          <Link href="/admin">
+            <LayoutDashboard className="h-4 w-4" /> Panel
+          </Link>
+        </Button>
+      )}
 
       <div className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-12 px-6 py-10 lg:grid-cols-2 lg:gap-8">
         {/* Hero */}
