@@ -1,14 +1,14 @@
 {
-  "name": "iStore Pro — Repair Management",
-  "short_name": "iStore Pro",
-  "description": "Sistema SaaS para talleres de reparación de celulares, tablets y computadoras.",
+  "name": "iStore — Celulares y reparación",
+  "short_name": "iStore",
+  "description": "Tu tienda de celulares, accesorios y reparación. Compra con garantía y factura, o agenda la reparación de tu equipo.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#0A0A0A",
   "theme_color": "#0A0A0A",
-  "categories": ["business", "productivity", "utilities"],
+  "categories": ["shopping", "business", "utilities"],
   "lang": "es-MX",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },

@@ -11,6 +11,7 @@ const clerkEnabled = Boolean(
 // /km/* sirve el manifest de la liga instalable (se valida en su route).
 const isPublic = createRouteMatcher([
   "/",
+  "/pro",
   "/login(.*)",
   "/registro(.*)",
   "/api/health",

@@ -1,118 +1,45 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { Logo } from "@/components/logo";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  ArrowRight,
-  CheckCircle2,
-  Sparkles,
-  ShieldCheck,
-  Smartphone,
-  BarChart3,
-  LayoutDashboard,
-} from "lucide-react";
-import { LoginCard } from "./login-card";
+import { StoreHeader } from "@/components/store/store-header";
+import { Storefront } from "@/components/store/storefront";
 import { clerkEnabled } from "@/lib/auth";
 import { ACCESS_COOKIE, tokenRole } from "@/lib/access";
 
-// La home es la cara PÚBLICA: cualquiera la navega libre. Si quien entra trae
-// la cookie de la liga-llave, le ofrecemos un acceso discreto al panel, pero
-// la tienda nunca se ve secuestrada hacia /admin.
+// La HOME es LA TIENDA: vitrina pública de productos a la venta + servicios de
+// reparación. Navegación 100% libre, sin cuenta. El comprador se registra
+// gratis solo al comprar/agendar. El pitch SaaS multi-tienda vive en /pro
+// (no enlazado de forma prominente). El acceso al panel del dueño es discreto
+// y solo aparece si la cookie de la liga-llave está presente.
 export const dynamic = "force-dynamic";
 
-const features = [
-  "Recepción de equipos con firma y fotos",
-  "Órdenes con timeline tipo AppleCare",
-  "Diagnóstico técnico de 17 puntos",
-  "Inventario con stock mínimo y alertas",
-  "POS, caja y métodos de pago",
-  "Analytics e iStore AI integrado",
-];
-
-export default function LandingPage() {
-  // Cookie de la liga-llave: solo decide si mostramos el botón discreto "Panel".
+export default function StorePage() {
   const hasAdminKey = Boolean(tokenRole(cookies().get(ACCESS_COOKIE)?.value));
 
   return (
-    <div className="noise relative min-h-screen overflow-hidden bg-background text-foreground">
-      {/* Fondo */}
-      <div className="absolute inset-0 grid-bg opacity-40" />
-      <div className="absolute -top-40 left-1/2 h-[500px] w-[800px] -translate-x-1/2 animate-aurora rounded-full bg-primary/20 blur-[140px]" />
-      <div className="absolute bottom-0 right-0 h-[400px] w-[500px] animate-aurora rounded-full bg-purple-600/10 blur-[120px] [animation-delay:-8s]" />
+    <div className="min-h-screen bg-background text-foreground">
+      <StoreHeader hasAdminKey={hasAdminKey} />
+      <main>
+        <Storefront clerkEnabled={clerkEnabled} />
+      </main>
 
-      {/* Acceso discreto al panel: solo visible si la cookie admin está presente. */}
-      {hasAdminKey && (
-        <Button
-          asChild
-          variant="secondary"
-          size="sm"
-          className="absolute right-4 top-4 z-20 gap-1.5 opacity-80 hover:opacity-100"
+      <footer className="border-t border-border">
+        <div
+          className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-8 sm:flex-row sm:items-center sm:justify-between"
+          style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 1.5rem)" }}
         >
-          <Link href="/admin">
-            <LayoutDashboard className="h-4 w-4" /> Panel
-          </Link>
-        </Button>
-      )}
-
-      <div className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-12 px-6 py-10 lg:grid-cols-2 lg:gap-8">
-        {/* Hero */}
-        <div className="flex flex-col justify-center">
-          <Logo size={40} className="mb-8" />
-
-          <Badge variant="default" className="mb-5 w-fit gap-1.5 py-1">
-            <Sparkles className="h-3.5 w-3.5" /> Nueva generación
-          </Badge>
-
-          <h1 className="max-w-xl text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
-            Controla cada reparación desde{" "}
-            <span className="text-shine">una sola plataforma.</span>
-          </h1>
-
-          <p className="mt-5 max-w-md text-base text-muted-foreground">
-            iStore Pro es el sistema operativo de tu taller: órdenes,
-            diagnósticos, inventario, ventas y clientes — con diseño de nivel
-            Apple y la potencia de un ERP.
+          <Logo size={30} tagline="Celulares & Reparación" />
+          <p className="text-xs text-muted-foreground">
+            © {new Date().getFullYear()} iStore · Garantía y factura en cada compra
           </p>
-
-          <div className="mt-7 grid max-w-md grid-cols-1 gap-2 sm:grid-cols-2">
-            {features.map((f) => (
-              <div key={f} className="flex items-center gap-2 text-sm">
-                <CheckCircle2 className="h-4 w-4 shrink-0 text-success" />
-                <span className="text-muted-foreground">{f}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-9 flex flex-wrap items-center gap-3">
-            <Button size="lg" asChild>
-              <Link href={clerkEnabled ? "/registro" : "/dashboard"}>
-                {clerkEnabled ? "Crear cuenta gratis" : "Entrar a la demo"}{" "}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="h-4 w-4 text-success" /> Multisucursal
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Smartphone className="h-4 w-4 text-primary" /> PWA instalable
-              </span>
-              <span className="flex items-center gap-1.5">
-                <BarChart3 className="h-4 w-4 text-warning" /> Analytics
-              </span>
-            </div>
-          </div>
+          <Link
+            href="/pro"
+            className="text-xs text-muted-foreground/70 transition-colors hover:text-foreground"
+          >
+            ¿Tienes un taller? Conoce iStore Pro
+          </Link>
         </div>
-
-        {/* Login card */}
-        <div className="relative flex items-center justify-center lg:justify-end">
-          <div className="absolute h-72 w-72 animate-aurora rounded-full bg-primary/25 blur-[100px]" />
-          <div className="gradient-border relative">
-            <LoginCard clerkEnabled={clerkEnabled} />
-          </div>
-        </div>
-      </div>
+      </footer>
     </div>
   );
 }

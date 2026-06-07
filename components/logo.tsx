@@ -4,10 +4,12 @@ export function Logo({
   className,
   showText = true,
   size = 32,
+  tagline = "Repair Management",
 }: {
   className?: string;
   showText?: boolean;
   size?: number;
+  tagline?: string;
 }) {
   return (
     <div className={cn("flex items-center gap-2.5", className)}>
@@ -44,7 +46,7 @@ export function Logo({
             iStore <span className="text-primary">Pro</span>
           </span>
           <span className="block text-[10px] text-muted-foreground">
-            Repair Management
+            {tagline}
           </span>
         </div>
       )}
