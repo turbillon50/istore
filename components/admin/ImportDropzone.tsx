@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef } from 'react'
 import * as XLSX from 'xlsx'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// --- Types --------------------------------------------------------------------
 
 export interface ColumnMapping {
   fileColumn: string
@@ -31,7 +31,7 @@ interface ImportDropzoneProps {
 
 const MAX_PREVIEW_ROWS = 10
 
-// ─── Component ────────────────────────────────────────────────────────────────
+// --- Component ----------------------------------------------------------------
 
 export default function ImportDropzone({
   requiredFields,
@@ -51,7 +51,7 @@ export default function ImportDropzone({
   const [result, setResult] = useState<{ created: number; updated: number; errors: number } | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
-  // ── Parse file ──────────────────────────────────────────────────────────────
+  // -- Parse file --------------------------------------------------------------
 
   const parseFile = useCallback((f: File) => {
     const reader = new FileReader()
@@ -98,7 +98,7 @@ export default function ImportDropzone({
     if (f) parseFile(f)
   }
 
-  // ── Validate mappings & build preview ──────────────────────────────────────
+  // -- Validate mappings & build preview --------------------------------------
 
   const buildPreview = () => {
     const rows: ImportRow[] = rawRows.slice(0, MAX_PREVIEW_ROWS).map((rawRow, index) => {
@@ -135,7 +135,7 @@ export default function ImportDropzone({
     setStep('preview')
   }
 
-  // ── Import ──────────────────────────────────────────────────────────────────
+  // -- Import ------------------------------------------------------------------
 
   const runImport = async () => {
     if (!file) return
@@ -185,7 +185,7 @@ export default function ImportDropzone({
   const errorCount = previewRows.filter(r => r.status === 'error').length
   const validCount = previewRows.filter(r => r.status === 'valid').length
 
-  // ── Render ──────────────────────────────────────────────────────────────────
+  // -- Render ------------------------------------------------------------------
 
   return (
     <div className="space-y-4">
@@ -208,7 +208,7 @@ export default function ImportDropzone({
         ))}
       </div>
 
-      {/* ── STEP: Upload ── */}
+      {/* -- STEP: Upload -- */}
       {step === 'upload' && (
         <div
           onDrop={handleDrop}
@@ -227,7 +227,7 @@ export default function ImportDropzone({
         </div>
       )}
 
-      {/* ── STEP: Map columns ── */}
+      {/* -- STEP: Map columns -- */}
       {step === 'map' && (
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
@@ -288,7 +288,7 @@ export default function ImportDropzone({
         </div>
       )}
 
-      {/* ── STEP: Preview ── */}
+      {/* -- STEP: Preview -- */}
       {step === 'preview' && (
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
@@ -371,7 +371,7 @@ export default function ImportDropzone({
         </div>
       )}
 
-      {/* ── STEP: Importing ── */}
+      {/* -- STEP: Importing -- */}
       {step === 'importing' && (
         <div className="bg-white rounded-xl border border-gray-200 p-10 text-center">
           <div className="text-5xl mb-4 animate-bounce">⚙️</div>
@@ -387,7 +387,7 @@ export default function ImportDropzone({
         </div>
       )}
 
-      {/* ── STEP: Done ── */}
+      {/* -- STEP: Done -- */}
       {step === 'done' && result && (
         <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
           <div className="text-5xl mb-4">🎉</div>
