@@ -121,7 +121,7 @@ async function handlePaymentSucceeded(intent: Stripe.PaymentIntent) {
   }
 
   // Send confirmation email
-  await sendOrderConfirmation(order as Parameters<typeof sendOrderConfirmation>[0])
+  await sendOrderConfirmation(order as unknown as Parameters<typeof sendOrderConfirmation>[0])
 
   // Trigger n8n workflow
   await triggerWorkflow(WORKFLOWS.PURCHASE_COMPLETE, {
