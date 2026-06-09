@@ -125,7 +125,8 @@ interface MenuData {
 
 // --- Constants ----------------------------------------------------------------
 
-const BLOCK_TYPES: { type: BlockType; label: string; icon: string; color: string }[] = [
+type BlockTypeDef = { type: BlockType; label: string; icon: string; color: string }
+const BLOCK_TYPES: BlockTypeDef[] = [
   { type: 'hero',     label: 'Hero / Banner',    icon: '🖼️',  color: 'bg-purple-500/10 text-purple-400 border-purple-500/20' },
   { type: 'products', label: 'Grid Productos',   icon: '📦',  color: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
   { type: 'banner',   label: 'Banner Promo',     icon: '🎯',  color: 'bg-orange-500/10 text-orange-400 border-orange-500/20' },
