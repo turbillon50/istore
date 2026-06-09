@@ -66,7 +66,9 @@ const STATUSES = ["Todos", "Activo", "Inactivo", "Agotado"];
 
 // --- Helpers ------------------------------------------------------------------
 
-function StatusBadge({ status }: { status: Product["status"] }) {
+type StatusBadgeProps = { status: string }
+function StatusBadge(props: StatusBadgeProps) {
+  const { status } = props;
   const map = {
     Activo:   { cls: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20", icon: CheckCircle2 },
     Inactivo: { cls: "text-[#525252] bg-[#1a1a1a] border-[#262626]",            icon: XCircle },
@@ -172,12 +174,14 @@ function InlineEditCell(props: InlineEditCellProps) {
 // --- Page ---------------------------------------------------------------------
 
 export default function ProductosPage() {
-  const [data, setData] = useState<Product[]>(MOCK);
+  const initialData: Product[] = MOCK;
+  const [data, setData] = useState(initialData);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("Todos");
   const [brand, setBrand] = useState("Todos");
   const [status, setStatus] = useState("Todos");
-  const [editProduct, setEditProduct] = useState<Product | null>(null);
+  type ProductOrNull = Product | null;
+  const [editProduct, setEditProduct] = useState<ProductOrNull>(null);
   const [editingCell, setEditingCell] = useState<EditingCell>(null);
 
   const filtered = useMemo(
