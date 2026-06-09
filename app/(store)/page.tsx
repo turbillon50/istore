@@ -21,7 +21,7 @@ import ProductCard from "@/components/store/product-card";
 
 export const dynamic = "force-dynamic";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// --- Types --------------------------------------------------------------------
 
 interface Product {
   id: string;
@@ -46,7 +46,7 @@ interface HotDeal {
   expiresIn: string;
 }
 
-// ─── Data fetchers ─────────────────────────────────────────────────────────────
+// --- Data fetchers -------------------------------------------------------------
 
 async function getFeaturedProducts(): Promise<Product[]> {
   try {
@@ -74,7 +74,7 @@ async function getHotDeals(): Promise<HotDeal[]> {
   }
 }
 
-// ─── Placeholder data ──────────────────────────────────────────────────────────
+// --- Placeholder data ----------------------------------------------------------
 
 const PLACEHOLDER_PRODUCTS: Product[] = [
   {
@@ -287,7 +287,7 @@ const SERVICES = [
   },
 ];
 
-// ─── Section wrapper with fade-in ─────────────────────────────────────────────
+// --- Section wrapper with fade-in ---------------------------------------------
 
 function Section({
   children,
@@ -333,7 +333,7 @@ function SectionHeader({
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// --- Page ---------------------------------------------------------------------
 
 export default async function StorePage() {
   const [products, deals] = await Promise.all([
