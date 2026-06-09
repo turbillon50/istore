@@ -67,7 +67,8 @@ const STATUSES = ["Todos", "Activo", "Inactivo", "Agotado"];
 // --- Helpers ------------------------------------------------------------------
 
 type StatusBadgeProps = { status: string }
-function StatusBadge({ status }: StatusBadgeProps) {
+function StatusBadge(props: StatusBadgeProps) {
+  const { status } = props;
   const map = {
     Activo:   { cls: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20", icon: CheckCircle2 },
     Inactivo: { cls: "text-[#525252] bg-[#1a1a1a] border-[#262626]",            icon: XCircle },
@@ -83,7 +84,8 @@ function StatusBadge({ status }: StatusBadgeProps) {
 }
 
 type ProductAvatarProps = { name: string; sku: string }
-function ProductAvatar({ name, sku }: ProductAvatarProps) {
+function ProductAvatar(props: ProductAvatarProps) {
+  const { name, sku } = props;
   const colors: Record<string, string> = {
     APL: "from-[#1a1a2e] to-[#16213e]",
     SAM: "from-[#0d1b2a] to-[#1b2838]",
@@ -102,11 +104,9 @@ function ProductAvatar({ name, sku }: ProductAvatarProps) {
   );
 }
 
-function FilterSelect({
-  label, value, options, onChange,
-}: {
-  label: string; value: string; options: string[]; onChange: (v: string) => void;
-}) {
+type FilterSelectProps = { label: string; value: string; options: string[]; onChange: (v: string) => void }
+function FilterSelect(props: FilterSelectProps) {
+  const { label, value, options, onChange } = props;
   return (
     <div className="relative">
       <select
@@ -128,12 +128,9 @@ function FilterSelect({
 
 // --- Inline edit cell ---------------------------------------------------------
 
-function InlineEditCell({
-  id, field, value, isEditing, onStart, onSave, onCancel,
-}: {
-  id: string; field: "price" | "stock"; value: number;
-  isEditing: boolean; onStart: () => void; onSave: (v: string) => void; onCancel: () => void;
-}) {
+type InlineEditCellProps = { id: string; field: string; value: number; isEditing: boolean; onStart: () => void; onSave: (v: string) => void; onCancel: () => void }
+function InlineEditCell(props: InlineEditCellProps) {
+  const { id, field, value, isEditing, onStart, onSave, onCancel } = props;
   const [draft, setDraft] = useState(String(value));
 
   if (!isEditing) {
