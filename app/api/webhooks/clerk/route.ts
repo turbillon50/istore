@@ -61,32 +61,33 @@ export async function POST(req: NextRequest) {
 async function handleUserCreated(data: WebhookEvent['data'] & { object: 'user' }) {
   if (!('id' in data)) return
 
-  const primaryEmail = data.email_addresses?.find(
-    (e: { id: string; email_address: string }) => e.id === data.primary_email_address_id,
+  const userData = data as any
+  const primaryEmail = userData.email_addresses?.find(
+    (e: { id: string; email_address: string }) => e.id === userData.primary_email_address_id,
   )?.email_address
 
-  const primaryPhone = data.phone_numbers?.find(
-    (p: { id: string; phone_number: string }) => p.id === data.primary_phone_number_id,
+  const primaryPhone = userData.phone_numbers?.find(
+    (p: { id: string; phone_number: string }) => p.id === userData.primary_phone_number_id,
   )?.phone_number
 
   if (!primaryEmail) {
-    console.warn('[Clerk] User created without email:', data.id)
+    console.warn('[Clerk] User created without email:', userData.id)
     return
   }
 
-  const fullName = [data.first_name, data.last_name].filter(Boolean).join(' ') || null
+  const fullName = [userData.first_name, userData.last_name].filter(Boolean).join(' ') || null
 
   const user = await prisma.user.create({
     data: {
-      clerkId: data.id,
+      clerkId: userData.id,
       email: primaryEmail,
       name: fullName,
       phone: primaryPhone ?? null,
-      avatar: data.image_url ?? null,
+      avatar: userData.image_url ?? null,
       role: 'CUSTOMER',
-      emailVerified: data.email_addresses?.find(
+      emailVerified: userData.email_addresses?.find(
         (e: { id: string; email_address: string; verification?: { status: string } }) =>
-          e.id === data.primary_email_address_id,
+          e.id === userData.primary_email_address_id,
       )?.verification?.status === 'verified',
       isActive: true,
     },
@@ -116,36 +117,37 @@ async function handleUserCreated(data: WebhookEvent['data'] & { object: 'user' }
 async function handleUserUpdated(data: WebhookEvent['data'] & { object: 'user' }) {
   if (!('id' in data)) return
 
-  const primaryEmail = data.email_addresses?.find(
-    (e: { id: string; email_address: string }) => e.id === data.primary_email_address_id,
+  const userData = data as any
+  const primaryEmail = userData.email_addresses?.find(
+    (e: { id: string; email_address: string }) => e.id === userData.primary_email_address_id,
   )?.email_address
 
-  const primaryPhone = data.phone_numbers?.find(
-    (p: { id: string; phone_number: string }) => p.id === data.primary_phone_number_id,
+  const primaryPhone = userData.phone_numbers?.find(
+    (p: { id: string; phone_number: string }) => p.id === userData.primary_phone_number_id,
   )?.phone_number
 
-  const fullName = [data.first_name, data.last_name].filter(Boolean).join(' ') || null
+  const fullName = [userData.first_name, userData.last_name].filter(Boolean).join(' ') || null
 
   const existing = await prisma.user.findUnique({
-    where: { clerkId: data.id },
+    where: { clerkId: userData.id },
   })
 
   if (!existing) {
-    console.warn('[Clerk] user.updated for unknown user:', data.id)
+    console.warn('[Clerk] user.updated for unknown user:', userData.id)
     return
   }
 
   await prisma.user.update({
-    where: { clerkId: data.id },
+    where: { clerkId: userData.id },
     data: {
       ...(primaryEmail ? { email: primaryEmail } : {}),
       name: fullName,
       phone: primaryPhone ?? existing.phone,
-      avatar: data.image_url ?? existing.avatar,
+      avatar: userData.image_url ?? existing.avatar,
       emailVerified:
-        data.email_addresses?.find(
+        userData.email_addresses?.find(
           (e: { id: string; verification?: { status: string } }) =>
-            e.id === data.primary_email_address_id,
+            e.id === userData.primary_email_address_id,
         )?.verification?.status === 'verified',
       updatedAt: new Date(),
     },
