@@ -78,13 +78,13 @@ export default function FinancingSection() {
         {/* Header */}
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-6 h-px bg-[#ffb77d]" />
-            <span className="text-[#ffb77d] text-sm font-medium tracking-widest uppercase">Financiamiento</span>
-            <div className="w-6 h-px bg-[#ffb77d]" />
+            <div className="w-6 h-px bg-[#60a5fa]" />
+            <span className="text-[#60a5fa] text-sm font-medium tracking-widest uppercase">Financiamiento</span>
+            <div className="w-6 h-px bg-[#60a5fa]" />
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-[#e2e2e2] mb-4">
             Tu iPhone,{' '}
-            <span className="bg-gradient-to-r from-[#ffb77d] to-[#ff8c00] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#60a5fa] to-[#2563eb] bg-clip-text text-transparent">
               hoy mismo
             </span>
           </h2>
@@ -173,20 +173,20 @@ export default function FinancingSection() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           className="relative overflow-hidden rounded-3xl p-8 md:p-12 text-center"
-          style={{ background: 'linear-gradient(135deg, rgba(255,140,0,0.1) 0%, rgba(31,31,31,0.9) 100%)', border: '1px solid rgba(255,183,125,0.2)' }}
+          style={{ background: 'linear-gradient(135deg, rgba(37, 99, 235,0.1) 0%, rgba(31,31,31,0.9) 100%)', border: '1px solid rgba(255,183,125,0.2)' }}
         >
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute -top-10 -right-10 w-60 h-60 rounded-full opacity-10"
-              style={{ background: 'radial-gradient(circle, #ff8c00 0%, transparent 70%)' }} />
+              style={{ background: 'radial-gradient(circle, #2563eb 0%, transparent 70%)' }} />
           </div>
           <div className="relative z-10">
-            <p className="text-[#ffb77d] text-sm font-medium tracking-widest uppercase mb-3">Calculadora de financiamiento</p>
+            <p className="text-[#60a5fa] text-sm font-medium tracking-widest uppercase mb-3">Calculadora de financiamiento</p>
             <h3 className="text-3xl font-bold text-[#e2e2e2] mb-3">
               ¿Cuánto pagarías al mes?
             </h3>
             <p className="text-[#e2e2e2]/50 mb-6">Calcula tu mensualidad en segundos para cualquier equipo.</p>
             <Link href="/financing/calculator"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[#ff8c00] hover:bg-[#ffb77d] text-[#131313] font-bold rounded-full transition-all hover:shadow-[0_0_30px_rgba(255,140,0,0.4)]">
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[#2563eb] hover:bg-[#60a5fa] text-[#131313] font-bold rounded-full transition-all hover:shadow-[0_0_30px_rgba(37, 99, 235,0.4)]">
               Calcular mensualidad
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />

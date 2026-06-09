@@ -13,12 +13,12 @@ export default function Hero() {
         <motion.div
           animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-40 -right-40 w-[700px] h-[700px] rounded-full bg-[#ff8c00] blur-[120px]"
+          className="absolute -top-40 -right-40 w-[700px] h-[700px] rounded-full bg-[#2563eb] blur-[120px]"
         />
         <motion.div
           animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.2, 0.1] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#ff8c00] blur-[140px]"
+          className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#2563eb] blur-[140px]"
         />
         <div
           className="absolute inset-0 opacity-[0.03]"
@@ -40,8 +40,8 @@ export default function Hero() {
               transition={{ duration: 0.5 }}
               className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 w-fit"
             >
-              <Zap className="w-4 h-4 text-[#ffb77d]" fill="#ffb77d" />
-              <span className="text-sm text-[#ffb77d] font-medium">
+              <Zap className="w-4 h-4 text-[#60a5fa]" fill="#60a5fa" />
+              <span className="text-sm text-[#60a5fa] font-medium">
                 Nuevos lanzamientos disponibles
               </span>
             </motion.div>
@@ -54,7 +54,7 @@ export default function Hero() {
             >
               <span className="text-white">Tecnología</span>
               <br />
-              <span className="bg-gradient-to-r from-[#ffb77d] via-[#ff8c00] to-[#ffb77d] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#60a5fa] via-[#2563eb] to-[#60a5fa] bg-clip-text text-transparent">
                 que inspira
               </span>
             </motion.h1>
@@ -77,7 +77,7 @@ export default function Hero() {
             >
               <Link
                 href="/productos"
-                className="group inline-flex items-center gap-2 bg-gradient-to-r from-[#ff8c00] to-[#ffb77d] text-black font-bold px-8 py-4 rounded-full text-base transition-all hover:shadow-[0_0_30px_rgba(255,140,0,0.4)] hover:scale-105 active:scale-95"
+                className="group inline-flex items-center gap-2 bg-gradient-to-r from-[#2563eb] to-[#60a5fa] text-black font-bold px-8 py-4 rounded-full text-base transition-all hover:shadow-[0_0_30px_rgba(37, 99, 235,0.4)] hover:scale-105 active:scale-95"
               >
                 Ver Colección
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -102,7 +102,7 @@ export default function Hero() {
                 { value: "24h", label: "Envío express" },
               ].map((stat) => (
                 <div key={stat.label} className="flex flex-col">
-                  <span className="text-2xl font-black text-[#ffb77d]">{stat.value}</span>
+                  <span className="text-2xl font-black text-[#60a5fa]">{stat.value}</span>
                   <span className="text-xs text-white/40 mt-0.5">{stat.label}</span>
                 </div>
               ))}
@@ -116,16 +116,16 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="relative flex items-center justify-center"
           >
-            <div className="absolute w-72 h-72 rounded-full bg-[#ff8c00] opacity-20 blur-[80px]" />
+            <div className="absolute w-72 h-72 rounded-full bg-[#2563eb] opacity-20 blur-[80px]" />
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="absolute w-[380px] h-[380px] rounded-full border border-[#ff8c00]/10"
+              className="absolute w-[380px] h-[380px] rounded-full border border-[#2563eb]/10"
             />
             <motion.div
               animate={{ rotate: -360 }}
               transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-              className="absolute w-[460px] h-[460px] rounded-full border border-[#ff8c00]/5"
+              className="absolute w-[460px] h-[460px] rounded-full border border-[#2563eb]/5"
             />
 
             <motion.div
@@ -154,7 +154,7 @@ export default function Hero() {
                   </div>
                   <div className="px-4 pt-2 relative">
                     <div className="absolute inset-0 bg-gradient-to-b from-[#1a0a00] via-[#0d0d0d] to-[#0a0a0a]" />
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-[#ff8c00] opacity-30 blur-[40px]" />
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-[#2563eb] opacity-30 blur-[40px]" />
                     <div className="relative z-10 grid grid-cols-4 gap-3 mt-4">
                       {Array.from({ length: 12 }).map((_, i) => (
                         <div
@@ -172,7 +172,7 @@ export default function Hero() {
                   </div>
                 </div>
               </div>
-              <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-40 h-4 bg-[#ff8c00] opacity-20 blur-xl rounded-full" />
+              <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-40 h-4 bg-[#2563eb] opacity-20 blur-xl rounded-full" />
             </motion.div>
 
             {/* Floating badges */}
@@ -183,7 +183,7 @@ export default function Hero() {
               className="absolute top-16 right-0 lg:-right-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-4 py-3"
             >
               <div className="text-xs text-white/50">Precio desde</div>
-              <div className="text-lg font-black text-[#ffb77d]">$4,999 MXN</div>
+              <div className="text-lg font-black text-[#60a5fa]">$4,999 MXN</div>
             </motion.div>
 
             <motion.div
@@ -216,7 +216,7 @@ export default function Hero() {
           transition={{ duration: 1.5, repeat: Infinity }}
           className="w-5 h-8 border-2 border-white/20 rounded-full flex items-start justify-center p-1"
         >
-          <div className="w-1.5 h-1.5 bg-[#ff8c00] rounded-full" />
+          <div className="w-1.5 h-1.5 bg-[#2563eb] rounded-full" />
         </motion.div>
       </motion.div>
     </section>

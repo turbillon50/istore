@@ -69,11 +69,11 @@ export default function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-2 flex flex-col gap-5">
             <Link href="/" className="flex items-center gap-2.5 w-fit">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#ff8c00] to-[#ffb77d] flex items-center justify-center shadow-[0_0_16px_rgba(255,140,0,0.3)]">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2563eb] to-[#60a5fa] flex items-center justify-center shadow-[0_0_16px_rgba(37, 99, 235,0.3)]">
                 <Zap className="w-5 h-5 text-black" fill="black" />
               </div>
               <span className="text-white font-black text-xl tracking-tight">
-                iStore<span className="text-[#ff8c00]">Pro</span>
+                iStore<span className="text-[#2563eb]">Pro</span>
               </span>
             </Link>
 
@@ -85,24 +85,24 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               <a
                 href="tel:+525512345678"
-                className="flex items-center gap-3 text-sm text-white/40 hover:text-[#ffb77d] transition-colors group"
+                className="flex items-center gap-3 text-sm text-white/40 hover:text-[#60a5fa] transition-colors group"
               >
-                <Phone className="w-4 h-4 text-[#ff8c00]/60 group-hover:text-[#ff8c00]" />
+                <Phone className="w-4 h-4 text-[#2563eb]/60 group-hover:text-[#2563eb]" />
                 +52 55 1234 5678
               </a>
               <a
                 href="mailto:hola@i-store.shop"
-                className="flex items-center gap-3 text-sm text-white/40 hover:text-[#ffb77d] transition-colors group"
+                className="flex items-center gap-3 text-sm text-white/40 hover:text-[#60a5fa] transition-colors group"
               >
-                <Mail className="w-4 h-4 text-[#ff8c00]/60 group-hover:text-[#ff8c00]" />
+                <Mail className="w-4 h-4 text-[#2563eb]/60 group-hover:text-[#2563eb]" />
                 hola@i-store.shop
               </a>
               <div className="flex items-start gap-3 text-sm text-white/40">
-                <Clock className="w-4 h-4 text-[#ff8c00]/60 mt-0.5 shrink-0" />
+                <Clock className="w-4 h-4 text-[#2563eb]/60 mt-0.5 shrink-0" />
                 <span>Lun-Vie 9am–8pm · Sáb 10am–6pm</span>
               </div>
               <div className="flex items-start gap-3 text-sm text-white/40">
-                <MapPin className="w-4 h-4 text-[#ff8c00]/60 mt-0.5 shrink-0" />
+                <MapPin className="w-4 h-4 text-[#2563eb]/60 mt-0.5 shrink-0" />
                 <span>Ciudad de México · Guadalajara · Monterrey</span>
               </div>
             </div>
@@ -118,7 +118,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={sl.label}
-                  className="w-9 h-9 rounded-full bg-white/5 border border-white/8 flex items-center justify-center text-white/40 hover:text-[#ffb77d] hover:bg-[#ff8c00]/10 hover:border-[#ff8c00]/30 transition-all"
+                  className="w-9 h-9 rounded-full bg-white/5 border border-white/8 flex items-center justify-center text-white/40 hover:text-[#60a5fa] hover:bg-[#2563eb]/10 hover:border-[#2563eb]/30 transition-all"
                 >
                   <SlIcon className="w-4 h-4" />
                 </a>
@@ -138,7 +138,7 @@ export default function Footer() {
                   <li key={label}>
                     <Link
                       href={href}
-                      className="text-sm text-white/35 hover:text-[#ffb77d] transition-colors"
+                      className="text-sm text-white/35 hover:text-[#60a5fa] transition-colors"
                     >
                       {label}
                     </Link>

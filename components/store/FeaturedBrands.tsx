@@ -36,8 +36,8 @@ export default function FeaturedBrands() {
     <section className="py-16 bg-[#0e0e0e] overflow-hidden">
       <div className="container mx-auto px-6 lg:px-16 mb-10">
         <div className="flex items-center gap-2 mb-3">
-          <div className="w-6 h-px bg-[#ffb77d]" />
-          <span className="text-[#ffb77d] text-sm font-medium tracking-widest uppercase">
+          <div className="w-6 h-px bg-[#60a5fa]" />
+          <span className="text-[#60a5fa] text-sm font-medium tracking-widest uppercase">
             Marcas
           </span>
         </div>
@@ -76,7 +76,7 @@ export default function FeaturedBrands() {
                 {/* Glow on hover */}
                 <div
                   className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ boxShadow: '0 0 25px rgba(255,140,0,0.2)', border: '1px solid rgba(255,183,125,0.3)' }}
+                  style={{ boxShadow: '0 0 25px rgba(37, 99, 235,0.2)', border: '1px solid rgba(255,183,125,0.3)' }}
                 />
 
                 {/* Brand display */}
@@ -104,7 +104,7 @@ export default function FeaturedBrands() {
                 >
                   <span
                     className="text-lg font-bold tracking-tight"
-                    style={{ color: brand.accent || '#ffb77d' }}
+                    style={{ color: brand.accent || '#60a5fa' }}
                   >
                     {brand.logoText || brand.name}
                   </span>
@@ -128,7 +128,7 @@ export default function FeaturedBrands() {
                   border: '1px solid rgba(255,183,125,0.06)',
                 }}
               >
-                <span className="text-[#e2e2e2]/30 group-hover:text-[#ffb77d] text-xs font-semibold transition-colors duration-300 truncate px-2">
+                <span className="text-[#e2e2e2]/30 group-hover:text-[#60a5fa] text-xs font-semibold transition-colors duration-300 truncate px-2">
                   {brand.name}
                 </span>
               </motion.div>

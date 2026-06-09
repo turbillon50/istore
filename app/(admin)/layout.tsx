@@ -119,7 +119,7 @@ function UserMenu(props: ClosePanelProps) {
       <div className="px-3 py-3 border-b border-[#1a1a1a]">
         <p className="text-xs font-semibold text-[#e5e5e5]">Admin User</p>
         <p className="text-[11px] text-[#525252] mt-0.5">admin@istore.mx</p>
-        <span className="inline-block mt-1.5 text-[10px] font-bold text-[#f97316] bg-[#f97316]/10 px-1.5 py-0.5 rounded">
+        <span className="inline-block mt-1.5 text-[10px] font-bold text-[#3b82f6] bg-[#3b82f6]/10 px-1.5 py-0.5 rounded">
           SUPER ADMIN
         </span>
       </div>
@@ -168,14 +168,14 @@ function NotifPanel(props: ClosePanelProps) {
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold text-[#e5e5e5]">Notificaciones</span>
           {unread > 0 && (
-            <span className="text-[10px] font-bold bg-[#f97316] text-white px-1.5 py-0.5 rounded-full">
+            <span className="text-[10px] font-bold bg-[#3b82f6] text-white px-1.5 py-0.5 rounded-full">
               {unread}
             </span>
           )}
         </div>
         <button
           onClick={onClose}
-          className="text-[10px] text-[#f97316] hover:underline"
+          className="text-[10px] text-[#3b82f6] hover:underline"
         >
           Marcar todo leido
         </button>
@@ -200,7 +200,7 @@ function NotifPanel(props: ClosePanelProps) {
       <div className="px-4 py-2.5 border-t border-[#1a1a1a]">
         <button
           onClick={onClose}
-          className="text-xs text-[#f97316] hover:underline"
+          className="text-xs text-[#3b82f6] hover:underline"
         >
           Ver todas las notificaciones
         </button>
@@ -317,7 +317,7 @@ export default function AdminLayout(props: { children: React.ReactNode }) {
               >
                 <Bell className="w-4 h-4" />
                 {unreadCount > 0 && (
-                  <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-[#f97316] rounded-full" />
+                  <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-[#3b82f6] rounded-full" />
                 )}
               </button>
               <AnimatePresence>
@@ -334,7 +334,7 @@ export default function AdminLayout(props: { children: React.ReactNode }) {
                 className="flex items-center gap-2 p-1 rounded-lg hover:bg-[#1a1a1a] transition-colors"
                 aria-label="Menu de usuario"
               >
-                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#f97316] to-[#c2410c] flex items-center justify-center text-white text-xs font-bold">
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#3b82f6] to-[#c2410c] flex items-center justify-center text-white text-xs font-bold">
                   A
                 </div>
               </button>

@@ -102,12 +102,12 @@ export default function TradeInSection() {
             transition={{ duration: 0.6 }}
           >
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-6 h-px bg-[#ffb77d]" />
-              <span className="text-[#ffb77d] text-sm font-medium tracking-widest uppercase">Trade-In</span>
+              <div className="w-6 h-px bg-[#60a5fa]" />
+              <span className="text-[#60a5fa] text-sm font-medium tracking-widest uppercase">Trade-In</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-[#e2e2e2] mb-5">
               Entrega tu equipo,{' '}
-              <span className="bg-gradient-to-r from-[#ffb77d] to-[#ff8c00] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#60a5fa] to-[#2563eb] bg-clip-text text-transparent">
                 estrena uno nuevo
               </span>
             </h2>
@@ -124,8 +124,8 @@ export default function TradeInSection() {
                 { n: '04', text: 'Aplica el crédito a tu próximo equipo' },
               ].map((step) => (
                 <div key={step.n} className="flex items-center gap-4">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center flex-none text-xs font-bold text-[#ff8c00]"
-                    style={{ background: 'rgba(255,140,0,0.1)', border: '1px solid rgba(255,183,125,0.2)' }}>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center flex-none text-xs font-bold text-[#2563eb]"
+                    style={{ background: 'rgba(37, 99, 235,0.1)', border: '1px solid rgba(255,183,125,0.2)' }}>
                     {step.n}
                   </div>
                   <p className="text-[#e2e2e2]/70">{step.text}</p>
@@ -157,8 +157,8 @@ export default function TradeInSection() {
                   onClick={() => { setBrandFilter(b); setSelectedModel(null) }}
                   className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                     brandFilter === b
-                      ? 'bg-[#ff8c00] text-[#131313]'
-                      : 'border border-[#ffb77d]/20 text-[#e2e2e2]/60 hover:border-[#ffb77d]/50'
+                      ? 'bg-[#2563eb] text-[#131313]'
+                      : 'border border-[#60a5fa]/20 text-[#e2e2e2]/60 hover:border-[#60a5fa]/50'
                   }`}
                 >
                   {b === 'all' ? 'Todos' : b}
@@ -176,8 +176,8 @@ export default function TradeInSection() {
                     onClick={() => { setSelectedModel(model); setSelectedCondition(null) }}
                     className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-left transition-all ${
                       selectedModel?.id === model.id
-                        ? 'bg-[#ff8c00]/20 border border-[#ff8c00]/50 text-[#ffb77d]'
-                        : 'border border-[#e2e2e2]/8 text-[#e2e2e2]/70 hover:border-[#ffb77d]/30 hover:bg-[#ffb77d]/5'
+                        ? 'bg-[#2563eb]/20 border border-[#2563eb]/50 text-[#60a5fa]'
+                        : 'border border-[#e2e2e2]/8 text-[#e2e2e2]/70 hover:border-[#60a5fa]/30 hover:bg-[#60a5fa]/5'
                     }`}
                   >
                     <span className="text-sm font-medium">{model.brand} {model.model}</span>
@@ -204,12 +204,12 @@ export default function TradeInSection() {
                         onClick={() => setSelectedCondition(c.key)}
                         className={`flex flex-col items-start p-3 rounded-xl transition-all ${
                           selectedCondition === c.key
-                            ? 'bg-[#ff8c00]/20 border border-[#ff8c00]/50'
-                            : 'border border-[#e2e2e2]/8 hover:border-[#ffb77d]/30'
+                            ? 'bg-[#2563eb]/20 border border-[#2563eb]/50'
+                            : 'border border-[#e2e2e2]/8 hover:border-[#60a5fa]/30'
                         }`}
                       >
                         <span className="text-lg mb-1">{c.icon}</span>
-                        <span className={`text-sm font-semibold ${selectedCondition === c.key ? 'text-[#ffb77d]' : 'text-[#e2e2e2]/80'}`}>
+                        <span className={`text-sm font-semibold ${selectedCondition === c.key ? 'text-[#60a5fa]' : 'text-[#e2e2e2]/80'}`}>
                           {c.label}
                         </span>
                         <span className="text-[#e2e2e2]/40 text-xs">{c.desc}</span>
@@ -228,10 +228,10 @@ export default function TradeInSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   className="mb-6 p-4 rounded-2xl text-center"
-                  style={{ background: 'rgba(255,140,0,0.08)', border: '1px solid rgba(255,183,125,0.25)' }}
+                  style={{ background: 'rgba(37, 99, 235,0.08)', border: '1px solid rgba(255,183,125,0.25)' }}
                 >
                   <p className="text-[#e2e2e2]/50 text-xs uppercase tracking-wider mb-2">Valor estimado de trade-in</p>
-                  <div className="text-5xl font-black text-[#ff8c00] mb-1">
+                  <div className="text-5xl font-black text-[#2563eb] mb-1">
                     ${estimatedValue.toLocaleString('es-MX')}
                   </div>
                   <p className="text-[#e2e2e2]/40 text-xs">*Sujeto a inspección física final</p>
@@ -243,8 +243,8 @@ export default function TradeInSection() {
               href={estimatedValue ? `/trade-in/start?model=${selectedModel?.id}&condition=${selectedCondition}` : '/trade-in'}
               className={`w-full py-4 font-bold rounded-full text-center block transition-all ${
                 estimatedValue
-                  ? 'bg-[#ff8c00] hover:bg-[#ffb77d] text-[#131313] hover:shadow-[0_0_25px_rgba(255,140,0,0.4)]'
-                  : 'border border-[#ffb77d]/20 text-[#e2e2e2]/40 cursor-default'
+                  ? 'bg-[#2563eb] hover:bg-[#60a5fa] text-[#131313] hover:shadow-[0_0_25px_rgba(37, 99, 235,0.4)]'
+                  : 'border border-[#60a5fa]/20 text-[#e2e2e2]/40 cursor-default'
               }`}
             >
               {estimatedValue ? 'Iniciar mi Trade-In' : 'Selecciona tu equipo para comenzar'}

@@ -216,7 +216,7 @@ export default function InventarioPage() {
           <h1 className="text-xl font-semibold text-[#e5e5e5]">Inventario</h1>
           <p className="text-sm text-[#525252] mt-0.5">{MOCK.length} productos · {totalUnits.toLocaleString()} unidades totales</p>
         </div>
-        <button className="flex items-center gap-2 px-3 py-2 bg-[#ff8c00] rounded-lg text-sm text-white font-medium hover:bg-[#e07000] transition-colors">
+        <button className="flex items-center gap-2 px-3 py-2 bg-[#2563eb] rounded-lg text-sm text-white font-medium hover:bg-[#e07000] transition-colors">
           <ArrowUpDown className="w-4 h-4" />
           Ajuste masivo
         </button>
@@ -241,7 +241,7 @@ export default function InventarioPage() {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar producto o SKU..."
               className="w-full bg-[#111] border border-[#262626] rounded-lg pl-9 pr-3 py-2 text-xs text-[#e5e5e5] placeholder:text-[#525252]
-                focus:outline-none focus:border-[#ff8c00] transition-colors"
+                focus:outline-none focus:border-[#2563eb] transition-colors"
             />
           </div>
 
@@ -250,7 +250,7 @@ export default function InventarioPage() {
               value={branch}
               onChange={(e) => setBranch(e.target.value)}
               className="appearance-none bg-[#1a1a1a] border border-[#262626] text-[#a3a3a3] text-xs rounded-lg pl-3 pr-7 py-2
-                focus:outline-none focus:border-[#ff8c00] hover:border-[#333] transition-colors cursor-pointer"
+                focus:outline-none focus:border-[#2563eb] hover:border-[#333] transition-colors cursor-pointer"
             >
               {BRANCHES.map((b) => <option key={b} value={b}>{b}</option>)}
             </select>
@@ -354,7 +354,7 @@ export default function InventarioPage() {
                   <ArrowUpDown className="w-4 h-4 text-[#525252]" />
                   <div className="flex-1 text-center">
                     <p className="text-xs text-[#525252] mb-1">Nuevo</p>
-                    <p className="text-2xl font-bold text-[#ff8c00]">{adjustItem.available + Number(adjustQty)}</p>
+                    <p className="text-2xl font-bold text-[#2563eb]">{adjustItem.available + Number(adjustQty)}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 mb-4">
@@ -367,7 +367,7 @@ export default function InventarioPage() {
                     value={adjustQty}
                     onChange={(e) => setAdjustQty(e.target.value)}
                     className="flex-1 text-center bg-[#1a1a1a] border border-[#262626] rounded-lg py-2 text-sm text-[#e5e5e5]
-                      focus:outline-none focus:border-[#ff8c00] transition-colors"
+                      focus:outline-none focus:border-[#2563eb] transition-colors"
                   />
                   <button onClick={() => setAdjustQty((v) => String(Number(v) + 1))}
                     className="p-2 bg-[#1a1a1a] border border-[#262626] rounded-lg text-[#e5e5e5] hover:bg-[#262626] transition-colors">
@@ -378,7 +378,7 @@ export default function InventarioPage() {
                   placeholder="Motivo del ajuste..."
                   rows={2}
                   className="w-full bg-[#1a1a1a] border border-[#262626] rounded-lg px-3 py-2 text-xs text-[#e5e5e5] placeholder:text-[#525252]
-                    focus:outline-none focus:border-[#ff8c00] transition-colors resize-none mb-4"
+                    focus:outline-none focus:border-[#2563eb] transition-colors resize-none mb-4"
                 />
                 <div className="flex items-center gap-3">
                   <button onClick={() => setAdjustItem(null)}
@@ -386,7 +386,7 @@ export default function InventarioPage() {
                     Cancelar
                   </button>
                   <button onClick={() => setAdjustItem(null)}
-                    className="flex-1 py-2 bg-[#ff8c00] text-white text-sm font-medium rounded-lg hover:bg-[#e07000] transition-colors">
+                    className="flex-1 py-2 bg-[#2563eb] text-white text-sm font-medium rounded-lg hover:bg-[#e07000] transition-colors">
                     Aplicar ajuste
                   </button>
                 </div>

@@ -110,7 +110,7 @@ const INITIAL_CONFIG: StoreConfig = {
   defaultCurrency: 'MXN', timezone: 'America/Mexico_City',
   facebook: 'istorepro', instagram: 'istorepro', twitter: 'istorepro', youtube: '', tiktok: '@istorepro', whatsapp: '+525512345678',
 
-  primaryColor: '#f97316', secondaryColor: '#1e293b', accentColor: '#0ea5e9',
+  primaryColor: '#3b82f6', secondaryColor: '#1e293b', accentColor: '#0ea5e9',
   defaultMode: 'dark', fontHeading: 'Inter', fontBody: 'Inter', customCss: '',
   borderRadius: '0.5',
 

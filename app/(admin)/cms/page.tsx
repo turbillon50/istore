@@ -209,7 +209,7 @@ const INITIAL_CONFIG: SiteConfig = {
   storeName: 'iStore Pro', logo: '', favicon: '',
   contactEmail: 'hola@istore.pro', contactPhone: '+52 55 1234 5678',
   address: 'Av. Tecnológica 123, CDMX', currency: 'MXN', timezone: 'America/Mexico_City',
-  primaryColor: '#f97316', secondaryColor: '#1e293b',
+  primaryColor: '#3b82f6', secondaryColor: '#1e293b',
   facebook: 'istoRepro', instagram: 'istorepro', twitter: 'istorepro', youtube: '', tiktok: '', whatsapp: '+525512345678',
 }
 

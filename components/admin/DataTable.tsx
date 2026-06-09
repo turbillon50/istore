@@ -104,7 +104,7 @@ function ColumnVisibilityMenu({
           >
             <div
               className={col.getIsVisible()
-                ? "w-3.5 h-3.5 rounded border flex items-center justify-center flex-shrink-0 transition-colors bg-[#f97316] border-[#f97316]"
+                ? "w-3.5 h-3.5 rounded border flex items-center justify-center flex-shrink-0 transition-colors bg-[#3b82f6] border-[#3b82f6]"
                 : "w-3.5 h-3.5 rounded border flex items-center justify-center flex-shrink-0 transition-colors border-[#404040]"}
               onClick={(e) => {
                 e.preventDefault();
@@ -145,7 +145,7 @@ function ExportMenu({
         onClick={() => { onCSV(); onClose(); }}
         className="w-full flex items-center gap-2.5 px-3 py-1.5 text-xs text-[#a3a3a3] hover:text-[#e5e5e5] hover:bg-[#1a1a1a] transition-colors"
       >
-        <FileText className="w-3.5 h-3.5 text-[#f97316]" />
+        <FileText className="w-3.5 h-3.5 text-[#3b82f6]" />
         Exportar CSV
       </button>
       <button
@@ -189,15 +189,15 @@ export default function DataTable({
         className="flex items-center justify-center"
       >
         {table.getIsAllPageRowsSelected() ? (
-          <div className="w-4 h-4 rounded bg-[#f97316] flex items-center justify-center">
+          <div className="w-4 h-4 rounded bg-[#3b82f6] flex items-center justify-center">
             <Check className="w-2.5 h-2.5 text-white" />
           </div>
         ) : table.getIsSomePageRowsSelected() ? (
-          <div className="w-4 h-4 rounded bg-[#f97316]/50 border border-[#f97316] flex items-center justify-center">
+          <div className="w-4 h-4 rounded bg-[#3b82f6]/50 border border-[#3b82f6] flex items-center justify-center">
             <Minus className="w-2.5 h-2.5 text-white" />
           </div>
         ) : (
-          <div className="w-4 h-4 rounded border border-[#333] hover:border-[#f97316] transition-colors" />
+          <div className="w-4 h-4 rounded border border-[#333] hover:border-[#3b82f6] transition-colors" />
         )}
       </button>
     ),
@@ -207,11 +207,11 @@ export default function DataTable({
         className="flex items-center justify-center"
       >
         {row.getIsSelected() ? (
-          <div className="w-4 h-4 rounded bg-[#f97316] flex items-center justify-center">
+          <div className="w-4 h-4 rounded bg-[#3b82f6] flex items-center justify-center">
             <Check className="w-2.5 h-2.5 text-white" />
           </div>
         ) : (
-          <div className="w-4 h-4 rounded border border-[#333] hover:border-[#f97316] transition-colors" />
+          <div className="w-4 h-4 rounded border border-[#333] hover:border-[#3b82f6] transition-colors" />
         )}
       </button>
     ),
@@ -405,7 +405,7 @@ export default function DataTable({
                 <tr
                   key={row.id}
                   className={row.getIsSelected()
-                    ? "border-b border-[#1a1a1a] bg-[#f97316]/5"
+                    ? "border-b border-[#1a1a1a] bg-[#3b82f6]/5"
                     : "border-b border-[#1a1a1a] hover:bg-[#111] transition-colors"}
                 >
                   {row.getVisibleCells().map((cell) => (

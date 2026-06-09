@@ -222,12 +222,12 @@ export default function ServiciosPage() {
     <div className="min-h-screen bg-[#131313] text-white">
       {/* Hero */}
       <section className="relative bg-gradient-to-b from-[#1a1a1a] to-[#131313] py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,140,0,0.08),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(37, 99, 235,0.08),transparent_70%)]" />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 bg-[#ff8c00]/10 border border-[#ff8c00]/20 text-[#ffb77d] text-xs font-semibold px-4 py-2 rounded-full mb-6"
+            className="inline-flex items-center gap-2 bg-[#2563eb]/10 border border-[#2563eb]/20 text-[#60a5fa] text-xs font-semibold px-4 py-2 rounded-full mb-6"
           >
             <Wrench className="w-3.5 h-3.5" />
             Centro de Servicio Técnico Certificado
@@ -240,7 +240,7 @@ export default function ServiciosPage() {
           >
             Reparamos tu equipo
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff8c00] to-[#ffb77d]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563eb] to-[#60a5fa]">
               como el primer día
             </span>
           </motion.h1>
@@ -267,7 +267,7 @@ export default function ServiciosPage() {
               const SvcIcon = svc.icon;
               return (
               <div key={svc.text} className="flex items-center gap-1.5">
-                <SvcIcon className="w-4 h-4 text-[#ffb77d]" />
+                <SvcIcon className="w-4 h-4 text-[#60a5fa]" />
                 {svc.text}
               </div>
               );
@@ -288,15 +288,15 @@ export default function ServiciosPage() {
               viewport={{ once: true }}
               transition={{ delay: idx * 0.05 }}
               whileHover={{ y: -4 }}
-              className="relative bg-white/[0.03] border border-white/[0.07] rounded-2xl p-5 hover:border-[#ff8c00]/30 hover:bg-white/[0.05] transition-all group"
+              className="relative bg-white/[0.03] border border-white/[0.07] rounded-2xl p-5 hover:border-[#2563eb]/30 hover:bg-white/[0.05] transition-all group"
             >
               {service.popular && (
-                <span className="absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 bg-[#ff8c00]/15 text-[#ffb77d] border border-[#ff8c00]/20 rounded-full">
+                <span className="absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 bg-[#2563eb]/15 text-[#60a5fa] border border-[#2563eb]/20 rounded-full">
                   Popular
                 </span>
               )}
-              <div className="w-11 h-11 rounded-xl bg-[#ff8c00]/10 flex items-center justify-center mb-4 group-hover:bg-[#ff8c00]/20 transition-colors">
-                <service.icon className="w-5 h-5 text-[#ffb77d]" />
+              <div className="w-11 h-11 rounded-xl bg-[#2563eb]/10 flex items-center justify-center mb-4 group-hover:bg-[#2563eb]/20 transition-colors">
+                <service.icon className="w-5 h-5 text-[#60a5fa]" />
               </div>
               <h3 className="font-bold text-sm text-white mb-2">{service.name}</h3>
               <p className="text-xs text-white/50 mb-4 leading-relaxed">{service.description}</p>
@@ -365,8 +365,8 @@ export default function ServiciosPage() {
           {/* Track repair */}
           <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-[#ff8c00]/10 flex items-center justify-center">
-                <Search className="w-5 h-5 text-[#ffb77d]" />
+              <div className="w-10 h-10 rounded-xl bg-[#2563eb]/10 flex items-center justify-center">
+                <Search className="w-5 h-5 text-[#60a5fa]" />
               </div>
               <div>
                 <h2 className="font-bold text-white">Rastrear mi reparación</h2>
@@ -381,15 +381,15 @@ export default function ServiciosPage() {
                 onChange={(e) => { setTrackFolio(e.target.value); setTrackResult(null); }}
                 onKeyDown={(e) => e.key === "Enter" && handleTrack()}
                 placeholder="Ej: SRV-20241115-001"
-                className="flex-1 bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#ff8c00]/40 transition-all"
+                className="flex-1 bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#2563eb]/40 transition-all"
               />
               <button
                 onClick={handleTrack}
                 disabled={!trackFolio.trim() || trackLoading}
-                className="px-5 py-3 bg-[#ff8c00]/15 border border-[#ff8c00]/30 text-[#ffb77d] font-semibold text-sm rounded-xl hover:bg-[#ff8c00]/25 disabled:opacity-50 transition-all"
+                className="px-5 py-3 bg-[#2563eb]/15 border border-[#2563eb]/30 text-[#60a5fa] font-semibold text-sm rounded-xl hover:bg-[#2563eb]/25 disabled:opacity-50 transition-all"
               >
                 {trackLoading ? (
-                  <div className="w-4 h-4 border-2 border-[#ffb77d]/40 border-t-[#ffb77d] rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-[#60a5fa]/40 border-t-[#60a5fa] rounded-full animate-spin" />
                 ) : (
                   "Buscar"
                 )}
@@ -435,9 +435,9 @@ export default function ServiciosPage() {
             </AnimatePresence>
 
             {/* Warranty */}
-            <div className="mt-6 bg-[#ff8c00]/5 border border-[#ff8c00]/15 rounded-xl p-4">
+            <div className="mt-6 bg-[#2563eb]/5 border border-[#2563eb]/15 rounded-xl p-4">
               <div className="flex items-center gap-2 mb-2">
-                <Shield className="w-4 h-4 text-[#ffb77d]" />
+                <Shield className="w-4 h-4 text-[#60a5fa]" />
                 <span className="text-sm font-bold text-white">Garantía de servicio</span>
               </div>
               <ul className="text-xs text-white/55 space-y-1">
@@ -453,8 +453,8 @@ export default function ServiciosPage() {
           {/* Service request form */}
           <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-[#ff8c00]/10 flex items-center justify-center">
-                <Wrench className="w-5 h-5 text-[#ffb77d]" />
+              <div className="w-10 h-10 rounded-xl bg-[#2563eb]/10 flex items-center justify-center">
+                <Wrench className="w-5 h-5 text-[#60a5fa]" />
               </div>
               <div>
                 <h2 className="font-bold text-white">Solicitar servicio</h2>
@@ -473,7 +473,7 @@ export default function ServiciosPage() {
                 </div>
                 <h3 className="font-bold text-white mb-2">¡Solicitud enviada!</h3>
                 <p className="text-sm text-white/55">Te contactaremos pronto al número o correo que proporcionaste.</p>
-                <button onClick={() => setSubmitted(false)} className="mt-4 text-xs text-[#ffb77d] hover:underline">
+                <button onClick={() => setSubmitted(false)} className="mt-4 text-xs text-[#60a5fa] hover:underline">
                   Enviar otra solicitud
                 </button>
               </motion.div>
@@ -487,7 +487,7 @@ export default function ServiciosPage() {
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       placeholder="Tu nombre"
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#ff8c00]/40 transition-all"
+                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#2563eb]/40 transition-all"
                     />
                   </div>
                   <div>
@@ -497,7 +497,7 @@ export default function ServiciosPage() {
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
                       placeholder="55 1234 5678"
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#ff8c00]/40 transition-all"
+                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#2563eb]/40 transition-all"
                     />
                   </div>
                 </div>
@@ -510,7 +510,7 @@ export default function ServiciosPage() {
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     placeholder="tu@correo.com"
-                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#ff8c00]/40 transition-all"
+                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#2563eb]/40 transition-all"
                   />
                 </div>
 
@@ -522,7 +522,7 @@ export default function ServiciosPage() {
                       value={form.deviceBrand}
                       onChange={(e) => setForm({ ...form, deviceBrand: e.target.value })}
                       placeholder="Apple, Samsung..."
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#ff8c00]/40 transition-all"
+                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#2563eb]/40 transition-all"
                     />
                   </div>
                   <div>
@@ -532,7 +532,7 @@ export default function ServiciosPage() {
                       value={form.deviceModel}
                       onChange={(e) => setForm({ ...form, deviceModel: e.target.value })}
                       placeholder="iPhone 15 Pro..."
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#ff8c00]/40 transition-all"
+                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#2563eb]/40 transition-all"
                     />
                   </div>
                 </div>
@@ -543,7 +543,7 @@ export default function ServiciosPage() {
                     required
                     value={form.service}
                     onChange={(e) => setForm({ ...form, service: e.target.value })}
-                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#ff8c00]/40 transition-all appearance-none"
+                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#2563eb]/40 transition-all appearance-none"
                   >
                     <option value="" className="bg-[#1e1e1e]">Seleccionar...</option>
                     {SERVICES.map((s) => (
@@ -560,7 +560,7 @@ export default function ServiciosPage() {
                     value={form.problemDesc}
                     onChange={(e) => setForm({ ...form, problemDesc: e.target.value })}
                     placeholder="Describe qué le pasa a tu equipo con el mayor detalle posible..."
-                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#ff8c00]/40 transition-all resize-none"
+                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#2563eb]/40 transition-all resize-none"
                   />
                 </div>
 
@@ -568,7 +568,7 @@ export default function ServiciosPage() {
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-3.5 bg-gradient-to-r from-[#ff8c00] to-[#ffb77d] text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(255,140,0,0.3)] transition-all disabled:opacity-70"
+                  className="w-full py-3.5 bg-gradient-to-r from-[#2563eb] to-[#60a5fa] text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(37, 99, 235,0.3)] transition-all disabled:opacity-70"
                 >
                   {submitting ? (
                     <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />

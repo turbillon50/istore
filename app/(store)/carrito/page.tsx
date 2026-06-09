@@ -179,7 +179,7 @@ export default function CartPage() {
           </p>
           <Link
             href="/productos"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ff8c00] to-[#ffb77d] text-black font-bold px-8 py-3.5 rounded-xl hover:shadow-[0_0_30px_rgba(255,140,0,0.3)] transition-all"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-[#2563eb] to-[#60a5fa] text-black font-bold px-8 py-3.5 rounded-xl hover:shadow-[0_0_30px_rgba(37, 99, 235,0.3)] transition-all"
           >
             <ShoppingCart className="w-5 h-5" />
             Explorar productos
@@ -210,7 +210,7 @@ export default function CartPage() {
             {/* Shipping progress */}
             <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-4">
               <div className="flex items-center gap-2 mb-2">
-                <Truck className="w-4 h-4 text-[#ffb77d]" />
+                <Truck className="w-4 h-4 text-[#60a5fa]" />
                 {shipping === 0 ? (
                   <span className="text-sm font-semibold text-emerald-400">
                     ¡Envío gratis desbloqueado!
@@ -227,7 +227,7 @@ export default function CartPage() {
               </div>
               <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full rounded-full bg-gradient-to-r from-[#ff8c00] to-[#ffb77d]"
+                  className="h-full rounded-full bg-gradient-to-r from-[#2563eb] to-[#60a5fa]"
                   initial={{ width: 0 }}
                   animate={{ width: `${shippingProgress}%` }}
                   transition={{ duration: 0.6, ease: "easeOut" }}
@@ -263,12 +263,12 @@ export default function CartPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <p className="text-xs font-semibold text-[#ffb77d]/70 uppercase tracking-wider mb-0.5">
+                          <p className="text-xs font-semibold text-[#60a5fa]/70 uppercase tracking-wider mb-0.5">
                             {item.brand}
                           </p>
                           <Link
                             href={`/productos/${item.slug}`}
-                            className="font-semibold text-sm text-white hover:text-[#ffb77d] transition-colors line-clamp-2"
+                            className="font-semibold text-sm text-white hover:text-[#60a5fa] transition-colors line-clamp-2"
                           >
                             {item.name}
                           </Link>
@@ -321,7 +321,7 @@ export default function CartPage() {
             {/* Upsell */}
             <div className="mt-8">
               <div className="flex items-center gap-2 mb-4">
-                <Sparkles className="w-4 h-4 text-[#ffb77d]" />
+                <Sparkles className="w-4 h-4 text-[#60a5fa]" />
                 <h2 className="text-base font-bold text-white">También te puede interesar</h2>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -372,15 +372,15 @@ export default function CartPage() {
                         onChange={(e) => { setCoupon(e.target.value); setCouponError(""); }}
                         onKeyDown={(e) => e.key === "Enter" && applyCoupon()}
                         placeholder="Código de descuento"
-                        className="flex-1 bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#ff8c00]/40 transition-all"
+                        className="flex-1 bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#2563eb]/40 transition-all"
                       />
                       <button
                         onClick={applyCoupon}
                         disabled={!coupon.trim() || couponLoading}
-                        className="px-4 py-2.5 bg-[#ff8c00]/15 border border-[#ff8c00]/30 text-[#ffb77d] text-sm font-semibold rounded-xl hover:bg-[#ff8c00]/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
+                        className="px-4 py-2.5 bg-[#2563eb]/15 border border-[#2563eb]/30 text-[#60a5fa] text-sm font-semibold rounded-xl hover:bg-[#2563eb]/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
                       >
                         {couponLoading ? (
-                          <div className="w-4 h-4 border-2 border-[#ffb77d]/50 border-t-[#ffb77d] rounded-full animate-spin" />
+                          <div className="w-4 h-4 border-2 border-[#60a5fa]/50 border-t-[#60a5fa] rounded-full animate-spin" />
                         ) : (
                           <><Tag className="w-3.5 h-3.5" />Aplicar</>
                         )}
@@ -443,7 +443,7 @@ export default function CartPage() {
               {/* CTA */}
               <Link
                 href="/checkout"
-                className="mt-5 w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#ff8c00] to-[#ffb77d] text-black font-bold py-4 rounded-xl hover:shadow-[0_0_30px_rgba(255,140,0,0.3)] transition-all"
+                className="mt-5 w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#2563eb] to-[#60a5fa] text-black font-bold py-4 rounded-xl hover:shadow-[0_0_30px_rgba(37, 99, 235,0.3)] transition-all"
               >
                 Proceder al pago
                 <ChevronRight className="w-5 h-5" />

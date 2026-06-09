@@ -8,9 +8,9 @@
 @layer base {
   :root {
     /* Brand */
-    --primary:           #ff8c00;
-    --primary-light:     #ffb77d;
-    --primary-dark:      #ea7000;
+    --primary:           #2563eb;
+    --primary-light:     #60a5fa;
+    --primary-dark:      #1d4ed8;
     --primary-foreground:#ffffff;
 
     /* Surfaces */
@@ -28,7 +28,7 @@
 
     /* Semantic */
     --success:  #22c55e;
-    --warning:  #f59e0b;
+    --warning:  #2563eb;
     --danger:   #ef4444;
     --info:     #3b82f6;
 
@@ -42,19 +42,19 @@
     --card-foreground:    0 0% 96%;
     --popover:            0 0% 14%;     /* #242424 */
     --popover-foreground: 0 0% 96%;
-    --primary-hsl:        33 100% 50%;  /* #ff8c00 */
+    --primary-hsl:        221 83% 53%;  /* #2563eb */
     --primary-foreground-hsl: 0 0% 100%;
     --secondary:          0 0% 17%;
     --secondary-foreground: 0 0% 96%;
     --muted:              0 0% 17%;
     --muted-foreground:   0 0% 66%;     /* #a8a8a8 */
-    --accent:             33 100% 50%;
+    --accent:             221 83% 53%;
     --accent-foreground:  0 0% 100%;
     --destructive:        0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --border:             0 0% 18%;
     --input:              0 0% 18%;
-    --ring:               33 100% 50%;
+    --ring:               221 83% 53%;
   }
 
   /* Light mode override (minimal — app is dark-first) */
@@ -136,7 +136,7 @@
 
   /* Selection */
   ::selection {
-    background-color: rgba(255, 140, 0, 0.3);
+    background-color: rgba(37, 99, 235, 0.3);
     color: #ffffff;
   }
 }
@@ -198,20 +198,20 @@
   /* Ember orange glow */
   .orange-glow {
     box-shadow:
-      0 0 8px 2px rgba(255, 140, 0, 0.35),
-      0 0 24px 6px rgba(255, 140, 0, 0.15);
+      0 0 8px 2px rgba(37, 99, 235, 0.35),
+      0 0 24px 6px rgba(37, 99, 235, 0.15);
     transition: box-shadow 0.3s ease;
   }
 
   .orange-glow:hover {
     box-shadow:
-      0 0 16px 4px rgba(255, 140, 0, 0.55),
-      0 0 40px 10px rgba(255, 140, 0, 0.2);
+      0 0 16px 4px rgba(37, 99, 235, 0.55),
+      0 0 40px 10px rgba(37, 99, 235, 0.2);
   }
 
   /* Subtle glow (for borders / rings) */
   .ember-ring {
-    box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.4);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.4);
   }
 
   /* Shimmer loading skeleton */
@@ -219,7 +219,7 @@
     background: linear-gradient(
       90deg,
       var(--surface-container) 0%,
-      rgba(255, 140, 0, 0.08) 50%,
+      rgba(37, 99, 235, 0.08) 50%,
       var(--surface-container) 100%
     );
     background-size: 200% 100%;
@@ -228,7 +228,7 @@
 
   /* Gradient text */
   .gradient-text {
-    background: linear-gradient(135deg, #ff8c00 0%, #ffb77d 100%);
+    background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -236,7 +236,7 @@
 
   /* Ember gradient background */
   .ember-gradient {
-    background: linear-gradient(135deg, #ff8c00 0%, #ffb77d 100%);
+    background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%);
   }
 
   /* Dark overlay for hero sections */
@@ -262,7 +262,7 @@
   }
 
   .surface-card:hover {
-    border-color: rgba(255, 140, 0, 0.25);
+    border-color: rgba(37, 99, 235, 0.25);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
   }
 
@@ -275,7 +275,7 @@
 
   .input-base:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.15);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
   }
 }
 
@@ -298,6 +298,6 @@
 }
 
 @keyframes glow {
-  0%, 100% { box-shadow: 0 0 8px 2px rgba(255, 140, 0, 0.4); }
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(37, 99, 235, 0.4); }
   50%       { box-shadow: 0 0 24px 6px rgba(255, 183, 125, 0.7); }
 }

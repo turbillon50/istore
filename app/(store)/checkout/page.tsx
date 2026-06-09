@@ -161,7 +161,7 @@ function Input({ className = "", ...props }: React.InputHTMLAttributes<HTMLInput
   return (
     <input
       {...props}
-      className={`w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#ff8c00]/40 focus:bg-white/[0.06] transition-all ${className}`}
+      className={`w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#2563eb]/40 focus:bg-white/[0.06] transition-all ${className}`}
     />
   );
 }
@@ -170,7 +170,7 @@ function Select({ children, className = "", ...props }: React.SelectHTMLAttribut
   return (
     <select
       {...props}
-      className={`w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#ff8c00]/40 transition-all appearance-none ${className}`}
+      className={`w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#2563eb]/40 transition-all appearance-none ${className}`}
     >
       {children}
     </select>
@@ -276,7 +276,7 @@ export default function CheckoutPage() {
           <div className="flex flex-col gap-3">
             <Link
               href="/pedidos"
-              className="w-full py-3.5 bg-gradient-to-r from-[#ff8c00] to-[#ffb77d] text-black font-bold rounded-xl text-center"
+              className="w-full py-3.5 bg-gradient-to-r from-[#2563eb] to-[#60a5fa] text-black font-bold rounded-xl text-center"
             >
               Ver mis pedidos
             </Link>
@@ -316,13 +316,13 @@ export default function CheckoutPage() {
                         currentStep > step.id
                           ? "#22c55e"
                           : currentStep === step.id
-                          ? "#ff8c00"
+                          ? "#2563eb"
                           : "transparent",
                       borderColor:
                         currentStep > step.id
                           ? "#22c55e"
                           : currentStep === step.id
-                          ? "#ff8c00"
+                          ? "#2563eb"
                           : "rgba(255,255,255,0.15)",
                     }}
                     className="w-9 h-9 rounded-full border-2 flex items-center justify-center font-bold text-sm"
@@ -335,7 +335,7 @@ export default function CheckoutPage() {
                       </span>
                     )}
                   </motion.div>
-                  <span className={`text-xs font-medium hidden sm:block ${currentStep === step.id ? "text-[#ffb77d]" : "text-white/30"}`}>
+                  <span className={`text-xs font-medium hidden sm:block ${currentStep === step.id ? "text-[#60a5fa]" : "text-white/30"}`}>
                     {step.label}
                   </span>
                 </div>
@@ -365,8 +365,8 @@ export default function CheckoutPage() {
                   {/* Contact */}
                   <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-5">
                     <div className="flex items-center gap-2 mb-5">
-                      <div className="w-8 h-8 rounded-lg bg-[#ff8c00]/15 flex items-center justify-center">
-                        <User className="w-4 h-4 text-[#ffb77d]" />
+                      <div className="w-8 h-8 rounded-lg bg-[#2563eb]/15 flex items-center justify-center">
+                        <User className="w-4 h-4 text-[#60a5fa]" />
                       </div>
                       <h2 className="font-bold text-white">Información de contacto</h2>
                     </div>
@@ -412,8 +412,8 @@ export default function CheckoutPage() {
                   {/* Address */}
                   <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-5">
                     <div className="flex items-center gap-2 mb-5">
-                      <div className="w-8 h-8 rounded-lg bg-[#ff8c00]/15 flex items-center justify-center">
-                        <MapPin className="w-4 h-4 text-[#ffb77d]" />
+                      <div className="w-8 h-8 rounded-lg bg-[#2563eb]/15 flex items-center justify-center">
+                        <MapPin className="w-4 h-4 text-[#60a5fa]" />
                       </div>
                       <h2 className="font-bold text-white">Dirección de envío</h2>
                     </div>
@@ -473,7 +473,7 @@ export default function CheckoutPage() {
 
                   <button
                     type="submit"
-                    className="w-full py-4 bg-gradient-to-r from-[#ff8c00] to-[#ffb77d] text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_30px_rgba(255,140,0,0.3)] transition-all"
+                    className="w-full py-4 bg-gradient-to-r from-[#2563eb] to-[#60a5fa] text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_30px_rgba(37, 99, 235,0.3)] transition-all"
                   >
                     Continuar al envío
                     <ChevronRight className="w-5 h-5" />
@@ -492,8 +492,8 @@ export default function CheckoutPage() {
                 >
                   <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-5">
                     <div className="flex items-center gap-2 mb-5">
-                      <div className="w-8 h-8 rounded-lg bg-[#ff8c00]/15 flex items-center justify-center">
-                        <Truck className="w-4 h-4 text-[#ffb77d]" />
+                      <div className="w-8 h-8 rounded-lg bg-[#2563eb]/15 flex items-center justify-center">
+                        <Truck className="w-4 h-4 text-[#60a5fa]" />
                       </div>
                       <h2 className="font-bold text-white">Método de envío</h2>
                     </div>
@@ -506,12 +506,12 @@ export default function CheckoutPage() {
                           onClick={() => setShippingOption(option.id)}
                           className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all text-left ${
                             shippingOption === option.id
-                              ? "border-[#ff8c00] bg-[#ff8c00]/10"
+                              ? "border-[#2563eb] bg-[#2563eb]/10"
                               : "border-white/10 bg-white/[0.02] hover:border-white/20"
                           }`}
                         >
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${shippingOption === option.id ? "bg-[#ff8c00]/20" : "bg-white/[0.05]"}`}>
-                            <option.icon className={`w-5 h-5 ${shippingOption === option.id ? "text-[#ffb77d]" : "text-white/40"}`} />
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${shippingOption === option.id ? "bg-[#2563eb]/20" : "bg-white/[0.05]"}`}>
+                            <option.icon className={`w-5 h-5 ${shippingOption === option.id ? "text-[#60a5fa]" : "text-white/40"}`} />
                           </div>
                           <div className="flex-1">
                             <p className="font-semibold text-sm text-white">{option.name}</p>
@@ -526,7 +526,7 @@ export default function CheckoutPage() {
                               </span>
                             )}
                           </div>
-                          <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${shippingOption === option.id ? "border-[#ff8c00] bg-[#ff8c00]" : "border-white/20"}`}>
+                          <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${shippingOption === option.id ? "border-[#2563eb] bg-[#2563eb]" : "border-white/20"}`}>
                             {shippingOption === option.id && <Check className="w-3 h-3 text-black" />}
                           </div>
                         </motion.button>
@@ -544,7 +544,7 @@ export default function CheckoutPage() {
                     </button>
                     <button
                       onClick={onShippingNext}
-                      className="flex-[2] py-4 bg-gradient-to-r from-[#ff8c00] to-[#ffb77d] text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_30px_rgba(255,140,0,0.3)] transition-all"
+                      className="flex-[2] py-4 bg-gradient-to-r from-[#2563eb] to-[#60a5fa] text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_30px_rgba(37, 99, 235,0.3)] transition-all"
                     >
                       Continuar al pago
                       <ChevronRight className="w-5 h-5" />
@@ -564,8 +564,8 @@ export default function CheckoutPage() {
                 >
                   <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-5">
                     <div className="flex items-center gap-2 mb-5">
-                      <div className="w-8 h-8 rounded-lg bg-[#ff8c00]/15 flex items-center justify-center">
-                        <Lock className="w-4 h-4 text-[#ffb77d]" />
+                      <div className="w-8 h-8 rounded-lg bg-[#2563eb]/15 flex items-center justify-center">
+                        <Lock className="w-4 h-4 text-[#60a5fa]" />
                       </div>
                       <h2 className="font-bold text-white">Método de pago</h2>
                       <span className="ml-auto flex items-center gap-1 text-xs text-white/40">
@@ -582,13 +582,13 @@ export default function CheckoutPage() {
                           onClick={() => setPaymentMethod(opt.id)}
                           className={`w-full flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-left ${
                             paymentMethod === opt.id
-                              ? "border-[#ff8c00] bg-[#ff8c00]/10"
+                              ? "border-[#2563eb] bg-[#2563eb]/10"
                               : "border-white/10 bg-white/[0.02] hover:border-white/20"
                           }`}
                         >
-                          <opt.icon className={`w-5 h-5 ${paymentMethod === opt.id ? "text-[#ffb77d]" : "text-white/40"}`} />
+                          <opt.icon className={`w-5 h-5 ${paymentMethod === opt.id ? "text-[#60a5fa]" : "text-white/40"}`} />
                           <span className="flex-1 text-sm font-semibold text-white">{opt.label}</span>
-                          <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${paymentMethod === opt.id ? "border-[#ff8c00] bg-[#ff8c00]" : "border-white/20"}`}>
+                          <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${paymentMethod === opt.id ? "border-[#2563eb] bg-[#2563eb]" : "border-white/20"}`}>
                             {paymentMethod === opt.id && <Check className="w-3 h-3 text-black" />}
                           </div>
                         </button>
@@ -683,7 +683,7 @@ export default function CheckoutPage() {
                     <motion.button
                       whileTap={{ scale: 0.98 }}
                       onClick={onPaymentNext}
-                      className="flex-[2] py-4 bg-gradient-to-r from-[#ff8c00] to-[#ffb77d] text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_30px_rgba(255,140,0,0.3)] transition-all"
+                      className="flex-[2] py-4 bg-gradient-to-r from-[#2563eb] to-[#60a5fa] text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_30px_rgba(37, 99, 235,0.3)] transition-all"
                     >
                       <Lock className="w-4 h-4" />
                       Confirmar pedido · ${total.toLocaleString("es-MX")}
@@ -705,7 +705,7 @@ export default function CheckoutPage() {
                   <div key={item.id} className="flex gap-3">
                     <div className="relative w-12 h-12 flex-shrink-0 bg-white/[0.04] rounded-lg overflow-hidden">
                       <Image src={item.image} alt={item.name} fill className="object-contain p-1" sizes="48px" />
-                      <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#ff8c00] text-black text-[10px] font-black rounded-full flex items-center justify-center">
+                      <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#2563eb] text-black text-[10px] font-black rounded-full flex items-center justify-center">
                         {item.quantity}
                       </span>
                     </div>
@@ -729,12 +729,12 @@ export default function CheckoutPage() {
                     onChange={(e) => { setCoupon(e.target.value); setCouponError(""); }}
                     onKeyDown={(e) => e.key === "Enter" && applyCoupon()}
                     placeholder="Código de descuento"
-                    className="flex-1 bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-white/25 focus:outline-none focus:border-[#ff8c00]/40 transition-all"
+                    className="flex-1 bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-white/25 focus:outline-none focus:border-[#2563eb]/40 transition-all"
                   />
                   <button
                     onClick={applyCoupon}
                     disabled={!coupon.trim() || couponLoading}
-                    className="px-3 py-2 bg-[#ff8c00]/15 border border-[#ff8c00]/30 text-[#ffb77d] text-xs font-semibold rounded-xl hover:bg-[#ff8c00]/25 transition-all disabled:opacity-50"
+                    className="px-3 py-2 bg-[#2563eb]/15 border border-[#2563eb]/30 text-[#60a5fa] text-xs font-semibold rounded-xl hover:bg-[#2563eb]/25 transition-all disabled:opacity-50"
                   >
                     {couponLoading ? "..." : <Tag className="w-3.5 h-3.5" />}
                   </button>

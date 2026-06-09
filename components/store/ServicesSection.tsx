@@ -91,9 +91,9 @@ export default function ServicesSection() {
         {/* Header */}
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-6 h-px bg-[#ffb77d]" />
-            <span className="text-[#ffb77d] text-sm font-medium tracking-widest uppercase">Servicios</span>
-            <div className="w-6 h-px bg-[#ffb77d]" />
+            <div className="w-6 h-px bg-[#60a5fa]" />
+            <span className="text-[#60a5fa] text-sm font-medium tracking-widest uppercase">Servicios</span>
+            <div className="w-6 h-px bg-[#60a5fa]" />
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-[#e2e2e2] mb-4">
             Tu tech, en manos expertas
@@ -125,21 +125,21 @@ export default function ServicesSection() {
                 >
                   {/* Popular badge */}
                   {service.popular && (
-                    <div className="absolute top-4 right-4 px-2 py-0.5 rounded-full bg-[#ff8c00]/20 border border-[#ff8c00]/30">
-                      <span className="text-[#ff8c00] text-xs font-medium">Popular</span>
+                    <div className="absolute top-4 right-4 px-2 py-0.5 rounded-full bg-[#2563eb]/20 border border-[#2563eb]/30">
+                      <span className="text-[#2563eb] text-xs font-medium">Popular</span>
                     </div>
                   )}
 
                   {/* Glow on hover */}
                   <div
                     className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                    style={{ boxShadow: '0 0 25px rgba(255,140,0,0.15)', border: '1px solid rgba(255,183,125,0.25)' }}
+                    style={{ boxShadow: '0 0 25px rgba(37, 99, 235,0.15)', border: '1px solid rgba(255,183,125,0.25)' }}
                   />
 
                   {/* Icon */}
                   <div
                     className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5 transition-all duration-300 group-hover:scale-110"
-                    style={{ background: 'rgba(255,140,0,0.1)', border: '1px solid rgba(255,183,125,0.15)' }}
+                    style={{ background: 'rgba(37, 99, 235,0.1)', border: '1px solid rgba(255,183,125,0.15)' }}
                   >
                     {service.icon}
                   </div>
@@ -151,10 +151,10 @@ export default function ServicesSection() {
                   {/* Meta */}
                   <div className="flex items-center justify-between mt-auto">
                     <div>
-                      <div className="text-[#ff8c00] font-bold">{service.priceRange}</div>
+                      <div className="text-[#2563eb] font-bold">{service.priceRange}</div>
                       <div className="text-[#e2e2e2]/40 text-xs mt-0.5">{service.timeEstimate}</div>
                     </div>
-                    <div className="w-8 h-8 rounded-full bg-[#ff8c00]/0 group-hover:bg-[#ff8c00] flex items-center justify-center transition-all duration-300">
+                    <div className="w-8 h-8 rounded-full bg-[#2563eb]/0 group-hover:bg-[#2563eb] flex items-center justify-center transition-all duration-300">
                       <svg
                         className="w-4 h-4 text-[#e2e2e2] group-hover:text-[#131313] transition-colors"
                         fill="none"
@@ -178,7 +178,7 @@ export default function ServicesSection() {
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
           className="mt-12 flex flex-col md:flex-row items-center justify-between gap-4 p-6 rounded-2xl"
-          style={{ background: 'rgba(255,140,0,0.06)', border: '1px solid rgba(255,183,125,0.15)' }}
+          style={{ background: 'rgba(37, 99, 235,0.06)', border: '1px solid rgba(255,183,125,0.15)' }}
         >
           <div className="text-center md:text-left">
             <p className="text-[#e2e2e2] font-semibold">¿No encuentras el servicio que necesitas?</p>
@@ -186,7 +186,7 @@ export default function ServicesSection() {
           </div>
           <Link
             href="/contact"
-            className="px-6 py-3 border border-[#ffb77d]/40 text-[#ffb77d] hover:border-[#ffb77d] hover:bg-[#ffb77d]/10 font-semibold rounded-full transition-all whitespace-nowrap"
+            className="px-6 py-3 border border-[#60a5fa]/40 text-[#60a5fa] hover:border-[#60a5fa] hover:bg-[#60a5fa]/10 font-semibold rounded-full transition-all whitespace-nowrap"
           >
             Hablar con un técnico
           </Link>

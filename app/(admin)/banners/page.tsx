@@ -75,7 +75,7 @@ const MOCK_BANNERS: Banner[] = [
   },
   {
     id: '4', title: 'Newsletter Popup', zone: 'popup', order: 1,
-    imageUrl: 'https://placehold.co/500x400/f59e0b/fff?text=Suscribete',
+    imageUrl: 'https://placehold.co/500x400/2563eb/fff?text=Suscribete',
     linkUrl: '', status: 'inactive',
     startDate: '', endDate: '',
     stats: { impressions: 8900, clicks: 567, ctr: '6.37%' },

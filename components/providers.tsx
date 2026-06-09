@@ -60,7 +60,7 @@ export function Providers({ children }: ProvidersProps) {
       localization={esES}
       appearance={{
         variables: {
-          colorPrimary: '#ff8c00',
+          colorPrimary: '#2563eb',
           colorBackground: '#1e1e1e',
           colorText: '#f5f5f5',
           colorTextSecondary: '#a8a8a8',

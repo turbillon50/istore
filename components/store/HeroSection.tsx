@@ -126,8 +126,8 @@ export default function HeroSection() {
                 transition={{ delay: 0.3 }}
                 className="flex items-center gap-2 mb-6"
               >
-                <div className="w-8 h-px bg-[#ffb77d]" />
-                <span className="text-[#ffb77d] text-sm font-medium tracking-widest uppercase">
+                <div className="w-8 h-px bg-[#60a5fa]" />
+                <span className="text-[#60a5fa] text-sm font-medium tracking-widest uppercase">
                   iStore Pro
                 </span>
               </motion.div>
@@ -139,7 +139,7 @@ export default function HeroSection() {
                     {i === 0 ? (
                       line
                     ) : (
-                      <span className="bg-gradient-to-r from-[#ffb77d] to-[#ff8c00] bg-clip-text text-transparent">
+                      <span className="bg-gradient-to-r from-[#60a5fa] to-[#2563eb] bg-clip-text text-transparent">
                         {line}
                       </span>
                     )}
@@ -156,13 +156,13 @@ export default function HeroSection() {
               <div className="flex flex-wrap gap-4">
                 <Link
                   href={banner.ctaPrimary.href}
-                  className="px-8 py-4 bg-[#ff8c00] hover:bg-[#ffb77d] text-[#131313] font-bold rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,140,0,0.5)] active:scale-95"
+                  className="px-8 py-4 bg-[#2563eb] hover:bg-[#60a5fa] text-[#131313] font-bold rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(37, 99, 235,0.5)] active:scale-95"
                 >
                   {banner.ctaPrimary.label}
                 </Link>
                 <Link
                   href={banner.ctaSecondary.href}
-                  className="px-8 py-4 border border-[#ffb77d]/40 text-[#ffb77d] hover:border-[#ffb77d] hover:bg-[#ffb77d]/10 font-semibold rounded-full transition-all duration-300 backdrop-blur-sm"
+                  className="px-8 py-4 border border-[#60a5fa]/40 text-[#60a5fa] hover:border-[#60a5fa] hover:bg-[#60a5fa]/10 font-semibold rounded-full transition-all duration-300 backdrop-blur-sm"
                 >
                   {banner.ctaSecondary.label}
                 </Link>
@@ -180,7 +180,7 @@ export default function HeroSection() {
             onClick={() => setCurrent(i)}
             className={`transition-all duration-300 rounded-full ${
               i === current
-                ? 'w-8 h-2 bg-[#ff8c00]'
+                ? 'w-8 h-2 bg-[#2563eb]'
                 : 'w-2 h-2 bg-[#e2e2e2]/30 hover:bg-[#e2e2e2]/60'
             }`}
           />
@@ -194,16 +194,16 @@ export default function HeroSection() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
       >
         <span className="text-[#e2e2e2]/40 text-xs tracking-widest uppercase">Scroll</span>
-        <div className="w-px h-8 bg-gradient-to-b from-[#ffb77d]/60 to-transparent" />
+        <div className="w-px h-8 bg-gradient-to-b from-[#60a5fa]/60 to-transparent" />
       </motion.div>
 
       {/* Side decorative line */}
       <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-3 z-10">
-        <div className="w-px h-16 bg-gradient-to-b from-transparent to-[#ffb77d]/40" />
+        <div className="w-px h-16 bg-gradient-to-b from-transparent to-[#60a5fa]/40" />
         <span className="text-[#e2e2e2]/30 text-xs tracking-widest rotate-90 my-4">
           {String(current + 1).padStart(2, '0')} / {String(banners.length).padStart(2, '0')}
         </span>
-        <div className="w-px h-16 bg-gradient-to-b from-[#ffb77d]/40 to-transparent" />
+        <div className="w-px h-16 bg-gradient-to-b from-[#60a5fa]/40 to-transparent" />
       </div>
     </section>
   )

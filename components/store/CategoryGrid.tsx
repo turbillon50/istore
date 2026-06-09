@@ -111,8 +111,8 @@ export default function CategoryGrid() {
         <div className="flex items-end justify-between mb-12">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-6 h-px bg-[#ffb77d]" />
-              <span className="text-[#ffb77d] text-sm font-medium tracking-widest uppercase">
+              <div className="w-6 h-px bg-[#60a5fa]" />
+              <span className="text-[#60a5fa] text-sm font-medium tracking-widest uppercase">
                 Explora
               </span>
             </div>
@@ -122,7 +122,7 @@ export default function CategoryGrid() {
           </div>
           <Link
             href="/categories"
-            className="hidden md:inline-flex items-center gap-2 text-[#ffb77d] hover:text-[#ff8c00] text-sm font-medium transition-colors"
+            className="hidden md:inline-flex items-center gap-2 text-[#60a5fa] hover:text-[#2563eb] text-sm font-medium transition-colors"
           >
             Ver todo
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -161,9 +161,9 @@ export default function CategoryGrid() {
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#131313] via-[#131313]/30 to-transparent" />
                   {/* Orange glow on hover */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-[#ff8c00]/20 to-transparent" />
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-[#2563eb]/20 to-transparent" />
                   {/* Border glow */}
-                  <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-[#ffb77d]/40 transition-all duration-300 group-hover:shadow-[0_0_25px_rgba(255,140,0,0.2)]" />
+                  <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-[#60a5fa]/40 transition-all duration-300 group-hover:shadow-[0_0_25px_rgba(37, 99, 235,0.2)]" />
 
                   {/* Content */}
                   <div className="absolute bottom-0 left-0 right-0 p-4">
@@ -171,13 +171,13 @@ export default function CategoryGrid() {
                     <h3 className="text-[#e2e2e2] font-bold text-sm leading-tight">{cat.name}</h3>
                     <p className="text-[#e2e2e2]/50 text-xs mt-0.5">{cat.description}</p>
                     <div className="mt-2 flex items-center gap-1">
-                      <span className="text-[#ffb77d] text-xs font-medium">{cat.productCount}</span>
+                      <span className="text-[#60a5fa] text-xs font-medium">{cat.productCount}</span>
                       <span className="text-[#e2e2e2]/40 text-xs">productos</span>
                     </div>
                   </div>
 
                   {/* Arrow on hover */}
-                  <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#ff8c00]/0 group-hover:bg-[#ff8c00] flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100">
+                  <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#2563eb]/0 group-hover:bg-[#2563eb] flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100">
                     <svg className="w-3 h-3 text-[#131313]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>

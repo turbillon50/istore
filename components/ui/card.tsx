@@ -36,7 +36,7 @@ const cardVariants = cva(
           'shadow-obsidian',
           'hover:border-primary/50',
           'hover:shadow-ember-md',
-          'hover:[box-shadow:0_0_16px_4px_rgba(255,140,0,0.25),0_4px_24px_rgba(0,0,0,0.5)]',
+          'hover:[box-shadow:0_0_16px_4px_rgba(37, 99, 235,0.25),0_4px_24px_rgba(0,0,0,0.5)]',
         ],
         glass: [
           'backdrop-blur-[16px] saturate-150',

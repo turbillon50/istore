@@ -76,7 +76,7 @@ function MessageBubble({ message }: { message: Message }) {
           <Link
             key={i}
             href={linkMatch[2]}
-            className="text-[#ffb77d] underline underline-offset-2 hover:text-[#ff8c00]"
+            className="text-[#60a5fa] underline underline-offset-2 hover:text-[#2563eb]"
           >
             {linkMatch[1]}
           </Link>
@@ -95,7 +95,7 @@ function MessageBubble({ message }: { message: Message }) {
     >
       {/* Avatar */}
       {!isUser && (
-        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#ff8c00] to-[#ffb77d] flex items-center justify-center flex-shrink-0 mt-0.5">
+        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#2563eb] to-[#60a5fa] flex items-center justify-center flex-shrink-0 mt-0.5">
           <Bot className="w-3.5 h-3.5 text-black" />
         </div>
       )}
@@ -105,7 +105,7 @@ function MessageBubble({ message }: { message: Message }) {
         <div
           className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
             isUser
-              ? "bg-gradient-to-br from-[#ff8c00] to-[#ffb77d] text-black font-medium rounded-tr-sm"
+              ? "bg-gradient-to-br from-[#2563eb] to-[#60a5fa] text-black font-medium rounded-tr-sm"
               : "bg-white/[0.07] border border-white/[0.08] text-white/90 rounded-tl-sm"
           }`}
         >
@@ -137,7 +137,7 @@ function MessageBubble({ message }: { message: Message }) {
                 key={p.id}
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white/[0.06] border border-white/[0.09] rounded-xl overflow-hidden hover:border-[#ff8c00]/30 transition-colors"
+                className="bg-white/[0.06] border border-white/[0.09] rounded-xl overflow-hidden hover:border-[#2563eb]/30 transition-colors"
               >
                 <Link href={`/productos/${p.slug}`} className="flex gap-3 p-3">
                   <div className="relative w-12 h-12 flex-shrink-0 bg-white/[0.04] rounded-lg overflow-hidden">
@@ -146,7 +146,7 @@ function MessageBubble({ message }: { message: Message }) {
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold text-white line-clamp-1">{p.name}</p>
                     <div className="flex items-center gap-1 mt-0.5">
-                      <Star className="w-2.5 h-2.5 text-[#ffb77d]" fill="#ffb77d" />
+                      <Star className="w-2.5 h-2.5 text-[#60a5fa]" fill="#60a5fa" />
                       <span className="text-[10px] text-white/50">{p.rating}</span>
                     </div>
                     <div className="flex items-baseline gap-1.5 mt-1">
@@ -380,10 +380,10 @@ export default function AIAssistant({ productId, categoryId, cartItems }: AIAssi
             style={{ height: isMinimized ? 60 : 540 }}
           >
             {/* Header */}
-            <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.07] bg-gradient-to-r from-[#ff8c00]/10 to-transparent">
+            <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.07] bg-gradient-to-r from-[#2563eb]/10 to-transparent">
               <div className="flex items-center gap-2.5">
                 <div className="relative">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#ff8c00] to-[#ffb77d] flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#2563eb] to-[#60a5fa] flex items-center justify-center">
                     <Bot className="w-4 h-4 text-black" />
                   </div>
                   <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-[#1a1a1a]" />
@@ -433,7 +433,7 @@ export default function AIAssistant({ productId, categoryId, cartItems }: AIAssi
                       <button
                         key={prompt}
                         onClick={() => sendMessage(prompt)}
-                        className="text-xs px-3 py-1.5 bg-white/[0.05] border border-white/[0.08] rounded-full text-white/60 hover:text-white hover:border-[#ff8c00]/30 hover:bg-[#ff8c00]/5 transition-all"
+                        className="text-xs px-3 py-1.5 bg-white/[0.05] border border-white/[0.08] rounded-full text-white/60 hover:text-white hover:border-[#2563eb]/30 hover:bg-[#2563eb]/5 transition-all"
                       >
                         {prompt}
                       </button>
@@ -452,13 +452,13 @@ export default function AIAssistant({ productId, categoryId, cartItems }: AIAssi
                       onKeyDown={handleKeyDown}
                       placeholder="Pregúntame lo que necesites..."
                       disabled={isLoading}
-                      className="flex-1 bg-white/[0.05] border border-white/[0.08] rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#ff8c00]/30 transition-all disabled:opacity-50"
+                      className="flex-1 bg-white/[0.05] border border-white/[0.08] rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#2563eb]/30 transition-all disabled:opacity-50"
                     />
                     <motion.button
                       whileTap={{ scale: 0.9 }}
                       onClick={() => sendMessage(input)}
                       disabled={!input.trim() || isLoading}
-                      className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ff8c00] to-[#ffb77d] flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-[0_0_15px_rgba(255,140,0,0.35)] transition-all flex-shrink-0"
+                      className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#2563eb] to-[#60a5fa] flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-[0_0_15px_rgba(37, 99, 235,0.35)] transition-all flex-shrink-0"
                     >
                       {isLoading ? (
                         <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
@@ -482,7 +482,7 @@ export default function AIAssistant({ productId, categoryId, cartItems }: AIAssi
         onClick={isOpen ? handleClose : handleOpen}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.92 }}
-        className="fixed bottom-6 right-4 sm:right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-[#ff8c00] to-[#ffb77d] shadow-[0_8px_30px_rgba(255,140,0,0.45)] flex items-center justify-center"
+        className="fixed bottom-6 right-4 sm:right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-[#2563eb] to-[#60a5fa] shadow-[0_8px_30px_rgba(37, 99, 235,0.45)] flex items-center justify-center"
       >
         <AnimatePresence mode="wait">
           {isOpen ? (
@@ -513,7 +513,7 @@ export default function AIAssistant({ productId, categoryId, cartItems }: AIAssi
         {/* Pulse ring */}
         {!isOpen && (
           <motion.span
-            className="absolute inset-0 rounded-full border-2 border-[#ff8c00]/50"
+            className="absolute inset-0 rounded-full border-2 border-[#2563eb]/50"
             animate={{ scale: [1, 1.35], opacity: [0.6, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeOut" }}
           />

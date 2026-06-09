@@ -45,14 +45,14 @@ const config: Config = {
 
         // --- Primary (Ember Orange) ----------------------------------
         primary: {
-          DEFAULT: '#ff8c00',
+          DEFAULT: '#2563eb',
           50:  '#fff7ed',
           100: '#ffedd5',
           200: '#fed7aa',
-          300: '#ffb77d',
+          300: '#60a5fa',
           400: '#fb923c',
-          500: '#ff8c00',
-          600: '#ea7000',
+          500: '#2563eb',
+          600: '#1d4ed8',
           700: '#c25400',
           800: '#9a3f00',
           900: '#7c3500',
@@ -73,7 +73,7 @@ const config: Config = {
           foreground: '#ffffff',
         },
         warning: {
-          DEFAULT: '#f59e0b',
+          DEFAULT: '#2563eb',
           foreground: '#000000',
         },
         danger: {
@@ -157,7 +157,7 @@ const config: Config = {
         },
         glow: {
           '0%, 100%': {
-            boxShadow: '0 0 8px 2px rgba(255, 140, 0, 0.4)',
+            boxShadow: '0 0 8px 2px rgba(37, 99, 235, 0.4)',
           },
           '50%': {
             boxShadow: '0 0 24px 6px rgba(255, 183, 125, 0.7)',
@@ -201,19 +201,19 @@ const config: Config = {
 
       // --- Box Shadows -----------------------------------------------
       boxShadow: {
-        'ember-sm':  '0 0 8px 2px rgba(255, 140, 0, 0.25)',
-        'ember-md':  '0 0 16px 4px rgba(255, 140, 0, 0.35)',
-        'ember-lg':  '0 0 32px 8px rgba(255, 140, 0, 0.45)',
+        'ember-sm':  '0 0 8px 2px rgba(37, 99, 235, 0.25)',
+        'ember-md':  '0 0 16px 4px rgba(37, 99, 235, 0.35)',
+        'ember-lg':  '0 0 32px 8px rgba(37, 99, 235, 0.45)',
         'obsidian':  '0 4px 24px rgba(0, 0, 0, 0.6)',
         'glass':     '0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.06)',
       },
 
       // --- Background Images -----------------------------------------
       backgroundImage: {
-        'ember-gradient':   'linear-gradient(135deg, #ff8c00 0%, #ffb77d 100%)',
-        'ember-radial':     'radial-gradient(circle at center, #ff8c00 0%, #ea7000 100%)',
+        'ember-gradient':   'linear-gradient(135deg, #2563eb 0%, #60a5fa 100%)',
+        'ember-radial':     'radial-gradient(circle at center, #2563eb 0%, #1d4ed8 100%)',
         'obsidian-gradient':'linear-gradient(180deg, #1e1e1e 0%, #131313 100%)',
-        shimmer:            'linear-gradient(90deg, transparent 0%, rgba(255,140,0,0.12) 50%, transparent 100%)',
+        shimmer:            'linear-gradient(90deg, transparent 0%, rgba(37, 99, 235,0.12) 50%, transparent 100%)',
       },
     },
   },

@@ -22,9 +22,9 @@ interface KPICardProps {
 
 const variantColors = {
   default: {
-    icon: "text-[#ff8c00]",
-    iconBg: "bg-[#ff8c00]/10",
-    sparkline: "#ff8c00",
+    icon: "text-[#2563eb]",
+    iconBg: "bg-[#2563eb]/10",
+    sparkline: "#2563eb",
   },
   warning: {
     icon: "text-yellow-400",
@@ -69,7 +69,7 @@ export default function KPICard({
     >
       {/* Subtle glow on hover */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-        style={{ background: "radial-gradient(ellipse at top left, rgba(255,140,0,0.04) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse at top left, rgba(37, 99, 235,0.04) 0%, transparent 70%)" }}
       />
 
       <div className="flex items-start justify-between mb-4">

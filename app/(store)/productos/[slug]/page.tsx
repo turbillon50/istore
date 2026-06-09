@@ -215,8 +215,8 @@ function StarRating({ rating, size = "sm" }: { rating: number; size?: "sm" | "md
         <Star
           key={star}
           className={sizeClass}
-          fill={star <= Math.round(rating) ? "#ffb77d" : star - 0.5 <= rating ? "#ffb77d80" : "transparent"}
-          stroke={star <= Math.round(rating) ? "#ffb77d" : "#ffffff20"}
+          fill={star <= Math.round(rating) ? "#60a5fa" : star - 0.5 <= rating ? "#60a5fa80" : "transparent"}
+          stroke={star <= Math.round(rating) ? "#60a5fa" : "#ffffff20"}
         />
       ))}
     </div>
@@ -239,7 +239,7 @@ const COLOR_MAP: Record<string, string> = {
   "Verde": "#16a34a",
   "Morado": "#9333ea",
   "Rosa": "#ec4899",
-  "Dorado": "#d97706",
+  "Dorado": "#1d4ed8",
   "Plateado": "#9ca3af",
 };
 
@@ -412,7 +412,7 @@ export default function ProductDetailPage() {
                     </span>
                   )}
                   {discountPct > 0 && (
-                    <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[#ff8c00]/20 text-[#ffb77d] border border-[#ff8c00]/30 backdrop-blur-sm">
+                    <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[#2563eb]/20 text-[#60a5fa] border border-[#2563eb]/30 backdrop-blur-sm">
                       -{discountPct}%
                     </span>
                   )}
@@ -445,7 +445,7 @@ export default function ProductDetailPage() {
                     onClick={() => setActiveImage(idx)}
                     className={`relative flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${
                       activeImage === idx
-                        ? "border-[#ff8c00] shadow-[0_0_12px_rgba(255,140,0,0.4)]"
+                        ? "border-[#2563eb] shadow-[0_0_12px_rgba(37, 99, 235,0.4)]"
                         : "border-white/10 hover:border-white/30"
                     }`}
                   >
@@ -465,8 +465,8 @@ export default function ProductDetailPage() {
                   const SiIcon = si.icon;
                   return (
                   <div key={si.label} className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl p-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#ff8c00]/10 flex items-center justify-center flex-shrink-0">
-                      <SiIcon className="w-4 h-4 text-[#ffb77d]" />
+                    <div className="w-8 h-8 rounded-lg bg-[#2563eb]/10 flex items-center justify-center flex-shrink-0">
+                      <SiIcon className="w-4 h-4 text-[#60a5fa]" />
                     </div>
                     <div>
                       <p className="text-xs font-semibold text-white">{si.label}</p>
@@ -483,15 +483,15 @@ export default function ProductDetailPage() {
               {/* Header */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <Link href={`/marca/${product.brand.slug}`} className="text-sm font-bold text-[#ffb77d]/80 uppercase tracking-widest hover:text-[#ffb77d] transition-colors">
+                  <Link href={`/marca/${product.brand.slug}`} className="text-sm font-bold text-[#60a5fa]/80 uppercase tracking-widest hover:text-[#60a5fa] transition-colors">
                     {product.brand.name}
                   </Link>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setIsWishlisted(!isWishlisted)}
-                      className="w-9 h-9 rounded-full bg-white/[0.05] border border-white/10 flex items-center justify-center hover:border-[#ff8c00]/40 transition-all"
+                      className="w-9 h-9 rounded-full bg-white/[0.05] border border-white/10 flex items-center justify-center hover:border-[#2563eb]/40 transition-all"
                     >
-                      <Heart className="w-4 h-4" fill={isWishlisted ? "#ff8c00" : "transparent"} stroke={isWishlisted ? "#ff8c00" : "white"} />
+                      <Heart className="w-4 h-4" fill={isWishlisted ? "#2563eb" : "transparent"} stroke={isWishlisted ? "#2563eb" : "white"} />
                     </button>
                     <button className="w-9 h-9 rounded-full bg-white/[0.05] border border-white/10 flex items-center justify-center hover:border-white/30 transition-all">
                       <Share2 className="w-4 h-4" />
@@ -545,7 +545,7 @@ export default function ProductDetailPage() {
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm font-semibold text-white">Color</span>
-                    <span className="text-sm text-[#ffb77d]">{selectedColor}</span>
+                    <span className="text-sm text-[#60a5fa]">{selectedColor}</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {colors.map((color) => {
@@ -557,7 +557,7 @@ export default function ProductDetailPage() {
                           title={color}
                           className={`relative w-9 h-9 rounded-full border-2 transition-all ${
                             selectedColor === color
-                              ? "border-[#ff8c00] scale-110 shadow-[0_0_10px_rgba(255,140,0,0.5)]"
+                              ? "border-[#2563eb] scale-110 shadow-[0_0_10px_rgba(37, 99, 235,0.5)]"
                               : "border-white/20 hover:border-white/50"
                           }`}
                           style={{ backgroundColor: colorHex }}
@@ -579,7 +579,7 @@ export default function ProductDetailPage() {
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm font-semibold text-white">Almacenamiento</span>
-                    <span className="text-sm text-[#ffb77d]">{selectedStorage}</span>
+                    <span className="text-sm text-[#60a5fa]">{selectedStorage}</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {storages.map((storage) => {
@@ -592,8 +592,8 @@ export default function ProductDetailPage() {
                           onClick={() => setSelectedStorage(storage)}
                           className={`px-4 py-2 rounded-xl text-sm font-semibold border transition-all ${
                             selectedStorage === storage
-                              ? "bg-[#ff8c00] text-black border-[#ff8c00]"
-                              : "bg-white/[0.04] text-white/70 border-white/10 hover:border-[#ff8c00]/40 hover:text-white"
+                              ? "bg-[#2563eb] text-black border-[#2563eb]"
+                              : "bg-white/[0.04] text-white/70 border-white/10 hover:border-[#2563eb]/40 hover:text-white"
                           }`}
                         >
                           {storage}
@@ -644,7 +644,7 @@ export default function ProductDetailPage() {
                   onChange={(e) => setImei(e.target.value)}
                   placeholder="Ej: 358240051111110"
                   maxLength={20}
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#ff8c00]/40 focus:bg-white/[0.06] transition-all"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#2563eb]/40 focus:bg-white/[0.06] transition-all"
                 />
                 <p className="text-xs text-white/30 mt-1">Requerido para reportar robo o activar garantía extendida.</p>
               </div>
@@ -657,7 +657,7 @@ export default function ProductDetailPage() {
                   className={`w-full py-4 rounded-xl font-bold text-base flex items-center justify-center gap-2 transition-all ${
                     addedToCart
                       ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                      : "bg-gradient-to-r from-[#ff8c00] to-[#ffb77d] text-black hover:shadow-[0_0_30px_rgba(255,140,0,0.35)] hover:scale-[1.01]"
+                      : "bg-gradient-to-r from-[#2563eb] to-[#60a5fa] text-black hover:shadow-[0_0_30px_rgba(37, 99, 235,0.35)] hover:scale-[1.01]"
                   }`}
                 >
                   {addedToCart ? (
@@ -677,15 +677,15 @@ export default function ProductDetailPage() {
                   href="/checkout"
                   className="w-full py-4 rounded-xl font-bold text-base flex items-center justify-center gap-2 bg-white/[0.06] border border-white/10 text-white hover:bg-white/10 hover:border-white/20 transition-all"
                 >
-                  <Zap className="w-5 h-5 text-[#ffb77d]" />
+                  <Zap className="w-5 h-5 text-[#60a5fa]" />
                   Comprar ahora
                 </Link>
               </div>
 
               {/* Financiamiento */}
-              <div className="bg-gradient-to-r from-[#ff8c00]/10 to-[#ffb77d]/5 border border-[#ff8c00]/20 rounded-2xl p-4">
+              <div className="bg-gradient-to-r from-[#2563eb]/10 to-[#60a5fa]/5 border border-[#2563eb]/20 rounded-2xl p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <CreditCard className="w-4 h-4 text-[#ffb77d]" />
+                  <CreditCard className="w-4 h-4 text-[#60a5fa]" />
                   <span className="text-sm font-bold text-white">Financiamiento disponible</span>
                 </div>
                 <div className="space-y-2">
@@ -702,7 +702,7 @@ export default function ProductDetailPage() {
                     </span>
                   </div>
                 </div>
-                <Link href="/financiamiento" className="mt-3 text-xs text-[#ffb77d] hover:underline flex items-center gap-1">
+                <Link href="/financiamiento" className="mt-3 text-xs text-[#60a5fa] hover:underline flex items-center gap-1">
                   Ver todos los planes <ChevronRight className="w-3 h-3" />
                 </Link>
               </div>
@@ -733,14 +733,14 @@ export default function ProductDetailPage() {
                   key={tab}
                   onClick={() => setActiveTab(tab)}
                   className={`relative px-6 py-4 text-sm font-semibold whitespace-nowrap transition-colors ${
-                    activeTab === tab ? "text-[#ffb77d]" : "text-white/40 hover:text-white/70"
+                    activeTab === tab ? "text-[#60a5fa]" : "text-white/40 hover:text-white/70"
                   }`}
                 >
                   {tab === "specs" ? "Especificaciones" : tab === "features" ? "Características" : `Reseñas (${product.reviewCount})`}
                   {activeTab === tab && (
                     <motion.div
                       layoutId="tab-indicator"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#ff8c00] rounded-full"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#2563eb] rounded-full"
                     />
                   )}
                 </button>
@@ -772,7 +772,7 @@ export default function ProductDetailPage() {
                   {specsEntries.length > 8 && (
                     <button
                       onClick={() => setShowSpecsAll(!showSpecsAll)}
-                      className="mt-4 flex items-center gap-2 text-sm text-[#ffb77d] hover:text-[#ff8c00] transition-colors mx-auto"
+                      className="mt-4 flex items-center gap-2 text-sm text-[#60a5fa] hover:text-[#2563eb] transition-colors mx-auto"
                     >
                       {showSpecsAll ? (
                         <><ChevronUp className="w-4 h-4" />Ver menos</>
@@ -801,8 +801,8 @@ export default function ProductDetailPage() {
                       transition={{ delay: idx * 0.05 }}
                       className="flex items-start gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl p-4"
                     >
-                      <div className="w-6 h-6 rounded-full bg-[#ff8c00]/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="w-3.5 h-3.5 text-[#ffb77d]" />
+                      <div className="w-6 h-6 rounded-full bg-[#2563eb]/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-3.5 h-3.5 text-[#60a5fa]" />
                       </div>
                       <p className="text-sm text-white/80 leading-relaxed">{feature}</p>
                     </motion.div>
@@ -829,10 +829,10 @@ export default function ProductDetailPage() {
                         {ratingBreakdown.map(({ star, count, pct }) => (
                           <div key={star} className="flex items-center gap-2">
                             <span className="text-xs text-white/50 w-4">{star}</span>
-                            <Star className="w-3 h-3 text-[#ffb77d]" fill="#ffb77d" />
+                            <Star className="w-3 h-3 text-[#60a5fa]" fill="#60a5fa" />
                             <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
                               <div
-                                className="h-full bg-[#ff8c00] rounded-full transition-all"
+                                className="h-full bg-[#2563eb] rounded-full transition-all"
                                 style={{ width: `${pct}%` }}
                               />
                             </div>

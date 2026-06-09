@@ -70,11 +70,11 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
           <div className="flex items-center justify-between h-16 lg:h-18">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 shrink-0">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#ff8c00] to-[#ffb77d] flex items-center justify-center shadow-[0_0_16px_rgba(255,140,0,0.4)]">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#2563eb] to-[#60a5fa] flex items-center justify-center shadow-[0_0_16px_rgba(37, 99, 235,0.4)]">
                 <Zap className="w-4 h-4 text-black" fill="black" />
               </div>
               <span className="text-white font-black text-xl tracking-tight">
-                iStore<span className="text-[#ff8c00]">Pro</span>
+                iStore<span className="text-[#2563eb]">Pro</span>
               </span>
             </Link>
 
@@ -142,7 +142,7 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
               >
                 <ShoppingCart className="w-5 h-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-[#ff8c00] text-black text-[10px] font-black rounded-full flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-[#2563eb] text-black text-[10px] font-black rounded-full flex items-center justify-center">
                     {cartCount > 9 ? "9+" : cartCount}
                   </span>
                 )}
@@ -196,7 +196,7 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Buscar iPhone, Samsung, accesorios..."
-                      className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[#ff8c00]/50 focus:bg-white/8 transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[#2563eb]/50 focus:bg-white/8 transition-all"
                     />
                   </div>
                 </div>
@@ -224,7 +224,7 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
                       onClick={() => setMobileOpen(false)}
                       className="flex items-center gap-3 px-4 py-3 text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all"
                     >
-                      <Icon className="w-4 h-4 text-[#ff8c00]" />
+                      <Icon className="w-4 h-4 text-[#2563eb]" />
                       <span className="font-medium">{link.label}</span>
                     </Link>
                   );
@@ -232,7 +232,7 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
                 <div className="mt-2 pt-2 border-t border-white/8">
                   {!isSignedIn && (
                     <SignInButton mode="modal">
-                      <button className="w-full text-center text-sm font-semibold text-white bg-gradient-to-r from-[#ff8c00] to-[#ffb77d] px-4 py-3 rounded-xl transition-all hover:opacity-90">
+                      <button className="w-full text-center text-sm font-semibold text-white bg-gradient-to-r from-[#2563eb] to-[#60a5fa] px-4 py-3 rounded-xl transition-all hover:opacity-90">
                         Iniciar sesión
                       </button>
                     </SignInButton>

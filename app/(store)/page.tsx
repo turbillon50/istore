@@ -214,7 +214,7 @@ const CATEGORIES = [
   { label: "Accesorios", icon: Headphones, href: "/accesorios", count: "300+ productos", color: "from-purple-500/20 to-purple-600/5" },
   { label: "Audio", icon: Headphones, href: "/audio", count: "50+ modelos", color: "from-pink-500/20 to-pink-600/5" },
   { label: "Tablets", icon: Tablet, href: "/tablets", count: "40+ modelos", color: "from-green-500/20 to-green-600/5" },
-  { label: "Servicios", icon: Wrench, href: "/servicios", count: "6 servicios", color: "from-[#ff8c00]/20 to-[#ff8c00]/5" },
+  { label: "Servicios", icon: Wrench, href: "/servicios", count: "6 servicios", color: "from-[#2563eb]/20 to-[#2563eb]/5" },
 ];
 
 const BRANDS = [
@@ -266,8 +266,8 @@ const SERVICES = [
     title: "Financiamiento",
     desc: "Sin buró, sin aval. Desde $500 de enganche, meses sin intereses con tarjeta.",
     href: "/financiamiento",
-    color: "text-[#ffb77d]",
-    bg: "bg-[#ff8c00]/10",
+    color: "text-[#60a5fa]",
+    bg: "bg-[#2563eb]/10",
   },
   {
     icon: RefreshCw,
@@ -323,7 +323,7 @@ function SectionHeader({
       {linkHref && linkLabel && (
         <Link
           href={linkHref}
-          className="group inline-flex items-center gap-1.5 text-sm font-semibold text-[#ffb77d] hover:text-[#ff8c00] transition-colors shrink-0"
+          className="group inline-flex items-center gap-1.5 text-sm font-semibold text-[#60a5fa] hover:text-[#2563eb] transition-colors shrink-0"
         >
           {linkLabel}
           <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -359,7 +359,7 @@ export default async function StorePage() {
               const FeatureIcon = featureItem.icon;
               return (
               <div key={featureItem.text} className="flex items-center justify-center gap-2 sm:px-6">
-                <FeatureIcon className="w-4 h-4 text-[#ff8c00] shrink-0" />
+                <FeatureIcon className="w-4 h-4 text-[#2563eb] shrink-0" />
                 <span className="text-xs sm:text-sm text-white/50 font-medium">{featureItem.text}</span>
               </div>
               );
@@ -400,16 +400,16 @@ export default async function StorePage() {
               <Link
                 key={cat.label}
                 href={cat.href}
-                className={`group relative bg-gradient-to-b ${cat.color} border border-white/8 rounded-2xl p-6 flex flex-col items-center gap-3 text-center hover:border-[#ff8c00]/30 hover:shadow-[0_8px_30px_rgba(255,140,0,0.08)] transition-all`}
+                className={`group relative bg-gradient-to-b ${cat.color} border border-white/8 rounded-2xl p-6 flex flex-col items-center gap-3 text-center hover:border-[#2563eb]/30 hover:shadow-[0_8px_30px_rgba(37, 99, 235,0.08)] transition-all`}
               >
-                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-[#ff8c00]/10 transition-colors">
-                  <Icon className="w-6 h-6 text-white/70 group-hover:text-[#ffb77d] transition-colors" />
+                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-[#2563eb]/10 transition-colors">
+                  <Icon className="w-6 h-6 text-white/70 group-hover:text-[#60a5fa] transition-colors" />
                 </div>
                 <div>
                   <div className="font-bold text-white text-sm">{cat.label}</div>
                   <div className="text-xs text-white/35 mt-0.5">{cat.count}</div>
                 </div>
-                <ChevronRight className="w-4 h-4 text-white/20 group-hover:text-[#ff8c00] transition-all group-hover:translate-x-0.5 absolute right-4 top-1/2 -translate-y-1/2" />
+                <ChevronRight className="w-4 h-4 text-white/20 group-hover:text-[#2563eb] transition-all group-hover:translate-x-0.5 absolute right-4 top-1/2 -translate-y-1/2" />
               </Link>
             );
           })}
@@ -428,15 +428,15 @@ export default async function StorePage() {
           {deals.map((deal) => (
             <div
               key={deal.id}
-              className="bg-white/[0.03] border border-white/8 rounded-2xl p-5 hover:border-[#ff8c00]/30 transition-all group"
+              className="bg-white/[0.03] border border-white/8 rounded-2xl p-5 hover:border-[#2563eb]/30 transition-all group"
             >
               <div className="flex justify-between items-start mb-4">
-                <span className="text-xs font-black text-[#ff8c00] bg-[#ff8c00]/10 px-2.5 py-1 rounded-full border border-[#ff8c00]/20">
+                <span className="text-xs font-black text-[#2563eb] bg-[#2563eb]/10 px-2.5 py-1 rounded-full border border-[#2563eb]/20">
                   -{deal.discount}% OFF
                 </span>
                 <div className="text-right">
                   <div className="text-[10px] text-white/30">Termina en</div>
-                  <div className="text-xs font-black text-[#ffb77d] font-mono">
+                  <div className="text-xs font-black text-[#60a5fa] font-mono">
                     {deal.expiresIn}
                   </div>
                 </div>
@@ -444,7 +444,7 @@ export default async function StorePage() {
               <div className="h-28 bg-gradient-to-b from-white/5 to-transparent rounded-xl mb-4 flex items-center justify-center">
                 <div className="text-4xl">📱</div>
               </div>
-              <h3 className="text-sm font-bold text-white mb-2 line-clamp-2 group-hover:text-[#ffb77d] transition-colors">
+              <h3 className="text-sm font-bold text-white mb-2 line-clamp-2 group-hover:text-[#60a5fa] transition-colors">
                 {deal.name}
               </h3>
               <div className="flex items-baseline gap-2">
@@ -455,7 +455,7 @@ export default async function StorePage() {
                   ${deal.originalPrice.toLocaleString("es-MX")}
                 </span>
               </div>
-              <button className="mt-3 w-full bg-gradient-to-r from-[#ff8c00] to-[#ffb77d] text-black text-xs font-bold py-2.5 rounded-xl hover:opacity-90 hover:scale-[1.02] transition-all">
+              <button className="mt-3 w-full bg-gradient-to-r from-[#2563eb] to-[#60a5fa] text-black text-xs font-bold py-2.5 rounded-xl hover:opacity-90 hover:scale-[1.02] transition-all">
                 Aprovechar oferta
               </button>
             </div>
@@ -475,7 +475,7 @@ export default async function StorePage() {
             <Link
               key={brand.slug}
               href={`/celulares/${brand.slug}`}
-              className="shrink-0 px-6 py-3 bg-white/[0.03] border border-white/8 rounded-xl text-sm font-bold text-white/40 hover:text-white hover:border-[#ff8c00]/30 hover:bg-[#ff8c00]/5 transition-all"
+              className="shrink-0 px-6 py-3 bg-white/[0.03] border border-white/8 rounded-xl text-sm font-bold text-white/40 hover:text-white hover:border-[#2563eb]/30 hover:bg-[#2563eb]/5 transition-all"
             >
               {brand.name}
             </Link>
@@ -485,29 +485,29 @@ export default async function StorePage() {
 
       {/* 7. Trade-in CTA banner */}
       <Section>
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#1a0e00] via-[#1f1000] to-[#1a0e00] border border-[#ff8c00]/20 p-8 sm:p-12">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#1a0e00] via-[#1f1000] to-[#1a0e00] border border-[#2563eb]/20 p-8 sm:p-12">
           {/* Background glow */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00]/5 via-transparent to-[#ff8c00]/5" />
-          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-96 h-40 bg-[#ff8c00] opacity-10 blur-[60px]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2563eb]/5 via-transparent to-[#2563eb]/5" />
+          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-96 h-40 bg-[#2563eb] opacity-10 blur-[60px]" />
 
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 bg-[#ff8c00]/10 border border-[#ff8c00]/20 rounded-full px-4 py-1.5 mb-4">
-                <RefreshCw className="w-4 h-4 text-[#ffb77d]" />
-                <span className="text-sm text-[#ffb77d] font-semibold">Trade-In Program</span>
+              <div className="inline-flex items-center gap-2 bg-[#2563eb]/10 border border-[#2563eb]/20 rounded-full px-4 py-1.5 mb-4">
+                <RefreshCw className="w-4 h-4 text-[#60a5fa]" />
+                <span className="text-sm text-[#60a5fa] font-semibold">Trade-In Program</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-black text-white mb-3">
                 ¿Tienes un teléfono viejo?
               </h2>
               <p className="text-white/50 max-w-lg">
-                Recibe hasta <span className="text-[#ffb77d] font-bold">$8,000 MXN</span> de descuento
+                Recibe hasta <span className="text-[#60a5fa] font-bold">$8,000 MXN</span> de descuento
                 al entregar tu equipo actual. Aplica para cualquier marca y modelo.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
               <Link
                 href="/trade-in/cotizar"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ff8c00] to-[#ffb77d] text-black font-bold px-8 py-4 rounded-full hover:shadow-[0_0_30px_rgba(255,140,0,0.4)] hover:scale-105 transition-all"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-[#2563eb] to-[#60a5fa] text-black font-bold px-8 py-4 rounded-full hover:shadow-[0_0_30px_rgba(37, 99, 235,0.4)] hover:scale-105 transition-all"
               >
                 Cotizar mi equipo
                 <ArrowRight className="w-4 h-4" />
@@ -536,18 +536,18 @@ export default async function StorePage() {
               <Link
                 key={service.title}
                 href={service.href}
-                className="group bg-white/[0.03] border border-white/8 rounded-2xl p-6 hover:border-[#ff8c00]/25 hover:bg-white/[0.05] transition-all hover:shadow-[0_8px_30px_rgba(0,0,0,0.2)]"
+                className="group bg-white/[0.03] border border-white/8 rounded-2xl p-6 hover:border-[#2563eb]/25 hover:bg-white/[0.05] transition-all hover:shadow-[0_8px_30px_rgba(0,0,0,0.2)]"
               >
                 <div
                   className={`w-12 h-12 ${service.bg} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
                 >
                   <Icon className={`w-6 h-6 ${service.color}`} />
                 </div>
-                <h3 className="font-bold text-white mb-2 group-hover:text-[#ffb77d] transition-colors">
+                <h3 className="font-bold text-white mb-2 group-hover:text-[#60a5fa] transition-colors">
                   {service.title}
                 </h3>
                 <p className="text-sm text-white/40 leading-relaxed">{service.desc}</p>
-                <div className="flex items-center gap-1 mt-4 text-[#ffb77d] text-sm font-semibold opacity-0 group-hover:opacity-100 transition-all translate-y-1 group-hover:translate-y-0">
+                <div className="flex items-center gap-1 mt-4 text-[#60a5fa] text-sm font-semibold opacity-0 group-hover:opacity-100 transition-all translate-y-1 group-hover:translate-y-0">
                   Ver más <ChevronRight className="w-3.5 h-3.5" />
                 </div>
               </Link>
@@ -570,7 +570,7 @@ export default async function StorePage() {
             >
               <div className="flex mb-4">
                 {Array.from({ length: t.rating }).map((_, i) => (
-                  <Star key={i} className="w-4 h-4 text-[#ffb77d]" fill="#ffb77d" />
+                  <Star key={i} className="w-4 h-4 text-[#60a5fa]" fill="#60a5fa" />
                 ))}
               </div>
               <p className="text-sm text-white/60 leading-relaxed mb-4">
@@ -581,7 +581,7 @@ export default async function StorePage() {
                   <div className="font-bold text-white text-sm">{t.name}</div>
                   <div className="text-xs text-white/30">{t.city}</div>
                 </div>
-                <div className="text-xs text-[#ffb77d]/60 bg-[#ff8c00]/5 px-2.5 py-1 rounded-full border border-[#ff8c00]/10">
+                <div className="text-xs text-[#60a5fa]/60 bg-[#2563eb]/5 px-2.5 py-1 rounded-full border border-[#2563eb]/10">
                   {t.product}
                 </div>
               </div>
@@ -593,9 +593,9 @@ export default async function StorePage() {
       {/* 10. Newsletter */}
       <Section className="bg-white/[0.015]">
         <div className="max-w-2xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-[#ff8c00]/10 border border-[#ff8c00]/20 rounded-full px-4 py-1.5 mb-5">
-            <Zap className="w-4 h-4 text-[#ffb77d]" fill="#ffb77d" />
-            <span className="text-sm text-[#ffb77d] font-semibold">Newsletter exclusivo</span>
+          <div className="inline-flex items-center gap-2 bg-[#2563eb]/10 border border-[#2563eb]/20 rounded-full px-4 py-1.5 mb-5">
+            <Zap className="w-4 h-4 text-[#60a5fa]" fill="#60a5fa" />
+            <span className="text-sm text-[#60a5fa] font-semibold">Newsletter exclusivo</span>
           </div>
           <h2 className="text-3xl font-black text-white mb-3">
             Ofertas antes que nadie

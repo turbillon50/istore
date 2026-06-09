@@ -126,7 +126,7 @@ function NavLink(props: NavLinkProps) {
       className={`relative group flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors select-none
         ${
           isActive
-            ? "bg-[#f97316]/10 text-[#f97316]"
+            ? "bg-[#3b82f6]/10 text-[#3b82f6]"
             : "text-[#737373] hover:text-[#e5e5e5] hover:bg-[#1a1a1a]"
         }
         ${collapsed ? "justify-center" : ""}`}
@@ -134,7 +134,7 @@ function NavLink(props: NavLinkProps) {
       {isActive && (
         <motion.div
           layoutId="activeNav"
-          className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-[#f97316] rounded-r"
+          className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-[#3b82f6] rounded-r"
         />
       )}
 
@@ -155,12 +155,12 @@ function NavLink(props: NavLinkProps) {
       </AnimatePresence>
 
       {badge && !collapsed && (
-        <span className="ml-auto text-[10px] font-bold bg-[#f97316]/20 text-[#f97316] px-1.5 py-0.5 rounded-full leading-none">
+        <span className="ml-auto text-[10px] font-bold bg-[#3b82f6]/20 text-[#3b82f6] px-1.5 py-0.5 rounded-full leading-none">
           {badge}
         </span>
       )}
       {badge && collapsed && (
-        <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-[#f97316] rounded-full" />
+        <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-[#3b82f6] rounded-full" />
       )}
 
       {collapsed && (
@@ -200,13 +200,13 @@ function NavGroup(props: NavGroupProps) {
           className={`relative flex items-center justify-center w-full px-3 py-2 rounded-lg text-xs font-medium transition-colors
             ${
               isChildActive
-                ? "bg-[#f97316]/10 text-[#f97316]"
+                ? "bg-[#3b82f6]/10 text-[#3b82f6]"
                 : "text-[#737373] hover:text-[#e5e5e5] hover:bg-[#1a1a1a]"
             }`}
         >
           <Icon className="w-4 h-4" />
           {isChildActive && (
-            <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-[#f97316] rounded-full" />
+            <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-[#3b82f6] rounded-full" />
           )}
         </button>
         {/* Flyout */}
@@ -225,7 +225,7 @@ function NavGroup(props: NavGroupProps) {
               className={`block px-3 py-1.5 text-xs transition-colors
                 ${
                   pathname.startsWith(child.href)
-                    ? "text-[#f97316] bg-[#f97316]/10"
+                    ? "text-[#3b82f6] bg-[#3b82f6]/10"
                     : "text-[#a3a3a3] hover:text-[#e5e5e5] hover:bg-[#262626]"
                 }`}
             >
@@ -245,7 +245,7 @@ function NavGroup(props: NavGroupProps) {
         className={`relative flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-xs font-medium transition-colors
           ${
             isChildActive
-              ? "text-[#f97316]"
+              ? "text-[#3b82f6]"
               : "text-[#737373] hover:text-[#e5e5e5] hover:bg-[#1a1a1a]"
           }`}
       >
@@ -274,7 +274,7 @@ function NavGroup(props: NavGroupProps) {
                     className={`block px-2 py-1.5 text-xs rounded-md transition-colors
                       ${
                         pathname.startsWith(child.href)
-                          ? "text-[#f97316] bg-[#f97316]/10"
+                          ? "text-[#3b82f6] bg-[#3b82f6]/10"
                           : "text-[#737373] hover:text-[#e5e5e5] hover:bg-[#1a1a1a]"
                       }`}
                   >
@@ -312,7 +312,7 @@ export default function Sidebar(props: SidebarProps) {
         className={`flex items-center h-14 flex-shrink-0 border-b border-[#1a1a1a] px-3
           ${collapsed ? "justify-center" : "gap-3"}`}
       >
-        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#f97316] to-[#c2410c] flex items-center justify-center flex-shrink-0 shadow-lg">
+        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#3b82f6] to-[#c2410c] flex items-center justify-center flex-shrink-0 shadow-lg">
           <Store className="w-4 h-4 text-white" />
         </div>
 
@@ -328,7 +328,7 @@ export default function Sidebar(props: SidebarProps) {
               <p className="text-sm font-bold text-[#e5e5e5] tracking-tight leading-none">
                 iStore
               </p>
-              <p className="text-[10px] text-[#f97316] font-bold tracking-[0.2em] uppercase leading-none mt-0.5">
+              <p className="text-[10px] text-[#3b82f6] font-bold tracking-[0.2em] uppercase leading-none mt-0.5">
                 Pro
               </p>
             </motion.div>
@@ -416,7 +416,7 @@ export default function Sidebar(props: SidebarProps) {
           className={`flex items-center gap-2.5 p-2 rounded-lg hover:bg-[#1a1a1a] transition-colors cursor-pointer
             ${collapsed ? "justify-center" : ""}`}
         >
-          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#f97316] to-[#c2410c] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#3b82f6] to-[#c2410c] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
             A
           </div>
           <AnimatePresence initial={false}>
@@ -430,7 +430,7 @@ export default function Sidebar(props: SidebarProps) {
                 <p className="text-[#e5e5e5] text-xs font-medium truncate leading-none mb-1">
                   Admin User
                 </p>
-                <span className="text-[10px] font-semibold text-[#f97316] bg-[#f97316]/10 px-1.5 py-0.5 rounded">
+                <span className="text-[10px] font-semibold text-[#3b82f6] bg-[#3b82f6]/10 px-1.5 py-0.5 rounded">
                   SUPER ADMIN
                 </span>
               </motion.div>

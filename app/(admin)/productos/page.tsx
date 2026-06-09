@@ -115,7 +115,7 @@ function FilterSelect(props: FilterSelectProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="appearance-none bg-[#111] border border-[#1f1f1f] text-[#737373] text-xs rounded-lg pl-3 pr-7 py-2
-          focus:outline-none focus:border-[#f97316] hover:border-[#262626] hover:text-[#a3a3a3] transition-colors cursor-pointer"
+          focus:outline-none focus:border-[#3b82f6] hover:border-[#262626] hover:text-[#a3a3a3] transition-colors cursor-pointer"
       >
         {options.map((o) => (
           <option key={o} value={o}>
@@ -140,7 +140,7 @@ function InlineEditCell(props: InlineEditCellProps) {
       <button
         onDoubleClick={onStart}
         title="Doble clic para editar"
-        className={`text-xs font-semibold tabular-nums hover:text-[#f97316] transition-colors cursor-text
+        className={`text-xs font-semibold tabular-nums hover:text-[#3b82f6] transition-colors cursor-text
           ${field === "stock"
             ? value === 0 ? "text-red-400" : value < 10 ? "text-yellow-400" : "text-[#e5e5e5]"
             : "text-[#e5e5e5]"
@@ -161,7 +161,7 @@ function InlineEditCell(props: InlineEditCellProps) {
           if (e.key === "Enter") onSave(draft);
           if (e.key === "Escape") onCancel();
         }}
-        className="w-20 bg-[#0f0f0f] border border-[#f97316] rounded px-1.5 py-0.5 text-xs text-[#e5e5e5] tabular-nums focus:outline-none"
+        className="w-20 bg-[#0f0f0f] border border-[#3b82f6] rounded px-1.5 py-0.5 text-xs text-[#e5e5e5] tabular-nums focus:outline-none"
       />
       <button onClick={() => onSave(draft)} className="p-0.5 text-emerald-400 hover:text-emerald-300">
         <Save className="w-3 h-3" />
@@ -395,7 +395,7 @@ export default function ProductosPage() {
             <FileSpreadsheet className="w-3.5 h-3.5" />
             Exportar Excel
           </button>
-          <button className="flex items-center gap-2 px-3 py-2 bg-[#f97316] rounded-lg text-xs text-white font-semibold hover:bg-[#ea6c0a] transition-colors">
+          <button className="flex items-center gap-2 px-3 py-2 bg-[#3b82f6] rounded-lg text-xs text-white font-semibold hover:bg-[#ea6c0a] transition-colors">
             <Plus className="w-3.5 h-3.5" />
             Nuevo producto
           </button>
@@ -429,7 +429,7 @@ export default function ProductosPage() {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar por nombre o SKU..."
               className="w-full bg-[#0a0a0a] border border-[#1a1a1a] rounded-lg pl-9 pr-3 py-2 text-xs text-[#e5e5e5]
-                placeholder:text-[#404040] focus:outline-none focus:border-[#f97316] transition-colors"
+                placeholder:text-[#404040] focus:outline-none focus:border-[#3b82f6] transition-colors"
             />
             {search && (
               <button
@@ -454,7 +454,7 @@ export default function ProductosPage() {
               {activeFilters.map((f) => (
                 <span
                   key={f.label}
-                  className="flex items-center gap-1 text-[11px] text-[#f97316] bg-[#f97316]/10 border border-[#f97316]/20 px-2 py-0.5 rounded-full"
+                  className="flex items-center gap-1 text-[11px] text-[#3b82f6] bg-[#3b82f6]/10 border border-[#3b82f6]/20 px-2 py-0.5 rounded-full"
                 >
                   {f.label}
                   <button onClick={f.clear} className="hover:opacity-70">
@@ -546,7 +546,7 @@ export default function ProductosPage() {
                       type={field.type}
                       defaultValue={String((editProduct as any)[field.key])}
                       className="w-full bg-[#111] border border-[#1f1f1f] rounded-lg px-3 py-2.5 text-sm text-[#e5e5e5]
-                        focus:outline-none focus:border-[#f97316] hover:border-[#262626] transition-colors"
+                        focus:outline-none focus:border-[#3b82f6] hover:border-[#262626] transition-colors"
                     />
                   </div>
                 ))}
@@ -557,7 +557,7 @@ export default function ProductosPage() {
                     <select
                       defaultValue={editProduct.status}
                       className="w-full appearance-none bg-[#111] border border-[#1f1f1f] rounded-lg px-3 py-2.5 text-sm text-[#e5e5e5]
-                        focus:outline-none focus:border-[#f97316] hover:border-[#262626] transition-colors cursor-pointer pr-8"
+                        focus:outline-none focus:border-[#3b82f6] hover:border-[#262626] transition-colors cursor-pointer pr-8"
                     >
                       {["Activo", "Inactivo", "Agotado"].map((s) => (
                         <option key={s}>{s}</option>
@@ -568,8 +568,8 @@ export default function ProductosPage() {
                 </div>
 
                 {/* Tip */}
-                <div className="bg-[#f97316]/5 border border-[#f97316]/15 rounded-lg p-3">
-                  <p className="text-xs text-[#f97316]/80">
+                <div className="bg-[#3b82f6]/5 border border-[#3b82f6]/15 rounded-lg p-3">
+                  <p className="text-xs text-[#3b82f6]/80">
                     Tip: Haz doble clic en Precio o Stock en la tabla para editarlos directamente.
                   </p>
                 </div>
@@ -585,7 +585,7 @@ export default function ProductosPage() {
                 </button>
                 <button
                   onClick={() => setEditProduct(null)}
-                  className="px-4 py-2 bg-[#f97316] text-white text-sm font-semibold rounded-lg hover:bg-[#ea6c0a] transition-colors"
+                  className="px-4 py-2 bg-[#3b82f6] text-white text-sm font-semibold rounded-lg hover:bg-[#ea6c0a] transition-colors"
                 >
                   Guardar cambios
                 </button>

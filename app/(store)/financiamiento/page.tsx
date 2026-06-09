@@ -214,12 +214,12 @@ export default function FinanciamientoPage() {
     <div className="min-h-screen bg-[#131313] text-white">
       {/* Hero */}
       <section className="relative bg-gradient-to-b from-[#1a1a1a] to-[#131313] py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,140,0,0.08),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(37, 99, 235,0.08),transparent_70%)]" />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 bg-[#ff8c00]/10 border border-[#ff8c00]/20 text-[#ffb77d] text-xs font-semibold px-4 py-2 rounded-full mb-6"
+            className="inline-flex items-center gap-2 bg-[#2563eb]/10 border border-[#2563eb]/20 text-[#60a5fa] text-xs font-semibold px-4 py-2 rounded-full mb-6"
           >
             <CreditCard className="w-3.5 h-3.5" />
             Financiamiento flexible sin complicaciones
@@ -231,7 +231,7 @@ export default function FinanciamientoPage() {
             className="text-4xl sm:text-5xl font-black text-white mb-4"
           >
             Tu equipo,{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff8c00] to-[#ffb77d]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563eb] to-[#60a5fa]">
               a tu ritmo
             </span>
           </motion.h1>
@@ -252,8 +252,8 @@ export default function FinanciamientoPage() {
           {/* Input */}
           <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-[#ff8c00]/10 flex items-center justify-center">
-                <Calculator className="w-5 h-5 text-[#ffb77d]" />
+              <div className="w-10 h-10 rounded-xl bg-[#2563eb]/10 flex items-center justify-center">
+                <Calculator className="w-5 h-5 text-[#60a5fa]" />
               </div>
               <div>
                 <h2 className="font-bold text-white">Calculadora de pagos</h2>
@@ -269,7 +269,7 @@ export default function FinanciamientoPage() {
                   type="text"
                   value={rawPrice}
                   onChange={(e) => handlePriceChange(e.target.value)}
-                  className="w-full bg-white/[0.05] border border-white/10 rounded-xl pl-8 pr-4 py-4 text-2xl font-black text-white focus:outline-none focus:border-[#ff8c00]/40 transition-all"
+                  className="w-full bg-white/[0.05] border border-white/10 rounded-xl pl-8 pr-4 py-4 text-2xl font-black text-white focus:outline-none focus:border-[#2563eb]/40 transition-all"
                   placeholder="0"
                 />
               </div>
@@ -293,7 +293,7 @@ export default function FinanciamientoPage() {
                     onClick={() => { setProductPrice(price); setRawPrice(String(price)); }}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
                       productPrice === price
-                        ? "bg-[#ff8c00]/20 border-[#ff8c00]/40 text-[#ffb77d]"
+                        ? "bg-[#2563eb]/20 border-[#2563eb]/40 text-[#60a5fa]"
                         : "bg-white/[0.04] border-white/10 text-white/60 hover:border-white/25"
                     }`}
                   >
@@ -315,7 +315,7 @@ export default function FinanciamientoPage() {
                   !plan.available
                     ? "opacity-40 border-white/[0.05] bg-white/[0.02]"
                     : plan.popular
-                    ? "border-[#ff8c00]/30 bg-[#ff8c00]/5"
+                    ? "border-[#2563eb]/30 bg-[#2563eb]/5"
                     : "border-white/[0.07] bg-white/[0.03] hover:border-white/15"
                 }`}
               >
@@ -324,7 +324,7 @@ export default function FinanciamientoPage() {
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-sm font-bold text-white">{plan.name}</span>
                       {plan.popular && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 bg-[#ff8c00]/15 text-[#ffb77d] border border-[#ff8c00]/20 rounded-full">
+                        <span className="text-[10px] font-bold px-2 py-0.5 bg-[#2563eb]/15 text-[#60a5fa] border border-[#2563eb]/20 rounded-full">
                           Popular
                         </span>
                       )}
@@ -365,14 +365,14 @@ export default function FinanciamientoPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-6">
             <h2 className="font-bold text-white mb-5 flex items-center gap-2">
-              <Users className="w-4 h-4 text-[#ffb77d]" />
+              <Users className="w-4 h-4 text-[#60a5fa]" />
               Requisitos
             </h2>
             <ul className="space-y-3">
               {REQUIREMENTS.map((req, idx) => (
                 <li key={idx} className="flex items-start gap-3 text-sm text-white/65">
-                  <div className="w-5 h-5 rounded-full bg-[#ff8c00]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="w-3 h-3 text-[#ffb77d]" />
+                  <div className="w-5 h-5 rounded-full bg-[#2563eb]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Check className="w-3 h-3 text-[#60a5fa]" />
                   </div>
                   {req}
                 </li>
@@ -382,7 +382,7 @@ export default function FinanciamientoPage() {
 
           <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-6">
             <h2 className="font-bold text-white mb-5 flex items-center gap-2">
-              <TrendingDown className="w-4 h-4 text-[#ffb77d]" />
+              <TrendingDown className="w-4 h-4 text-[#60a5fa]" />
               Beneficios
             </h2>
             <div className="space-y-4">
@@ -395,8 +395,8 @@ export default function FinanciamientoPage() {
                 const FiIcon = fi.icon;
                 return (
                 <div key={fi.title} className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-[#ff8c00]/10 flex items-center justify-center flex-shrink-0">
-                    <FiIcon className="w-4 h-4 text-[#ffb77d]" />
+                  <div className="w-8 h-8 rounded-lg bg-[#2563eb]/10 flex items-center justify-center flex-shrink-0">
+                    <FiIcon className="w-4 h-4 text-[#60a5fa]" />
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-white">{fi.title}</p>
@@ -414,7 +414,7 @@ export default function FinanciamientoPage() {
       <section className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-6">
           <h2 className="font-bold text-white mb-6 flex items-center gap-2">
-            <DollarSign className="w-5 h-5 text-[#ffb77d]" />
+            <DollarSign className="w-5 h-5 text-[#60a5fa]" />
             Pre-solicitar financiamiento
           </h2>
 
@@ -438,32 +438,32 @@ export default function FinanciamientoPage() {
                 <div>
                   <label className="text-xs text-white/50 mb-1 block">Nombre completo</label>
                   <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="Juan Pérez" className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#ff8c00]/40 transition-all" />
+                    placeholder="Juan Pérez" className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#2563eb]/40 transition-all" />
                 </div>
                 <div>
                   <label className="text-xs text-white/50 mb-1 block">Teléfono</label>
                   <input required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    placeholder="55 1234 5678" className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#ff8c00]/40 transition-all" />
+                    placeholder="55 1234 5678" className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#2563eb]/40 transition-all" />
                 </div>
               </div>
 
               <div>
                 <label className="text-xs text-white/50 mb-1 block">Correo</label>
                 <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  placeholder="tu@correo.com" className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#ff8c00]/40 transition-all" />
+                  placeholder="tu@correo.com" className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#2563eb]/40 transition-all" />
               </div>
 
               <div>
                 <label className="text-xs text-white/50 mb-1 block">¿Qué producto te interesa?</label>
                 <input value={form.productInterest} onChange={(e) => setForm({ ...form, productInterest: e.target.value })}
-                  placeholder="iPhone 15 Pro Max, MacBook Air..." className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#ff8c00]/40 transition-all" />
+                  placeholder="iPhone 15 Pro Max, MacBook Air..." className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#2563eb]/40 transition-all" />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs text-white/50 mb-1 block">Plan preferido</label>
                   <select value={form.preferredPlan} onChange={(e) => setForm({ ...form, preferredPlan: e.target.value })}
-                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#ff8c00]/40 transition-all appearance-none">
+                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#2563eb]/40 transition-all appearance-none">
                     <option value="" className="bg-[#1e1e1e]">Seleccionar...</option>
                     {FINANCING_OPTIONS.map((o) => <option key={o.id} value={o.id} className="bg-[#1e1e1e]">{o.name}</option>)}
                   </select>
@@ -471,7 +471,7 @@ export default function FinanciamientoPage() {
                 <div>
                   <label className="text-xs text-white/50 mb-1 block">Rango de ingresos</label>
                   <select value={form.incomeRange} onChange={(e) => setForm({ ...form, incomeRange: e.target.value })}
-                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#ff8c00]/40 transition-all appearance-none">
+                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#2563eb]/40 transition-all appearance-none">
                     <option value="" className="bg-[#1e1e1e]">Seleccionar...</option>
                     {["Menos de $10,000", "$10,000 - $20,000", "$20,000 - $40,000", "Más de $40,000"].map((r) => (
                       <option key={r} value={r} className="bg-[#1e1e1e]">{r}</option>
@@ -481,7 +481,7 @@ export default function FinanciamientoPage() {
               </div>
 
               <motion.button whileTap={{ scale: 0.98 }} type="submit" disabled={submitting}
-                className="w-full py-3.5 bg-gradient-to-r from-[#ff8c00] to-[#ffb77d] text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(255,140,0,0.3)] transition-all disabled:opacity-70">
+                className="w-full py-3.5 bg-gradient-to-r from-[#2563eb] to-[#60a5fa] text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(37, 99, 235,0.3)] transition-all disabled:opacity-70">
                 {submitting ? <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : <><Send className="w-4 h-4" />Enviar pre-solicitud</>}
               </motion.button>
             </form>

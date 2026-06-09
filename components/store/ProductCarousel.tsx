@@ -107,7 +107,7 @@ const MOCK_PRODUCTS: Product[] = [
 ]
 
 const BADGE_STYLES: Record<Badge, string> = {
-  NEW: 'bg-[#ff8c00] text-[#131313]',
+  NEW: 'bg-[#2563eb] text-[#131313]',
   HOT: 'bg-red-500 text-white',
   SALE: 'bg-emerald-500 text-white',
   REFURB: 'bg-purple-500 text-white',
@@ -119,7 +119,7 @@ function StarRating({ rating }: { rating: number }) {
       {[1, 2, 3, 4, 5].map((star) => (
         <svg
           key={star}
-          className={`w-3 h-3 ${star <= Math.round(rating) ? 'text-[#ffb77d]' : 'text-[#e2e2e2]/20'}`}
+          className={`w-3 h-3 ${star <= Math.round(rating) ? 'text-[#60a5fa]' : 'text-[#e2e2e2]/20'}`}
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -163,7 +163,7 @@ function QuickViewModal({ product, onClose }: QuickViewProps) {
               <div>
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <p className="text-[#ffb77d] text-sm font-medium mb-1">{product.brand}</p>
+                    <p className="text-[#60a5fa] text-sm font-medium mb-1">{product.brand}</p>
                     <h3 className="text-[#e2e2e2] text-2xl font-bold">{product.name}</h3>
                   </div>
                   <button onClick={onClose} className="text-[#e2e2e2]/40 hover:text-[#e2e2e2] transition-colors">
@@ -191,7 +191,7 @@ function QuickViewModal({ product, onClose }: QuickViewProps) {
                     <p className="text-[#e2e2e2]/60 text-xs mb-2">Almacenamiento</p>
                     <div className="flex gap-2 flex-wrap">
                       {product.storage.map((s) => (
-                        <button key={s} className="px-3 py-1 rounded-full border border-[#ffb77d]/30 text-[#e2e2e2] text-xs hover:border-[#ffb77d] hover:bg-[#ffb77d]/10 transition-all">
+                        <button key={s} className="px-3 py-1 rounded-full border border-[#60a5fa]/30 text-[#e2e2e2] text-xs hover:border-[#60a5fa] hover:bg-[#60a5fa]/10 transition-all">
                           {s}
                         </button>
                       ))}
@@ -200,10 +200,10 @@ function QuickViewModal({ product, onClose }: QuickViewProps) {
                 )}
               </div>
               <div className="flex flex-col gap-3">
-                <button className="w-full py-3 bg-[#ff8c00] hover:bg-[#ffb77d] text-[#131313] font-bold rounded-full transition-all hover:shadow-[0_0_20px_rgba(255,140,0,0.4)]">
+                <button className="w-full py-3 bg-[#2563eb] hover:bg-[#60a5fa] text-[#131313] font-bold rounded-full transition-all hover:shadow-[0_0_20px_rgba(37, 99, 235,0.4)]">
                   Agregar al carrito
                 </button>
-                <Link href={`/products/${product.slug}`} className="w-full py-3 border border-[#ffb77d]/30 text-[#ffb77d] font-semibold rounded-full text-center hover:bg-[#ffb77d]/10 transition-all text-sm">
+                <Link href={`/products/${product.slug}`} className="w-full py-3 border border-[#60a5fa]/30 text-[#60a5fa] font-semibold rounded-full text-center hover:bg-[#60a5fa]/10 transition-all text-sm">
                   Ver producto completo
                 </Link>
               </div>
@@ -265,8 +265,8 @@ export default function ProductCarousel({
         <div className="flex items-end justify-between mb-12">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-6 h-px bg-[#ffb77d]" />
-              <span className="text-[#ffb77d] text-sm font-medium tracking-widest uppercase">
+              <div className="w-6 h-px bg-[#60a5fa]" />
+              <span className="text-[#60a5fa] text-sm font-medium tracking-widest uppercase">
                 Populares
               </span>
             </div>
@@ -277,7 +277,7 @@ export default function ProductCarousel({
             <button
               onClick={scrollPrev}
               disabled={!prevBtnEnabled}
-              className="w-10 h-10 rounded-full border border-[#ffb77d]/30 flex items-center justify-center text-[#ffb77d] hover:bg-[#ffb77d]/10 hover:border-[#ffb77d] disabled:opacity-30 transition-all"
+              className="w-10 h-10 rounded-full border border-[#60a5fa]/30 flex items-center justify-center text-[#60a5fa] hover:bg-[#60a5fa]/10 hover:border-[#60a5fa] disabled:opacity-30 transition-all"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -286,7 +286,7 @@ export default function ProductCarousel({
             <button
               onClick={scrollNext}
               disabled={!nextBtnEnabled}
-              className="w-10 h-10 rounded-full border border-[#ffb77d]/30 flex items-center justify-center text-[#ffb77d] hover:bg-[#ffb77d]/10 hover:border-[#ffb77d] disabled:opacity-30 transition-all"
+              className="w-10 h-10 rounded-full border border-[#60a5fa]/30 flex items-center justify-center text-[#60a5fa] hover:bg-[#60a5fa]/10 hover:border-[#60a5fa] disabled:opacity-30 transition-all"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -322,7 +322,7 @@ export default function ProductCarousel({
                   )}
 
                   {/* Wishlist */}
-                  <button className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-[#131313]/50 backdrop-blur-sm flex items-center justify-center text-[#e2e2e2]/50 hover:text-[#ff8c00] transition-colors opacity-0 group-hover:opacity-100">
+                  <button className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-[#131313]/50 backdrop-blur-sm flex items-center justify-center text-[#e2e2e2]/50 hover:text-[#2563eb] transition-colors opacity-0 group-hover:opacity-100">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
@@ -338,11 +338,11 @@ export default function ProductCarousel({
                   </div>
 
                   {/* Glow border on hover */}
-                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" style={{ boxShadow: '0 0 25px rgba(255,140,0,0.15)', border: '1px solid rgba(255,183,125,0.3)' }} />
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" style={{ boxShadow: '0 0 25px rgba(37, 99, 235,0.15)', border: '1px solid rgba(255,183,125,0.3)' }} />
 
                   {/* Info */}
                   <div className="p-4">
-                    <p className="text-[#ffb77d] text-xs font-medium mb-1">{product.brand}</p>
+                    <p className="text-[#60a5fa] text-xs font-medium mb-1">{product.brand}</p>
                     <h3 className="text-[#e2e2e2] font-semibold text-sm leading-snug mb-2 line-clamp-2">
                       {product.name}
                     </h3>
@@ -379,12 +379,12 @@ export default function ProductCarousel({
 
                     {/* Actions */}
                     <div className="flex gap-2 mt-3">
-                      <button className="flex-1 py-2.5 bg-[#ff8c00] hover:bg-[#ffb77d] text-[#131313] font-bold rounded-xl text-xs transition-all hover:shadow-[0_0_15px_rgba(255,140,0,0.3)]">
+                      <button className="flex-1 py-2.5 bg-[#2563eb] hover:bg-[#60a5fa] text-[#131313] font-bold rounded-xl text-xs transition-all hover:shadow-[0_0_15px_rgba(37, 99, 235,0.3)]">
                         + Carrito
                       </button>
                       <button
                         onClick={() => setQuickView(product)}
-                        className="px-3 py-2.5 border border-[#ffb77d]/30 text-[#ffb77d] rounded-xl text-xs hover:bg-[#ffb77d]/10 transition-all"
+                        className="px-3 py-2.5 border border-[#60a5fa]/30 text-[#60a5fa] rounded-xl text-xs hover:bg-[#60a5fa]/10 transition-all"
                       >
                         Vista rápida
                       </button>
@@ -398,12 +398,12 @@ export default function ProductCarousel({
 
         {/* Mobile nav */}
         <div className="flex justify-center gap-3 mt-8 md:hidden">
-          <button onClick={scrollPrev} className="w-10 h-10 rounded-full border border-[#ffb77d]/30 flex items-center justify-center text-[#ffb77d]">
+          <button onClick={scrollPrev} className="w-10 h-10 rounded-full border border-[#60a5fa]/30 flex items-center justify-center text-[#60a5fa]">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <button onClick={scrollNext} className="w-10 h-10 rounded-full border border-[#ffb77d]/30 flex items-center justify-center text-[#ffb77d]">
+          <button onClick={scrollNext} className="w-10 h-10 rounded-full border border-[#60a5fa]/30 flex items-center justify-center text-[#60a5fa]">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>

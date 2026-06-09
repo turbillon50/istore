@@ -107,7 +107,7 @@ const ORDER_STATUS_CFG: Record<OrderStatus, { color: string; bg: string; border:
   Pendiente:  { color: "text-yellow-400", bg: "bg-yellow-400/10", border: "border-yellow-400/20", icon: Clock },
   Confirmado: { color: "text-blue-400",   bg: "bg-blue-400/10",   border: "border-blue-400/20",   icon: CheckCircle2 },
   "En Proceso": { color: "text-purple-400", bg: "bg-purple-400/10", border: "border-purple-400/20", icon: Package },
-  Enviado:    { color: "text-[#f97316]",  bg: "bg-[#f97316]/10",  border: "border-[#f97316]/20",  icon: Truck },
+  Enviado:    { color: "text-[#3b82f6]",  bg: "bg-[#3b82f6]/10",  border: "border-[#3b82f6]/20",  icon: Truck },
   Entregado:  { color: "text-emerald-400", bg: "bg-emerald-400/10", border: "border-emerald-400/20", icon: CheckCircle2 },
   Cancelado:  { color: "text-red-400",    bg: "bg-red-400/10",    border: "border-red-400/20",    icon: XCircle },
 };
@@ -226,7 +226,7 @@ function OrderDrawer(props: OrderDrawerProps) {
                         </span>
                       </div>
                       {i < STATUS_FLOW.length - 1 && (
-                        <div className={`flex-1 h-px mb-4 ${i < idx ? "bg-[#f97316]/40" : "bg-[#1f1f1f]"}`} />
+                        <div className={`flex-1 h-px mb-4 ${i < idx ? "bg-[#3b82f6]/40" : "bg-[#1f1f1f]"}`} />
                       )}
                     </div>
                   );
@@ -469,7 +469,7 @@ export default function PedidosPage() {
                     handleStatusChange(row.original.id, STATUS_FLOW[idx + 1]);
                   }
                 }}
-                className="p-1.5 rounded-md text-[#404040] hover:text-[#f97316] hover:bg-[#f97316]/10 transition-colors"
+                className="p-1.5 rounded-md text-[#404040] hover:text-[#3b82f6] hover:bg-[#3b82f6]/10 transition-colors"
                 title="Avanzar estado"
                 disabled={STATUS_FLOW.indexOf(row.original.status) >= STATUS_FLOW.length - 1}
               >
@@ -524,7 +524,7 @@ export default function PedidosPage() {
                 onClick={() => setActiveTab(tab.value)}
                 className={`flex items-center gap-2 px-4 py-3 text-xs font-medium whitespace-nowrap border-b-2 transition-colors
                   ${isActive
-                    ? `border-[#f97316] text-[#f97316]`
+                    ? `border-[#3b82f6] text-[#3b82f6]`
                     : "border-transparent text-[#525252] hover:text-[#a3a3a3] hover:bg-[#0f0f0f]"}`}
               >
                 {tab.label}
@@ -532,7 +532,7 @@ export default function PedidosPage() {
                   <span
                     className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full
                       ${isActive
-                        ? "bg-[#f97316]/20 text-[#f97316]"
+                        ? "bg-[#3b82f6]/20 text-[#3b82f6]"
                         : "bg-[#1f1f1f] text-[#525252]"}`}
                   >
                     {count}
@@ -553,7 +553,7 @@ export default function PedidosPage() {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar por pedido, cliente..."
               className="w-full bg-[#0a0a0a] border border-[#1a1a1a] rounded-lg pl-9 pr-3 py-2 text-xs text-[#e5e5e5]
-                placeholder:text-[#404040] focus:outline-none focus:border-[#f97316] transition-colors"
+                placeholder:text-[#404040] focus:outline-none focus:border-[#3b82f6] transition-colors"
             />
             {search && (
               <button onClick={() => setSearch("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#404040] hover:text-[#a3a3a3]">
@@ -568,7 +568,7 @@ export default function PedidosPage() {
               value={paymentFilter}
               onChange={(e) => setPaymentFilter(e.target.value as PaymentStatus | "Todos")}
               className="appearance-none bg-[#111] border border-[#1f1f1f] text-[#737373] text-xs rounded-lg pl-3 pr-7 py-2
-                focus:outline-none focus:border-[#f97316] hover:border-[#262626] transition-colors cursor-pointer"
+                focus:outline-none focus:border-[#3b82f6] hover:border-[#262626] transition-colors cursor-pointer"
             >
               {["Todos", "Pagado", "Pendiente", "Fallido", "Reembolsado"].map((p) => (
                 <option key={p} value={p}>
@@ -588,7 +588,7 @@ export default function PedidosPage() {
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
                 className="bg-[#111] border border-[#1f1f1f] text-[#737373] text-xs rounded-lg pl-7 pr-3 py-2
-                  focus:outline-none focus:border-[#f97316] hover:border-[#262626] transition-colors cursor-pointer"
+                  focus:outline-none focus:border-[#3b82f6] hover:border-[#262626] transition-colors cursor-pointer"
               />
             </div>
             <span className="text-[#333] text-xs"> - </span>
@@ -597,7 +597,7 @@ export default function PedidosPage() {
               value={dateTo}
               onChange={(e) => setDateTo(e.target.value)}
               className="bg-[#111] border border-[#1f1f1f] text-[#737373] text-xs rounded-lg px-3 py-2
-                focus:outline-none focus:border-[#f97316] hover:border-[#262626] transition-colors cursor-pointer"
+                focus:outline-none focus:border-[#3b82f6] hover:border-[#262626] transition-colors cursor-pointer"
             />
             {(dateFrom || dateTo) && (
               <button

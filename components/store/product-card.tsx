@@ -28,8 +28,8 @@ function StarRating({ rating, count }: { rating: number; count?: number }) {
           <Star
             key={star}
             className="w-3 h-3"
-            fill={star <= Math.round(rating) ? "#ffb77d" : "transparent"}
-            stroke={star <= Math.round(rating) ? "#ffb77d" : "#ffffff30"}
+            fill={star <= Math.round(rating) ? "#60a5fa" : "transparent"}
+            stroke={star <= Math.round(rating) ? "#60a5fa" : "#ffffff30"}
           />
         ))}
       </div>
@@ -43,7 +43,7 @@ function StarRating({ rating, count }: { rating: number; count?: number }) {
 const badgeConfig = {
   Nuevo: "bg-blue-500/20 text-blue-300 border-blue-500/30",
   Hot: "bg-red-500/20 text-red-300 border-red-500/30",
-  Oferta: "bg-[#ff8c00]/20 text-[#ffb77d] border-[#ff8c00]/30",
+  Oferta: "bg-[#2563eb]/20 text-[#60a5fa] border-[#2563eb]/30",
   Agotado: "bg-white/10 text-white/40 border-white/10",
 };
 
@@ -80,7 +80,7 @@ export default function ProductCard({
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
-      className="group relative bg-white/[0.03] border border-white/[0.07] rounded-2xl overflow-hidden hover:border-[#ff8c00]/30 hover:bg-white/[0.05] transition-all duration-300 hover:shadow-[0_8px_40px_rgba(255,140,0,0.1)]"
+      className="group relative bg-white/[0.03] border border-white/[0.07] rounded-2xl overflow-hidden hover:border-[#2563eb]/30 hover:bg-white/[0.05] transition-all duration-300 hover:shadow-[0_8px_40px_rgba(37, 99, 235,0.1)]"
     >
       {/* Wishlist button */}
       <button
@@ -93,8 +93,8 @@ export default function ProductCard({
       >
         <Heart
           className="w-4 h-4 transition-colors"
-          fill={isWishlisted ? "#ff8c00" : "transparent"}
-          stroke={isWishlisted ? "#ff8c00" : "white"}
+          fill={isWishlisted ? "#2563eb" : "transparent"}
+          stroke={isWishlisted ? "#2563eb" : "white"}
         />
       </button>
 
@@ -145,12 +145,12 @@ export default function ProductCard({
         {/* Info */}
         <div className="p-4">
           {/* Brand */}
-          <p className="text-xs font-semibold text-[#ffb77d]/70 uppercase tracking-wider mb-1">
+          <p className="text-xs font-semibold text-[#60a5fa]/70 uppercase tracking-wider mb-1">
             {brand}
           </p>
 
           {/* Name */}
-          <h3 className="text-sm font-semibold text-white leading-snug line-clamp-2 mb-2 group-hover:text-[#ffb77d] transition-colors">
+          <h3 className="text-sm font-semibold text-white leading-snug line-clamp-2 mb-2 group-hover:text-[#60a5fa] transition-colors">
             {name}
           </h3>
 
@@ -184,7 +184,7 @@ export default function ProductCard({
               ? "bg-white/5 text-white/30 cursor-not-allowed"
               : addedToCart
               ? "bg-green-500/20 text-green-400 border border-green-500/30"
-              : "bg-gradient-to-r from-[#ff8c00] to-[#ffb77d] text-black hover:shadow-[0_0_20px_rgba(255,140,0,0.3)] hover:scale-[1.02]"
+              : "bg-gradient-to-r from-[#2563eb] to-[#60a5fa] text-black hover:shadow-[0_0_20px_rgba(37, 99, 235,0.3)] hover:scale-[1.02]"
           }`}
         >
           {badge === "Agotado" ? (
