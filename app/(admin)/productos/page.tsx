@@ -66,9 +66,7 @@ const STATUSES = ["Todos", "Activo", "Inactivo", "Agotado"];
 
 // --- Helpers ------------------------------------------------------------------
 
-type StatusBadgeProps = { status: string }
-function StatusBadge(props: StatusBadgeProps) {
-  const { status } = props;
+function StatusBadge({ status }: { status: Product["status"] }) {
   const map = {
     Activo:   { cls: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20", icon: CheckCircle2 },
     Inactivo: { cls: "text-[#525252] bg-[#1a1a1a] border-[#262626]",            icon: XCircle },
@@ -174,14 +172,12 @@ function InlineEditCell(props: InlineEditCellProps) {
 // --- Page ---------------------------------------------------------------------
 
 export default function ProductosPage() {
-  const initialData: Product[] = MOCK;
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState<Product[]>(MOCK);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("Todos");
   const [brand, setBrand] = useState("Todos");
   const [status, setStatus] = useState("Todos");
-  type ProductOrNull = Product | null;
-  const [editProduct, setEditProduct] = useState<ProductOrNull>(null);
+  const [editProduct, setEditProduct] = useState<Product | null>(null);
   const [editingCell, setEditingCell] = useState<EditingCell>(null);
 
   const filtered = useMemo(
@@ -331,7 +327,7 @@ export default function ProductosPage() {
         header: "Estado",
         enableSorting: true,
         size: 110,
-        cell: ({ getValue }) => <StatusBadge status={(getValue() as any)} />,
+        cell: ({ getValue }) => <StatusBadge status={getValue() as any} />,
       },
       {
         id: "actions",
@@ -371,7 +367,7 @@ export default function ProductosPage() {
     category !== "Todos" ? { label: category, clear: () => setCategory("Todos") } : null,
     brand !== "Todos" ? { label: brand, clear: () => setBrand("Todos") } : null,
     status !== "Todos" ? { label: status, clear: () => setStatus("Todos") } : null,
-  ].filter(Boolean) as any[];
+  ].filter(Boolean) as { label: string; clear: () => void }[];
 
   return (
     <div className="space-y-5 max-w-[1600px]">
@@ -389,4 +385,209 @@ export default function ProductosPage() {
             <Upload className="w-3.5 h-3.5" />
             Importar Excel
           </button>
-          <button className="flex items-center gap-2 px-3 py-2 bg-[#111] border border-[#1f1f1f] rounded-lg text-xs text-[#737373] hover
+          <button className="flex items-center gap-2 px-3 py-2 bg-[#111] border border-[#1f1f1f] rounded-lg text-xs text-[#737373] hover:border-[#262626] hover:text-[#e5e5e5] transition-colors">
+            <FileSpreadsheet className="w-3.5 h-3.5" />
+            Exportar Excel
+          </button>
+          <button className="flex items-center gap-2 px-3 py-2 bg-[#f97316] rounded-lg text-xs text-white font-semibold hover:bg-[#ea6c0a] transition-colors">
+            <Plus className="w-3.5 h-3.5" />
+            Nuevo producto
+          </button>
+        </div>
+      </div>
+
+      {/* Stats bar */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {[
+          { label: "Total productos", value: data.length, color: "text-[#e5e5e5]" },
+          { label: "Activos", value: data.filter((p) => p.status === "Activo").length, color: "text-emerald-400" },
+          { label: "Agotados", value: data.filter((p) => p.status === "Agotado").length, color: "text-red-400" },
+          { label: "Stock bajo (≤10)", value: data.filter((p) => p.stock > 0 && p.stock <= 10).length, color: "text-yellow-400" },
+        ].map((s) => (
+          <div key={s.label} className="bg-[#111] border border-[#1a1a1a] rounded-xl px-4 py-3 flex items-center justify-between">
+            <span className="text-xs text-[#404040]">{s.label}</span>
+            <span className={`text-lg font-bold tabular-nums ${s.color}`}>{s.value}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Table card */}
+      <div className="bg-[#111] border border-[#1a1a1a] rounded-xl overflow-hidden">
+        {/* Toolbar */}
+        <div className="flex flex-wrap items-center gap-3 px-4 py-3 border-b border-[#1a1a1a]">
+          {/* Search */}
+          <div className="relative flex-1 min-w-[200px] max-w-xs">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#404040]" />
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Buscar por nombre o SKU..."
+              className="w-full bg-[#0a0a0a] border border-[#1a1a1a] rounded-lg pl-9 pr-3 py-2 text-xs text-[#e5e5e5]
+                placeholder:text-[#404040] focus:outline-none focus:border-[#f97316] transition-colors"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#404040] hover:text-[#a3a3a3]"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            )}
+          </div>
+
+          {/* Filters */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <FilterSelect label="Categoría" value={category} options={CATEGORIES} onChange={setCategory} />
+            <FilterSelect label="Marca" value={brand} options={BRANDS} onChange={setBrand} />
+            <FilterSelect label="Estado" value={status} options={STATUSES} onChange={setStatus} />
+          </div>
+
+          {/* Active chips */}
+          {activeFilters.length > 0 && (
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {activeFilters.map((f) => (
+                <span
+                  key={f.label}
+                  className="flex items-center gap-1 text-[11px] text-[#f97316] bg-[#f97316]/10 border border-[#f97316]/20 px-2 py-0.5 rounded-full"
+                >
+                  {f.label}
+                  <button onClick={f.clear} className="hover:opacity-70">
+                    <X className="w-2.5 h-2.5" />
+                  </button>
+                </span>
+              ))}
+              <button
+                onClick={() => { setCategory("Todos"); setBrand("Todos"); setStatus("Todos"); }}
+                className="text-[11px] text-[#404040] hover:text-[#a3a3a3] transition-colors"
+              >
+                Limpiar todo
+              </button>
+            </div>
+          )}
+
+          {/* Result count */}
+          <span className="ml-auto text-xs text-[#404040]">
+            {filtered.length} resultado{filtered.length !== 1 ? "s" : ""}
+          </span>
+        </div>
+
+        <DataTable
+          data={filtered}
+          columns={columns}
+          bulkActions={[
+            { label: "Activar", icon: CheckCircle2, onClick: handleBulkActivate },
+            { label: "Desactivar", icon: XCircle, onClick: handleBulkDeactivate },
+            { label: "Exportar", icon: Download, onClick: (rows) => console.log("export", rows.length) },
+            { label: "Eliminar", icon: Trash2, variant: "danger", onClick: handleBulkDelete },
+          ]}
+          emptyMessage="No se encontraron productos con los filtros aplicados"
+          pageSize={15}
+        />
+      </div>
+
+      {/* Edit drawer */}
+      <AnimatePresence>
+        {editProduct && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setEditProduct(null)}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            />
+            <motion.aside
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 28, stiffness: 280 }}
+              className="fixed right-0 top-0 h-full w-full max-w-md bg-[#0f0f0f] border-l border-[#1f1f1f] z-50 flex flex-col"
+            >
+              {/* Drawer header */}
+              <div className="flex items-center justify-between px-6 py-4 border-b border-[#1a1a1a]">
+                <div className="flex items-center gap-3">
+                  <ProductAvatar name={editProduct.name} sku={editProduct.sku} />
+                  <div>
+                    <p className="text-sm font-semibold text-[#e5e5e5] leading-none truncate max-w-[220px]">
+                      {editProduct.name}
+                    </p>
+                    <p className="text-[11px] text-[#404040] font-mono mt-0.5">{editProduct.sku}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setEditProduct(null)}
+                  className="p-2 rounded-lg text-[#404040] hover:text-[#e5e5e5] hover:bg-[#1a1a1a] transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Drawer body */}
+              <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                {[
+                  { label: "Nombre del producto", key: "name", type: "text" },
+                  { label: "SKU", key: "sku", type: "text" },
+                  { label: "Precio (MXN)", key: "price", type: "number" },
+                  { label: "Stock", key: "stock", type: "number" },
+                  { label: "Categoría", key: "category", type: "text" },
+                  { label: "Marca", key: "brand", type: "text" },
+                ].map((field) => (
+                  <div key={field.key}>
+                    <label className="block text-xs text-[#737373] font-medium mb-1.5">
+                      {field.label}
+                    </label>
+                    <input
+                      type={field.type}
+                      defaultValue={String((editProduct as any)[field.key])}
+                      className="w-full bg-[#111] border border-[#1f1f1f] rounded-lg px-3 py-2.5 text-sm text-[#e5e5e5]
+                        focus:outline-none focus:border-[#f97316] hover:border-[#262626] transition-colors"
+                    />
+                  </div>
+                ))}
+
+                <div>
+                  <label className="block text-xs text-[#737373] font-medium mb-1.5">Estado</label>
+                  <div className="relative">
+                    <select
+                      defaultValue={editProduct.status}
+                      className="w-full appearance-none bg-[#111] border border-[#1f1f1f] rounded-lg px-3 py-2.5 text-sm text-[#e5e5e5]
+                        focus:outline-none focus:border-[#f97316] hover:border-[#262626] transition-colors cursor-pointer pr-8"
+                    >
+                      {["Activo", "Inactivo", "Agotado"].map((s) => (
+                        <option key={s}>{s}</option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#404040] pointer-events-none" />
+                  </div>
+                </div>
+
+                {/* Tip */}
+                <div className="bg-[#f97316]/5 border border-[#f97316]/15 rounded-lg p-3">
+                  <p className="text-xs text-[#f97316]/80">
+                    Tip: Haz doble clic en Precio o Stock en la tabla para editarlos directamente.
+                  </p>
+                </div>
+              </div>
+
+              {/* Drawer footer */}
+              <div className="px-6 py-4 border-t border-[#1a1a1a] flex items-center justify-end gap-3">
+                <button
+                  onClick={() => setEditProduct(null)}
+                  className="px-4 py-2 text-sm text-[#737373] hover:text-[#e5e5e5] transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={() => setEditProduct(null)}
+                  className="px-4 py-2 bg-[#f97316] text-white text-sm font-semibold rounded-lg hover:bg-[#ea6c0a] transition-colors"
+                >
+                  Guardar cambios
+                </button>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
