@@ -5,7 +5,7 @@ interface RouteParams {
   params: { slug: string }
 }
 
-// ─── GET /api/products/[slug] ─────────────────────────────────────────────────
+// --- GET /api/products/[slug] -------------------------------------------------
 
 export async function GET(req: NextRequest, { params }: RouteParams) {
   try {
