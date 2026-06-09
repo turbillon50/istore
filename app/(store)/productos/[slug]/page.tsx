@@ -461,17 +461,20 @@ export default function ProductDetailPage() {
                   { icon: Truck, label: "Envío gratis", sub: "En pedidos +$999" },
                   { icon: RotateCcw, label: "Devoluciones", sub: "30 días" },
                   { icon: Check, label: "Producto nuevo", sub: "Sellado de fábrica" },
-                ].map(({ icon: Icon, label, sub }) => (
-                  <div key={label} className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl p-3">
+                ].map((si) => {
+                  const SiIcon = si.icon;
+                  return (
+                  <div key={si.label} className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl p-3">
                     <div className="w-8 h-8 rounded-lg bg-[#ff8c00]/10 flex items-center justify-center flex-shrink-0">
-                      <Icon className="w-4 h-4 text-[#ffb77d]" />
+                      <SiIcon className="w-4 h-4 text-[#ffb77d]" />
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-white">{label}</p>
-                      <p className="text-[11px] text-white/40">{sub}</p>
+                      <p className="text-xs font-semibold text-white">{si.label}</p>
+                      <p className="text-[11px] text-white/40">{si.sub}</p>
                     </div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
