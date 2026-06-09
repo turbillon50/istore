@@ -5,9 +5,9 @@ const prisma = new PrismaClient()
 async function main() {
   console.log('🌱 Seeding iStore Pro database...')
 
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
   // 1. CATEGORIES
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
 
   const categories = await Promise.all([
     prisma.category.upsert({
@@ -80,9 +80,9 @@ async function main() {
   const [catSmartphones, catAccesorios, catAudio, catTablets] = categories
   console.log(`✓ ${categories.length} categorías creadas`)
 
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
   // 2. BRANDS
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
 
   const brands = await Promise.all([
     prisma.brand.upsert({
@@ -155,12 +155,12 @@ async function main() {
   const [brandApple, brandSamsung, brandXiaomi, brandMotorola, brandSony] = brands
   console.log(`✓ ${brands.length} marcas creadas`)
 
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
   // 3. PRODUCTS (12 productos — mercado mexicano)
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
 
   const productsData = [
-    // ── Apple ──────────────────────────────────────────────────────────────
+    // -- Apple --------------------------------------------------------------
     {
       sku: 'APL-IPH15-128-BLK',
       slug: 'iphone-15-128gb-negro',
@@ -232,7 +232,7 @@ async function main() {
       features: JSON.stringify(['Action Button', 'ProRes 4K@60fps', 'Ray Tracing A17 Pro', 'MagSafe 15W', 'Titanio aeroespacial']),
       publishedAt: new Date(),
     },
-    // ── Samsung ────────────────────────────────────────────────────────────
+    // -- Samsung ------------------------------------------------------------
     {
       sku: 'SAM-S24-128-PHT',
       slug: 'samsung-galaxy-s24-128gb-phantom-black',
@@ -301,7 +301,7 @@ async function main() {
       features: JSON.stringify(['S Pen integrado', 'Zoom 100x', 'Galaxy AI', 'Titanio', 'ProVisual Engine']),
       publishedAt: new Date(),
     },
-    // ── Xiaomi ─────────────────────────────────────────────────────────────
+    // -- Xiaomi -------------------------------------------------------------
     {
       sku: 'XMI-RN13-128-BLK',
       slug: 'xiaomi-redmi-note-13-128gb-midnight-black',
@@ -367,7 +367,7 @@ async function main() {
       features: JSON.stringify(['Leica Summilux', 'Carga 90W', 'IP68', 'HyperOS', 'Snapdragon 8 Gen 3']),
       publishedAt: new Date(),
     },
-    // ── Motorola ───────────────────────────────────────────────────────────
+    // -- Motorola -----------------------------------------------------------
     {
       sku: 'MOT-G84-256-MRN',
       slug: 'motorola-moto-g84-256gb-marshmallow-blue',
@@ -401,7 +401,7 @@ async function main() {
       features: JSON.stringify(['Dolby Atmos', 'OIS', 'MicroSD', 'Jack 3.5mm', 'NFC']),
       publishedAt: new Date(),
     },
-    // ── Audio ──────────────────────────────────────────────────────────────
+    // -- Audio --------------------------------------------------------------
     {
       sku: 'APL-AWPRO2-WHT',
       slug: 'apple-airpods-pro-2da-generacion',
@@ -466,7 +466,7 @@ async function main() {
       features: JSON.stringify(['ANC líder industria', 'Speak-to-Chat', 'Multipoint', 'LDAC', 'Hi-Res Audio']),
       publishedAt: new Date(),
     },
-    // ── Tablets ────────────────────────────────────────────────────────────
+    // -- Tablets ------------------------------------------------------------
     {
       sku: 'APL-IPAD10-64-YEL',
       slug: 'apple-ipad-10ma-generacion-64gb-amarillo',
@@ -500,7 +500,7 @@ async function main() {
       features: JSON.stringify(['USB-C', 'Magic Keyboard compatible', 'Apple Pencil 1ra gen', 'Center Stage', 'True Tone']),
       publishedAt: new Date(),
     },
-    // ── Accesorios ─────────────────────────────────────────────────────────
+    // -- Accesorios ---------------------------------------------------------
     {
       sku: 'APL-MAGCHG15-WHT',
       slug: 'apple-magsafe-charger-15w',
@@ -574,9 +574,9 @@ async function main() {
   }
   console.log(`✓ ${productCount} productos creados`)
 
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
   // 4. BRANCHES (Sucursales)
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
 
   const branches = await Promise.all([
     prisma.branch.upsert({
@@ -678,9 +678,9 @@ async function main() {
   ])
   console.log(`✓ ${branches.length} sucursales creadas`)
 
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
   // 5. FINANCING OPTIONS
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
 
   const financing = await Promise.all([
     prisma.financing.upsert({
@@ -764,9 +764,9 @@ async function main() {
   ])
   console.log(`✓ ${financing.length} opciones de financiamiento creadas`)
 
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
   // 6. SITE CONFIG
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
 
   const configs = [
     { key: 'store_name',        value: 'iStore Pro',                      group: 'general', label: 'Nombre de la tienda' },
@@ -802,9 +802,9 @@ async function main() {
   }
   console.log(`✓ ${configs.length} configuraciones del sitio creadas`)
 
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
   // 7. BANNERS
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
 
   const banners = await Promise.all([
     prisma.banner.upsert({
@@ -854,9 +854,9 @@ async function main() {
   ])
   console.log(`✓ ${banners.length} banners creados`)
 
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
   // 8. NAVIGATION MENU
-  // ─────────────────────────────────────────────────────────────────────────
+  // -------------------------------------------------------------------------
 
   const mainMenu = await prisma.menu.upsert({
     where: { handle: 'main-nav' },
