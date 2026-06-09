@@ -198,7 +198,7 @@ export async function POST(req: NextRequest) {
         include: {
           items: {
             include: {
-              product: { select: { name: true, sku: true, images: { take: 1 } } },
+              product: { select: { name: true, sku: true, images: { select: { url: true }, take: 1 } } },
             },
           },
           address: true,
