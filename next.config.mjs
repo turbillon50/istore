@@ -109,6 +109,7 @@ const nextConfig = {
     ]
   },
 
+  generateBuildId: async () => '1781028439',
   compress: true,
   productionBrowserSourceMaps: false,
   swcMinify: true,
