@@ -355,12 +355,15 @@ export default async function StorePage() {
               { icon: Truck, text: "Envío gratis +$999" },
               { icon: RefreshCw, text: "Devolución 30 días" },
               { icon: Clock, text: "Soporte 24/7" },
-            ].map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center justify-center gap-2 sm:px-6">
-                <Icon className="w-4 h-4 text-[#ff8c00] shrink-0" />
-                <span className="text-xs sm:text-sm text-white/50 font-medium">{text}</span>
+            ].map((featureItem) => {
+              const FeatureIcon = featureItem.icon;
+              return (
+              <div key={featureItem.text} className="flex items-center justify-center gap-2 sm:px-6">
+                <FeatureIcon className="w-4 h-4 text-[#ff8c00] shrink-0" />
+                <span className="text-xs sm:text-sm text-white/50 font-medium">{featureItem.text}</span>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
