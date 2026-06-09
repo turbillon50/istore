@@ -75,7 +75,7 @@ function SkeletonRow({ cols }: { cols: number }) {
 
 // ─── Column visibility menu ───────────────────────────────────────────────────
 
-function ColumnVisibilityMenu<TData>({
+function ColumnVisibilityMenu<TData extends object>({
   table,
   onClose,
 }: {
@@ -161,7 +161,7 @@ function ExportMenu({
 
 // ─── DataTable ────────────────────────────────────────────────────────────────
 
-export default function DataTable<TData>({
+export default function DataTable<TData extends object>({
   data,
   columns,
   loading = false,
