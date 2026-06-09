@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import DataTable from "@/components/admin/DataTable";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// --- Types --------------------------------------------------------------------
 
 interface Product {
   id: string;
@@ -40,7 +40,7 @@ interface Product {
 
 type EditingCell = { id: string; field: "price" | "stock"; value: string } | null;
 
-// ─── Mock data ────────────────────────────────────────────────────────────────
+// --- Mock data ----------------------------------------------------------------
 
 const MOCK: Product[] = [
   { id: "1",  sku: "APL-IP15P-128",   name: "iPhone 15 Pro 128GB",         category: "Smartphones",    brand: "Apple",    price: 22999, stock: 24, status: "Activo",   sales: 142 },
@@ -64,7 +64,7 @@ const CATEGORIES = ["Todos", "Smartphones", "Laptops", "Audio", "Tablets", "Moni
 const BRANDS = ["Todos", "Apple", "Samsung", "Sony", "LG", "Google", "Dell", "Microsoft"];
 const STATUSES = ["Todos", "Activo", "Inactivo", "Agotado"];
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// --- Helpers ------------------------------------------------------------------
 
 function StatusBadge({ status }: { status: Product["status"] }) {
   const map = {
@@ -124,7 +124,7 @@ function FilterSelect({
   );
 }
 
-// ─── Inline edit cell ─────────────────────────────────────────────────────────
+// --- Inline edit cell ---------------------------------------------------------
 
 function InlineEditCell({
   id, field, value, isEditing, onStart, onSave, onCancel,
@@ -172,7 +172,7 @@ function InlineEditCell({
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// --- Page ---------------------------------------------------------------------
 
 export default function ProductosPage() {
   const [data, setData] = useState<Product[]>(MOCK);
