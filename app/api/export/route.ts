@@ -14,7 +14,7 @@ async function fetchProducts(): Promise<Record<string, unknown>[]> {
     include: {
       category: { select: { name: true } },
       brand:    { select: { name: true } },
-      variants: { select: { sku: true, price: true, stock: true } },
+      variants: { select: { sku: true, price: true } },
     },
     orderBy: { createdAt: 'desc' },
   })
