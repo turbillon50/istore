@@ -5,7 +5,7 @@ const FROM = process.env.RESEND_FROM ?? 'iStore Pro <noreply@istore.pro>'
 const STORE_NAME = 'iStore Pro'
 const STORE_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://istore.pro'
 
-// ─── Shared Styles ────────────────────────────────────────────────────────────
+// --- Shared Styles ------------------------------------------------------------
 
 const baseStyle = `
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -61,7 +61,7 @@ const tdStyle = `
   font-size: 14px;
 `
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// --- Types --------------------------------------------------------------------
 
 interface OrderUser {
   name: string | null
@@ -135,7 +135,7 @@ interface WelcomeUser {
   email: string
 }
 
-// ─── formatCurrency ───────────────────────────────────────────────────────────
+// --- formatCurrency -----------------------------------------------------------
 
 function fmt(value: unknown): string {
   return new Intl.NumberFormat('es-MX', {
@@ -145,7 +145,7 @@ function fmt(value: unknown): string {
   }).format(Number(value))
 }
 
-// ─── sendOrderConfirmation ────────────────────────────────────────────────────
+// --- sendOrderConfirmation ----------------------------------------------------
 
 export async function sendOrderConfirmation(order: OrderData): Promise<void> {
   const itemRows = order.items
@@ -228,7 +228,7 @@ export async function sendOrderConfirmation(order: OrderData): Promise<void> {
   })
 }
 
-// ─── sendShippingNotification ─────────────────────────────────────────────────
+// --- sendShippingNotification -------------------------------------------------
 
 export async function sendShippingNotification(
   order: OrderData,
@@ -272,7 +272,7 @@ export async function sendShippingNotification(
   })
 }
 
-// ─── sendServiceUpdate ────────────────────────────────────────────────────────
+// --- sendServiceUpdate --------------------------------------------------------
 
 const SERVICE_STATUS_LABELS: Record<string, string> = {
   PENDING: 'Pendiente de revisión',
@@ -334,7 +334,7 @@ export async function sendServiceUpdate(service: ServiceData, status: string): P
   })
 }
 
-// ─── sendQuote ────────────────────────────────────────────────────────────────
+// --- sendQuote ----------------------------------------------------------------
 
 export async function sendQuote(quote: QuoteData): Promise<void> {
   const quoteNumber = quote.quoteNumber ?? quote.id.substring(0, 8).toUpperCase()
@@ -403,7 +403,7 @@ export async function sendQuote(quote: QuoteData): Promise<void> {
   })
 }
 
-// ─── sendWelcome ──────────────────────────────────────────────────────────────
+// --- sendWelcome --------------------------------------------------------------
 
 export async function sendWelcome(user: WelcomeUser): Promise<void> {
   const html = `
