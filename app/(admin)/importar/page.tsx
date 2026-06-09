@@ -147,7 +147,7 @@ function ImportCard({
   card,
   onImported,
 }: {
-  card: typeof IMPORT_CARDS[0]
+  card: (typeof IMPORT_CARDS)[0]
   onImported: (entry: HistoryEntry) => void
 }) {
   const [state, setState] = useState<ImportState>({
