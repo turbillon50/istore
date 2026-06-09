@@ -84,7 +84,7 @@ async function handlePaymentSucceeded(intent: Stripe.PaymentIntent) {
       user: { select: { id: true, name: true, email: true } },
       items: {
         include: {
-          product: { select: { name: true, sku: true, images: { take: 1 } } },
+          product: { select: { name: true, sku: true } },
         },
       },
       address: true,
