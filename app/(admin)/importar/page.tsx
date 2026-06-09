@@ -143,13 +143,13 @@ const MOCK_HISTORY: HistoryEntry[] = [
 
 // --- Import Dropzone ----------------------------------------------------------
 
-type ImportCardProps = {
+function ImportCard({
+  card,
+  onImported,
+}: {
   card: (typeof IMPORT_CARDS)[number]
   onImported: (entry: HistoryEntry) => void
-}
-
-function ImportCard(props: ImportCardProps) {
-  const { card, onImported } = props;
+}) {
   const [state, setState] = useState<ImportState>({
     stage: 'idle', file: null, preview: [], validCount: 0, errorCount: 0,
     progress: 0, result: null, errorMsg: '',
@@ -278,7 +278,7 @@ function ImportCard(props: ImportCardProps) {
         >
           <Upload size={22} />
           <p className="text-xs font-medium">Arrastra o haz clic para subir</p>
-          <p className="text-[10px] text-zinc-600">XLSX o CSV - max. 10MB</p>
+          <p className="text-[10px] text-zinc-600">XLSX o CSV  -  máx. 10MB</p>
           <input ref={fileRef} type="file" accept=".xlsx,.csv,.xls" className="hidden"
             onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f) }}
           />
@@ -327,4 +327,347 @@ function ImportCard(props: ImportCardProps) {
                       <div>
                         <span className="text-xs text-zinc-400">Fila {err.row} · </span>
                         <span className="text-xs font-mono text-orange-300">{err.field}</span>
-                   
+                        <span className="text-xs text-zinc-500">  -  {err.message}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Preview table */}
+          <div className="overflow-x-auto rounded-lg border border-zinc-800">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="bg-zinc-900 border-b border-zinc-800">
+                  <th className="text-left px-2 py-1.5 text-zinc-600 font-medium w-8">#</th>
+                  {card.fields.slice(0, 5).map(f => (
+                    <th key={f} className="text-left px-2 py-1.5 text-zinc-500 font-medium">{f}</th>
+                  ))}
+                  <th className="text-left px-2 py-1.5 text-zinc-600 w-16">status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {state.preview.slice(0, 6).map(row => (
+                  <tr key={row.rowIndex} className={`border-b border-zinc-800/50 ${row.errors.length > 0 ? 'bg-red-500/5' : ''}`}>
+                    <td className="px-2 py-1.5 text-zinc-600">{row.rowIndex}</td>
+                    {card.fields.slice(0, 5).map(f => {
+                      const hasError = row.errors.some(e => e.field === f)
+                      return (
+                        <td key={f} className={`px-2 py-1.5 font-mono max-w-[80px] truncate ${hasError ? 'text-red-400 bg-red-500/10' : 'text-zinc-300'}`}>
+                          {row.data[f] || <span className="text-zinc-700"> - </span>}
+                        </td>
+                      )
+                    })}
+                    <td className="px-2 py-1.5">
+                      {row.errors.length > 0
+                        ? <span className="text-red-400">✗ {row.errors.length}</span>
+                        : <span className="text-green-400">✓</span>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {state.preview.length > 6 && (
+              <p className="text-center text-xs text-zinc-600 py-1.5">... {state.preview.length - 6} filas más</p>
+            )}
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-2">
+            <button onClick={reset} className="px-3 py-2 text-xs text-zinc-400 border border-zinc-700 rounded-lg hover:bg-zinc-800">
+              <X size={12} className="inline mr-1" />Cancelar
+            </button>
+            <button onClick={handleConfirm}
+              className="flex-1 flex items-center justify-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium px-3 py-2 rounded-lg transition-colors"
+            >
+              <CheckCircle2 size={13} />
+              Importar {state.validCount} filas válidas
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Stage: importing */}
+      {state.stage === 'importing' && (
+        <div className="m-4 space-y-3 py-4">
+          <div className="flex items-center gap-2">
+            <Loader2 size={16} className="animate-spin text-orange-400" />
+            <p className="text-sm text-zinc-300">Importando datos...</p>
+          </div>
+          <div className="bg-zinc-800 rounded-full h-2 overflow-hidden">
+            <div className="bg-orange-500 h-full transition-all duration-100" style={{ width: `${state.progress}%` }} />
+          </div>
+          <p className="text-xs text-zinc-500">{state.progress}% completado</p>
+        </div>
+      )}
+
+      {/* Stage: done */}
+      {state.stage === 'done' && state.result && (
+        <div className="m-4 space-y-3">
+          <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 space-y-2">
+            <div className="flex items-center gap-2 text-green-400 font-semibold text-sm">
+              <CheckCircle2 size={16} /> Importación completada
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-center text-xs">
+              <div>
+                <p className="text-green-400 font-bold text-lg">{state.result.created}</p>
+                <p className="text-zinc-500">creados</p>
+              </div>
+              <div>
+                <p className="text-blue-400 font-bold text-lg">{state.result.updated}</p>
+                <p className="text-zinc-500">actualizados</p>
+              </div>
+              <div>
+                <p className={`font-bold text-lg ${state.result.errors > 0 ? 'text-red-400' : 'text-zinc-500'}`}>{state.result.errors}</p>
+                <p className="text-zinc-500">errores</p>
+              </div>
+            </div>
+          </div>
+          <button onClick={reset} className="w-full py-2 text-xs text-zinc-400 border border-zinc-700 rounded-lg hover:bg-zinc-800">
+            Importar otro archivo
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// --- Export Card --------------------------------------------------------------
+
+function ExportCard({ card }: { card: typeof EXPORT_CARDS[0] }) {
+  const [format, setFormat] = useState<'xlsx' | 'csv'>('xlsx')
+  const [dateFrom, setDateFrom] = useState('')
+  const [dateTo, setDateTo] = useState('')
+  const [loading, setLoading] = useState(false)
+  const Icon = card.icon
+
+  const handleExport = async () => {
+    setLoading(true)
+    try {
+      const params = new URLSearchParams({ type: card.id, format })
+      if (card.hasDateFilter && dateFrom) params.set('startDate', dateFrom)
+      if (card.hasDateFilter && dateTo) params.set('endDate', dateTo)
+
+      const res = await fetch(`/api/export?${params}`)
+      if (!res.ok) throw new Error('Export failed')
+
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${card.id}_${new Date().toISOString().split('T')[0]}.${format}`
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch {
+      alert('Error al exportar. Intenta de nuevo.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className={`bg-zinc-900 border rounded-xl p-4 flex flex-col gap-3 ${card.color}`}>
+      <div className="flex items-start gap-3">
+        <div className={`rounded-lg p-2 flex-shrink-0 ${card.iconColor}`}><Icon size={16} /></div>
+        <div className="min-w-0">
+          <h3 className="text-sm font-semibold text-white">{card.label}</h3>
+          <p className="text-xs text-zinc-500 mt-0.5">{card.description}</p>
+        </div>
+      </div>
+
+      {card.hasDateFilter && (
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="block text-[10px] text-zinc-600 mb-1 flex items-center gap-1"><Calendar size={9} /> Desde</label>
+            <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)}
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-orange-500"
+            />
+          </div>
+          <div>
+            <label className="block text-[10px] text-zinc-600 mb-1 flex items-center gap-1"><Calendar size={9} /> Hasta</label>
+            <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)}
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-orange-500"
+            />
+          </div>
+        </div>
+      )}
+
+      <div className="flex items-center gap-2 mt-auto">
+        <div className="flex rounded-lg border border-zinc-700 overflow-hidden text-xs">
+          {(['xlsx', 'csv'] as const).map(f => (
+            <button key={f} onClick={() => setFormat(f)}
+              className={`px-2.5 py-1.5 font-medium transition-colors ${
+                format === f ? 'bg-zinc-600 text-white' : 'text-zinc-500 hover:bg-zinc-800'
+              }`}
+            >{f.toUpperCase()}</button>
+          ))}
+        </div>
+        <button onClick={handleExport} disabled={loading}
+          className="flex-1 flex items-center justify-center gap-1.5 bg-zinc-700 hover:bg-zinc-600 disabled:opacity-60 text-white text-xs font-medium px-3 py-2 rounded-lg transition-colors"
+        >
+          {loading ? <><Loader2 size={12} className="animate-spin" /> Generando...</> : <><Download size={12} /> Descargar</>}
+        </button>
+      </div>
+
+      {card.lastExport && (
+        <p className="text-[10px] text-zinc-600">Último export: {card.lastExport}</p>
+      )}
+    </div>
+  )
+}
+
+// --- Main Page ----------------------------------------------------------------
+
+export default function ImportarPage() {
+  const [mainTab, setMainTab] = useState<MainTab>('importar')
+  const [history, setHistory] = useState<HistoryEntry[]>(MOCK_HISTORY)
+
+  const handleImported = (entry: HistoryEntry) => {
+    setHistory(prev => [entry, ...prev])
+  }
+
+  const tabs: { id: MainTab; label: string; icon: React.ReactNode; count?: number }[] = [
+    { id: 'importar',  label: 'Importar',  icon: <Upload size={14} /> },
+    { id: 'exportar',  label: 'Exportar',  icon: <Download size={14} /> },
+    { id: 'historial', label: 'Historial', icon: <History size={14} />, count: history.length },
+  ]
+
+  return (
+    <div className="min-h-screen bg-zinc-950 text-white">
+      {/* Header */}
+      <div className="bg-zinc-900 border-b border-zinc-800 px-6 py-4">
+        <div className="flex items-center gap-3">
+          <div className="bg-orange-500/20 text-orange-400 rounded-lg p-2"><FileSpreadsheet size={18} /></div>
+          <div>
+            <h1 className="text-xl font-bold text-white">Importar / Exportar</h1>
+            <p className="text-sm text-zinc-500">Carga masiva y descarga de datos</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="bg-zinc-900 border-b border-zinc-800 px-6">
+        <nav className="flex gap-1">
+          {tabs.map(tab => (
+            <button key={tab.id} onClick={() => setMainTab(tab.id)}
+              className={`flex items-center gap-2 px-4 py-3.5 text-sm font-medium border-b-2 transition-colors ${
+                mainTab === tab.id ? 'border-orange-500 text-orange-400' : 'border-transparent text-zinc-500 hover:text-zinc-300'
+              }`}
+            >
+              {tab.icon} {tab.label}
+              {tab.count !== undefined && (
+                <span className="ml-1 bg-zinc-700 text-zinc-400 text-[10px] px-1.5 py-0.5 rounded-full">{tab.count}</span>
+              )}
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      <div className="p-6 max-w-7xl mx-auto">
+        {/* Importar */}
+        {mainTab === 'importar' && (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-base font-semibold text-white mb-1">Importar datos</h2>
+              <p className="text-sm text-zinc-500">
+                Los campos en <span className="text-orange-300 font-medium">naranja</span> son obligatorios.
+                Descarga la plantilla para ver el formato exacto.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {IMPORT_CARDS.map(card => (
+                <ImportCard key={card.id} card={card} onImported={handleImported} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Exportar */}
+        {mainTab === 'exportar' && (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-base font-semibold text-white mb-1">Exportar datos</h2>
+              <p className="text-sm text-zinc-500">Descarga reportes en XLSX o CSV con los filtros que necesites.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              {EXPORT_CARDS.map(card => <ExportCard key={card.id} card={card} />)}
+            </div>
+          </div>
+        )}
+
+        {/* Historial */}
+        {mainTab === 'historial' && (
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-base font-semibold text-white mb-1">Historial de operaciones</h2>
+              <p className="text-sm text-zinc-500">Registro de todas las importaciones y exportaciones.</p>
+            </div>
+
+            <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-zinc-800/80 border-b border-zinc-700">
+                    {['Fecha', 'Operación', 'Tipo', 'Archivo', 'Filas', 'Creados', 'Actualizados', 'Errores', 'Estado', 'Usuario'].map(h => (
+                      <th key={h} className="text-left px-4 py-3 text-xs font-medium text-zinc-500">{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {history.map(entry => (
+                    <tr key={entry.id} className="border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-colors">
+                      <td className="px-4 py-3 text-zinc-500 text-xs whitespace-nowrap">{entry.date}</td>
+                      <td className="px-4 py-3">
+                        <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
+                          entry.operation === 'import'
+                            ? 'bg-blue-500/15 text-blue-300'
+                            : 'bg-green-500/15 text-green-300'
+                        }`}>
+                          {entry.operation === 'import' ? '↑ Import' : '↓ Export'}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="text-xs font-medium bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded">{entry.type}</span>
+                      </td>
+                      <td className="px-4 py-3 text-zinc-400 font-mono text-xs">{entry.filename}</td>
+                      <td className="px-4 py-3 text-zinc-400 text-xs">{entry.rowsProcessed.toLocaleString()}</td>
+                      <td className="px-4 py-3 text-xs">
+                        {entry.created !== undefined ? <span className="text-green-400 font-semibold">+{entry.created}</span> : <span className="text-zinc-700"> - </span>}
+                      </td>
+                      <td className="px-4 py-3 text-xs">
+                        {entry.updated !== undefined ? <span className="text-blue-400 font-semibold">~{entry.updated}</span> : <span className="text-zinc-700"> - </span>}
+                      </td>
+                      <td className="px-4 py-3 text-xs">
+                        {entry.errors > 0
+                          ? <span className="text-red-400 font-semibold">{entry.errors}</span>
+                          : <span className="text-zinc-700"> - </span>}
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
+                          entry.status === 'success' ? 'bg-green-500/15 text-green-300' :
+                          entry.status === 'partial' ? 'bg-yellow-500/15 text-yellow-300' :
+                          'bg-red-500/15 text-red-300'
+                        }`}>
+                          {entry.status === 'success' ? '✓ Completo' : entry.status === 'partial' ? '~ Parcial' : '✗ Fallido'}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-zinc-500 text-xs">{entry.user}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {history.length === 0 && (
+                <div className="text-center py-16 text-zinc-600">
+                  <History size={28} className="mx-auto mb-2 opacity-30" />
+                  <p className="text-sm">No hay operaciones registradas</p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
