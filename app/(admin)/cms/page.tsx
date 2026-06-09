@@ -248,7 +248,8 @@ function SortableBlock(props: SortableBlockProps) {
 // --- Pages Tab ----------------------------------------------------------------
 
 function PagesTab() {
-  const [pages, setPages] = useState<CMSPage[]>(INITIAL_PAGES)
+  const initialPages: CMSPage[] = INITIAL_PAGES;
+  const [pages, setPages] = useState(initialPages)
   const [selectedPageId, setSelectedPageId] = useState<string>('home')
   const [activeTab, setActiveTab] = useState<string>('blocks')
   const [saving, setSaving] = useState(false)
