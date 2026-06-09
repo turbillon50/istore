@@ -391,17 +391,20 @@ export default function FinanciamientoPage() {
                 { icon: Percent, title: "0% de interés", desc: "En bancos participantes hasta 12 meses sin pagar más." },
                 { icon: Clock, title: "Aprobación inmediata", desc: "En tienda o en línea en menos de 2 minutos." },
                 { icon: Banknote, title: "Sin enganche", desc: "Llevas tu equipo hoy sin desembolso inicial." },
-              ].map(({ icon: Icon, title, desc }) => (
-                <div key={title} className="flex items-start gap-3">
+              ].map((fi) => {
+                const FiIcon = fi.icon;
+                return (
+                <div key={fi.title} className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-lg bg-[#ff8c00]/10 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-4 h-4 text-[#ffb77d]" />
+                    <FiIcon className="w-4 h-4 text-[#ffb77d]" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-white">{title}</p>
-                    <p className="text-xs text-white/45">{desc}</p>
+                    <p className="text-sm font-semibold text-white">{fi.title}</p>
+                    <p className="text-xs text-white/45">{fi.desc}</p>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
