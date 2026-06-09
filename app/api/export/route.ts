@@ -24,7 +24,7 @@ async function fetchProducts(): Promise<Record<string, unknown>[]> {
     name:          p.name,
     price:         p.price,
     compare_price: p.comparePrice ?? '',
-    cost:          p.cost ?? '',
+    cost:          p.costPrice ?? '',
     category:      p.category.name,
     brand:         p.brand?.name ?? '',
     barcode:       p.barcode ?? '',
