@@ -7,7 +7,7 @@ import { motion, type HTMLMotionProps } from 'framer-motion'
 import { Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-// ─── Variants ────────────────────────────────────────────────────────────────
+// --- Variants ----------------------------------------------------------------
 
 const buttonVariants = cva(
   [
@@ -64,7 +64,7 @@ const buttonVariants = cva(
   }
 )
 
-// ─── Props ────────────────────────────────────────────────────────────────────
+// --- Props --------------------------------------------------------------------
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -75,11 +75,11 @@ export interface ButtonProps
   rightIcon?: React.ReactNode
 }
 
-// ─── Press animation wrapper ─────────────────────────────────────────────────
+// --- Press animation wrapper -------------------------------------------------
 
 const MotionButton = motion.button
 
-// ─── Component ───────────────────────────────────────────────────────────────
+// --- Component ---------------------------------------------------------------
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
