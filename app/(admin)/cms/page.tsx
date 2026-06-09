@@ -550,23 +550,19 @@ function SiteConfigTab() {
     setTimeout(() => setSaved(false), 2000)
   }
 
-  type FieldProps = { label: string; configKey: keyof SiteConfig; type?: string; placeholder?: string }
-  const Field = (fp: FieldProps) => {
-    const label = fp.label; const configKey = fp.configKey; const type = fp.type ?? 'text'; const placeholder = fp.placeholder ?? '';
-    return (
+  type FieldItemProps = { label: string; configKey: keyof SiteConfig; type?: string; placeholder?: string }
+  const Field = (fp: FieldItemProps) => (
     <div>
-      <label className="block text-xs text-zinc-500 mb-1">{label}</label>
+      <label className="block text-xs text-zinc-500 mb-1">{fp.label}</label>
       <input
-        type={type}
-        value={config[configKey]}
-        onChange={e => update(configKey, e.target.value)}
-        placeholder={placeholder}
+        type={fp.type ?? 'text'}
+        value={config[fp.configKey]}
+        onChange={e => update(fp.configKey, e.target.value)}
+        placeholder={fp.placeholder ?? ''}
         className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-orange-500"
       />
     </div>
   )
-  );
-  };
 
   return (
     <div className="space-y-6 max-w-3xl">
@@ -645,17 +641,14 @@ function SiteConfigTab() {
             { key: 'youtube' as keyof SiteConfig, label: 'YouTube', icon: Youtube, placeholder: 'canal' },
             { key: 'tiktok' as keyof SiteConfig, label: 'TikTok', icon: Link, placeholder: '@usuario' },
             { key: 'whatsapp' as keyof SiteConfig, label: 'WhatsApp', icon: Phone, placeholder: '+525512345678' },
-          ].map((socialItem) => {
-            const key = socialItem.key; const label = socialItem.label; const Icon = socialItem.icon; const placeholder = socialItem.placeholder;
-            return (
+          ].map((socialItem) => (
             <div key={key}>
               <label className="block text-xs text-zinc-500 mb-1 flex items-center gap-1"><Icon size={11} /> {label}</label>
               <input value={config[key]} onChange={e => update(key, e.target.value)} placeholder={placeholder}
                 className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-orange-500"
               />
             </div>
-            );
-          })
+          ))}
         </div>
       </div>
     </div>
