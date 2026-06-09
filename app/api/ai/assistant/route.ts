@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Types
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 interface ProductSummary {
   id: string;
@@ -33,9 +33,9 @@ interface AssistantRequest {
   }>;
 }
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Product catalog for RAG-lite (in prod: fetch from DB)
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 const PRODUCT_CATALOG: ProductSummary[] = [
   {
@@ -128,9 +128,9 @@ const PRODUCT_CATALOG: ProductSummary[] = [
   },
 ];
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // RAG-lite: simple keyword matching
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 function findRelevantProducts(query: string, limit = 3): ProductSummary[] {
   const q = query.toLowerCase();
@@ -159,9 +159,9 @@ function findRelevantProducts(query: string, limit = 3): ProductSummary[] {
     .slice(0, limit);
 }
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // System prompt builder
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 function buildSystemPrompt(relevantProducts: ProductSummary[]): string {
   const productContext = relevantProducts.length > 0
@@ -201,9 +201,9 @@ ${productContext}
 Recuerda: tu objetivo es ayudar al cliente a encontrar lo que necesita, no simplemente vender. Si el cliente no necesita el producto más caro, díselo.`;
 }
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // POST handler — streaming
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 export async function POST(req: NextRequest) {
   try {
