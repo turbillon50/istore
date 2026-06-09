@@ -2,7 +2,7 @@ import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
-// ─── Variants ────────────────────────────────────────────────────────────────
+// --- Variants ----------------------------------------------------------------
 
 const badgeVariants = cva(
   'inline-flex items-center gap-1.5 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
@@ -47,7 +47,7 @@ const badgeVariants = cva(
   }
 )
 
-// ─── Dot indicator ───────────────────────────────────────────────────────────
+// --- Dot indicator -----------------------------------------------------------
 
 const dotColors: Record<string, string> = {
   default: 'bg-on-surface-faint',
@@ -58,7 +58,7 @@ const dotColors: Record<string, string> = {
   outline: 'bg-on-surface-muted',
 }
 
-// ─── Props ────────────────────────────────────────────────────────────────────
+// --- Props --------------------------------------------------------------------
 
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLSpanElement>,
@@ -66,7 +66,7 @@ export interface BadgeProps
   dot?: boolean
 }
 
-// ─── Component ───────────────────────────────────────────────────────────────
+// --- Component ---------------------------------------------------------------
 
 const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   ({ className, variant = 'default', size, dot = false, children, ...props }, ref) => {
