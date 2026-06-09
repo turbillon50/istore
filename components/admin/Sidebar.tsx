@@ -109,21 +109,17 @@ const NAV_SECTIONS: NavSection[] = [
 
 // --- NavLink -----------------------------------------------------------------
 
-function NavLink({
-  href,
-  label,
-  icon: Icon,
-  badge,
-  isActive,
-  collapsed,
-}: {
+interface NavLinkProps {
   href: string;
   label: string;
   icon: React.ElementType;
   badge?: number;
   isActive: boolean;
   collapsed: boolean;
-}) {
+}
+
+function NavLink(props: NavLinkProps) {
+  const { href, label, icon: Icon, badge, isActive, collapsed } = props;
   return (
     <Link
       href={href}
@@ -183,15 +179,14 @@ function NavLink({
 
 // --- NavGroup (collapsible with children) ------------------------------------
 
-function NavGroup({
-  item,
-  collapsed,
-  pathname,
-}: {
+interface NavGroupProps {
   item: NavItem;
   collapsed: boolean;
   pathname: string;
-}) {
+}
+
+function NavGroup(props: NavGroupProps) {
+  const { item, collapsed, pathname } = props;
   const isChildActive =
     item.children?.some((c) => pathname.startsWith(c.href)) ?? false;
   const [open, setOpen] = useState(isChildActive);
@@ -302,7 +297,8 @@ export interface SidebarProps {
   onToggle?: () => void;
 }
 
-export default function Sidebar({ collapsed = false, onToggle }: SidebarProps) {
+export default function Sidebar(props: SidebarProps) {
+  const { collapsed = false, onToggle } = props;
   const pathname = usePathname() ?? "";
 
   return (
