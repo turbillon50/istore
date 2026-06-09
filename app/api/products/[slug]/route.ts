@@ -5,7 +5,7 @@ interface RouteParams {
   params: { slug: string }
 }
 
-// --- GET /api/products/[slug] -------------------------------------------------
+// ─── GET /api/products/[slug] ─────────────────────────────────────────────────
 
 export async function GET(req: NextRequest, { params }: RouteParams) {
   try {
@@ -22,17 +22,18 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
     }
 
     // Compute review average
+    const reviews = (product as any).reviews ?? []
     const avgRating =
-      product.reviews.length > 0
-        ? product.reviews.reduce((sum, r) => sum + r.rating, 0) / product.reviews.length
+      reviews.length > 0
+        ? reviews.reduce((sum: number, r: { rating: number }) => sum + r.rating, 0) / reviews.length
         : null
 
     return NextResponse.json({
       data: {
         ...product,
         avgRating: avgRating ? Math.round(avgRating * 10) / 10 : null,
-        totalReviews: product._count.reviews,
-        totalSold: product._count.orderItems,
+        totalReviews: (product as any)._count?.reviews ?? 0,
+        totalSold: (product as any)._count?.orderItems ?? 0,
       },
     })
   } catch (error) {
