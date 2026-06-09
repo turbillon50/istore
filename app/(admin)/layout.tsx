@@ -100,7 +100,8 @@ const notifDotColor: Record<string, string> = {
 // --- UserMenu -----------------------------------------------------------------
 
 type ClosePanelProps = { onClose: () => void }
-function UserMenu({ onClose }: ClosePanelProps) {
+function UserMenu(props: ClosePanelProps) {
+  const { onClose } = props;
   return (
     <motion.div
       initial={{ opacity: 0, y: -6, scale: 0.97 }}
@@ -147,7 +148,8 @@ function UserMenu({ onClose }: ClosePanelProps) {
 
 // --- NotifPanel ---------------------------------------------------------------
 
-function NotifPanel({ onClose }: ClosePanelProps) {
+function NotifPanel(props: ClosePanelProps) {
+  const { onClose } = props;
   const unread = NOTIFICATIONS.filter((n) => !n.read).length;
   return (
     <motion.div
