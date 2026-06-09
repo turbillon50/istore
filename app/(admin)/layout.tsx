@@ -99,7 +99,7 @@ const notifDotColor: Record<string, string> = {
 
 // --- UserMenu -----------------------------------------------------------------
 
-type ClosePanelProps = { onClose: () => void }
+interface ClosePanelProps { onClose: () => void }
 function UserMenu(props: ClosePanelProps) {
   const { onClose } = props;
   return (
