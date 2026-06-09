@@ -211,7 +211,7 @@ function SalesTooltip({ active, payload, label }: any) {
       <p className="text-[#737373] text-xs mb-2 font-medium">Día {label}</p>
       <div className="space-y-1">
         <p className="text-[#f97316] text-sm font-bold">
-          ${payload[0]?.value?.toLocaleString()}
+          {`$${payload[0]?.value?.toLocaleString()}`}
           <span className="text-xs font-normal text-[#737373] ml-1">ventas</span>
         </p>
         {payload[1] && (
