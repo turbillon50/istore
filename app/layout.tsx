@@ -156,7 +156,7 @@ export default function RootLayout({
             />
           </ThemeProvider>
 
-          {/* ── Google Analytics ────────────────────────────── */}
+          {/* -- Google Analytics ------------------------------ */}
           {gaId && (
             <>
               <Script
@@ -177,7 +177,7 @@ export default function RootLayout({
             </>
           )}
 
-          {/* ── Meta (Facebook) Pixel ───────────────────────── */}
+          {/* -- Meta (Facebook) Pixel ------------------------- */}
           {fbPixelId && (
             <Script id="facebook-pixel" strategy="afterInteractive">
               {`
@@ -195,7 +195,7 @@ export default function RootLayout({
             </Script>
           )}
 
-          {/* ── TikTok Pixel ────────────────────────────────── */}
+          {/* -- TikTok Pixel ---------------------------------- */}
           {ttPixelId && (
             <Script id="tiktok-pixel" strategy="afterInteractive">
               {`
