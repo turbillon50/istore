@@ -6,7 +6,7 @@ import { z } from 'zod'
 
 const ADMIN_ROLES = ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SELLER']
 
-// ─── GET /api/orders ──────────────────────────────────────────────────────────
+// GET /api/orders
 
 export async function GET(req: NextRequest) {
   try {
@@ -29,7 +29,6 @@ export async function GET(req: NextRequest) {
     const { searchParams } = req.nextUrl
 
     const filters = {
-      // Customers can only see their own orders
       userId: isAdmin ? (searchParams.get('userId') ?? undefined) : dbUser.id,
       status: searchParams.get('status') ?? undefined,
       paymentStatus: searchParams.get('paymentStatus') ?? undefined,
@@ -49,7 +48,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// ─── POST /api/orders ─────────────────────────────────────────────────────────
+// POST /api/orders
 
 const orderItemSchema = z.object({
   productId: z.string(),
@@ -95,7 +94,6 @@ export async function POST(req: NextRequest) {
 
     const { addressId, items, couponCode, notes, paymentMethod } = parsed.data
 
-    // Validate address belongs to user
     const address = await prisma.address.findFirst({
       where: { id: addressId, userId: dbUser.id },
     })
@@ -104,7 +102,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Address not found' }, { status: 404 })
     }
 
-    // Verify inventory and fetch product prices
     const productIds = items.map((i) => i.productId)
     const products = await prisma.product.findMany({
       where: { id: { in: productIds }, status: 'ACTIVE' },
@@ -133,9 +130,9 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Apply coupon if provided
     let discountAmount = 0
-    let couponId: string | undefined
+    let appliedCouponCode: string | undefined
+    let appliedCouponId: string | undefined
 
     if (couponCode) {
       const coupon = await prisma.coupon.findFirst({
@@ -152,17 +149,17 @@ export async function POST(req: NextRequest) {
           coupon.discountType === 'PERCENTAGE'
             ? subtotalForCoupon * (Number(coupon.discountValue) / 100)
             : Number(coupon.discountValue)
-        couponId = coupon.id
+        appliedCouponCode = coupon.code
+        appliedCouponId = coupon.id
       }
     }
 
     const subtotal = items.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0)
-    const shippingCost = subtotal >= 999 ? 0 : 99
+    const shippingAmount = subtotal >= 999 ? 0 : 99
     const taxRate = 0.16
     const taxAmount = (subtotal - discountAmount) * taxRate
-    const total = subtotal - discountAmount + shippingCost + taxAmount
+    const total = subtotal - discountAmount + shippingAmount + taxAmount
 
-    // Generate order number
     const orderNumber = 'ORD-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase()
 
     const orderItemsData = items.map((item) => {
@@ -189,10 +186,10 @@ export async function POST(req: NextRequest) {
           paymentMethod,
           subtotal,
           discountAmount,
-          shippingCost,
+          shippingAmount,
           taxAmount,
           total,
-          couponId,
+          couponCode: appliedCouponCode,
           notes,
           items: {
             create: orderItemsData,
@@ -208,7 +205,6 @@ export async function POST(req: NextRequest) {
         },
       })
 
-      // Reserve inventory
       for (const item of items) {
         await tx.inventoryItem.updateMany({
           where: {
@@ -219,10 +215,9 @@ export async function POST(req: NextRequest) {
         })
       }
 
-      // Update coupon usage
-      if (couponId) {
+      if (appliedCouponId) {
         await tx.coupon.update({
-          where: { id: couponId },
+          where: { id: appliedCouponId },
           data: { usageCount: { increment: 1 } },
         })
       }
