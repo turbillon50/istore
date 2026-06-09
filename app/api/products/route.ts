@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma'
 import { getProducts } from '@/lib/db'
 import { z } from 'zod'
 
-// ─── GET /api/products ────────────────────────────────────────────────────────
+// --- GET /api/products --------------------------------------------------------
 
 export async function GET(req: NextRequest) {
   try {
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// ─── POST /api/products ───────────────────────────────────────────────────────
+// --- POST /api/products -------------------------------------------------------
 
 const createProductSchema = z.object({
   name: z.string().min(1).max(255),
