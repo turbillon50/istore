@@ -21,7 +21,7 @@ import {
   CheckCircle2,
 } from 'lucide-react'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// --- Types --------------------------------------------------------------------
 
 type Tab = 'general' | 'apariencia' | 'pagos' | 'notificaciones' | 'integraciones' | 'avanzado'
 
@@ -101,7 +101,7 @@ interface StoreConfig {
   maxUploadSizeMb: number
 }
 
-// ─── Initial state ────────────────────────────────────────────────────────────
+// --- Initial state ------------------------------------------------------------
 
 const INITIAL_CONFIG: StoreConfig = {
   storeName: 'iStore Pro', logo: '', favicon: '',
@@ -132,7 +132,7 @@ const INITIAL_CONFIG: StoreConfig = {
   cacheEnabled: true, maxUploadSizeMb: 10,
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// --- Helpers ------------------------------------------------------------------
 
 function Toggle({ value, onChange }: { value: boolean; onChange: (v: boolean) => void }) {
   return (
@@ -187,7 +187,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   )
 }
 
-// ─── Tab Components ───────────────────────────────────────────────────────────
+// --- Tab Components -----------------------------------------------------------
 
 function GeneralTab({ cfg, up }: { cfg: StoreConfig; up: (k: keyof StoreConfig, v: unknown) => void }) {
   return (
@@ -703,7 +703,7 @@ function AvanzadoTab({ cfg, up }: { cfg: StoreConfig; up: (k: keyof StoreConfig,
   )
 }
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
+// --- Main Page ----------------------------------------------------------------
 
 export default function ConfiguracionPage() {
   const [config, setConfig] = useState<StoreConfig>(INITIAL_CONFIG)
