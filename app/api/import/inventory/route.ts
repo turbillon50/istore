@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import * as XLSX from 'xlsx'
 import { prisma } from '@/lib/prisma'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// --- Types --------------------------------------------------------------------
 
 interface InventoryRow {
   sku: string
@@ -20,7 +20,7 @@ interface ImportResult {
   errorDetails: { row: number; sku?: string; message: string }[]
 }
 
-// ─── Validator ────────────────────────────────────────────────────────────────
+// --- Validator ----------------------------------------------------------------
 
 function validateRow(row: Record<string, unknown>, index: number): { valid: boolean; data?: InventoryRow; error?: string } {
   const sku = String(row.sku ?? '').trim()
@@ -42,7 +42,7 @@ function validateRow(row: Record<string, unknown>, index: number): { valid: bool
   }
 }
 
-// ─── Route handler ────────────────────────────────────────────────────────────
+// --- Route handler ------------------------------------------------------------
 
 export async function POST(req: NextRequest): Promise<NextResponse<ImportResult>> {
   try {
