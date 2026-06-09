@@ -46,7 +46,8 @@ export default function ImportDropzone({
   const [rawRows, setRawRows] = useState<Record<string, unknown>[]>([])
   const [mappings, setMappings] = useState<ColumnMapping[]>([])
   const [previewRows, setPreviewRows] = useState<ImportRow[]>([])
-  const [step, setStep] = useState<'upload' | 'map' | 'preview' | 'importing' | 'done'>('upload')
+  type StepType = 'upload' | 'map' | 'preview' | 'importing' | 'done'
+  const [step, setStep] = useState<StepType>('upload')
   const [progress, setProgress] = useState(0)
   const [result, setResult] = useState<{ created: number; updated: number; errors: number } | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
