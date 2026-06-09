@@ -1,8 +1,8 @@
-// ─── n8n Workflow Trigger Utilities ──────────────────────────────────────────
+// --- n8n Workflow Trigger Utilities ------------------------------------------
 
 const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL!
 
-// ─── Workflow IDs ─────────────────────────────────────────────────────────────
+// --- Workflow IDs -------------------------------------------------------------
 
 export const WORKFLOWS = {
   PURCHASE_COMPLETE: 'purchase-complete',
@@ -15,7 +15,7 @@ export const WORKFLOWS = {
 
 export type WorkflowId = (typeof WORKFLOWS)[keyof typeof WORKFLOWS]
 
-// ─── Payload Schemas ──────────────────────────────────────────────────────────
+// --- Payload Schemas ----------------------------------------------------------
 
 export interface PurchaseCompletePayload {
   orderId: string
@@ -66,7 +66,7 @@ type WorkflowPayloadMap = {
   [WORKFLOWS.LEAD_CAPTURED]: LeadCapturedPayload
 }
 
-// ─── Core Trigger Function ────────────────────────────────────────────────────
+// --- Core Trigger Function ----------------------------------------------------
 
 export async function triggerWorkflow<T extends WorkflowId>(
   workflowId: T,
@@ -110,7 +110,7 @@ export async function triggerWorkflow<T extends WorkflowId>(
   }
 }
 
-// ─── Convenience Helpers ──────────────────────────────────────────────────────
+// --- Convenience Helpers ------------------------------------------------------
 
 export const n8n = {
   purchaseComplete: (data: PurchaseCompletePayload) =>
