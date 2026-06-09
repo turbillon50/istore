@@ -2,7 +2,7 @@ import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
-// ─── Card Variants ────────────────────────────────────────────────────────────
+// --- Card Variants ------------------------------------------------------------
 
 const cardVariants = cva(
   'rounded-xl transition-all duration-200',
@@ -52,7 +52,7 @@ const cardVariants = cva(
   }
 )
 
-// ─── Card ─────────────────────────────────────────────────────────────────────
+// --- Card ---------------------------------------------------------------------
 
 export interface CardProps
   extends React.HTMLAttributes<HTMLDivElement>,
@@ -69,7 +69,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 )
 Card.displayName = 'Card'
 
-// ─── CardHeader ───────────────────────────────────────────────────────────────
+// --- CardHeader ---------------------------------------------------------------
 
 export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Show a subtle bottom border divider */
@@ -91,7 +91,7 @@ const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
 )
 CardHeader.displayName = 'CardHeader'
 
-// ─── CardTitle ────────────────────────────────────────────────────────────────
+// --- CardTitle ----------------------------------------------------------------
 
 const CardTitle = React.forwardRef<
   HTMLHeadingElement,
@@ -108,7 +108,7 @@ const CardTitle = React.forwardRef<
 ))
 CardTitle.displayName = 'CardTitle'
 
-// ─── CardDescription ─────────────────────────────────────────────────────────
+// --- CardDescription ---------------------------------------------------------
 
 const CardDescription = React.forwardRef<
   HTMLParagraphElement,
@@ -122,7 +122,7 @@ const CardDescription = React.forwardRef<
 ))
 CardDescription.displayName = 'CardDescription'
 
-// ─── CardContent ─────────────────────────────────────────────────────────────
+// --- CardContent -------------------------------------------------------------
 
 const CardContent = React.forwardRef<
   HTMLDivElement,
@@ -136,7 +136,7 @@ const CardContent = React.forwardRef<
 ))
 CardContent.displayName = 'CardContent'
 
-// ─── CardFooter ──────────────────────────────────────────────────────────────
+// --- CardFooter --------------------------------------------------------------
 
 export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Show a subtle top border divider */
