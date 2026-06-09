@@ -370,7 +370,7 @@ export default function ProductosPage() {
     category !== "Todos" ? { label: category, clear: () => setCategory("Todos") } : null,
     brand !== "Todos" ? { label: brand, clear: () => setBrand("Todos") } : null,
     status !== "Todos" ? { label: status, clear: () => setStatus("Todos") } : null,
-  ].filter(Boolean) as { label: string; clear: () => void }[];
+  ].filter((x): x is { label: string; clear: () => void } => x !== null);
 
   return (
     <div className="space-y-5 max-w-[1600px]">
