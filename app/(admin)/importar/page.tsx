@@ -22,7 +22,7 @@ import {
   Calendar,
 } from 'lucide-react'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// --- Types --------------------------------------------------------------------
 
 type MainTab = 'importar' | 'exportar' | 'historial'
 
@@ -64,7 +64,7 @@ interface HistoryEntry {
   format?: string
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+// --- Constants ----------------------------------------------------------------
 
 const IMPORT_CARDS = [
   {
@@ -141,7 +141,7 @@ const MOCK_HISTORY: HistoryEntry[] = [
   { id: '6', type: 'Clientes', operation: 'export', filename: 'clientes_2024-01-10.xlsx', date: '2024-01-10 14:30', rowsProcessed: 3420, errors: 0, status: 'success', user: 'Luis D.', format: 'xlsx' },
 ]
 
-// ─── Import Dropzone ──────────────────────────────────────────────────────────
+// --- Import Dropzone ----------------------------------------------------------
 
 function ImportCard({
   card,
