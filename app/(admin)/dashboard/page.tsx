@@ -227,7 +227,7 @@ function SalesTooltip({ active, payload, label }: any) {
 // --- Page ---------------------------------------------------------------------
 
 export default function DashboardPage() {
-  const [chartMode, setChartMode] = useState<"30d" | "7d">("30d");
+  const [chartMode, setChartMode] = useState<string>("30d");
   const chartData = chartMode === "30d" ? salesData : weeklyData;
 
   const totalRevenue30d = salesData.reduce((s, d) => s + d.ventas, 0);
