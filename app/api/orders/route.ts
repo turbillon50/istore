@@ -142,7 +142,7 @@ export async function POST(req: NextRequest) {
         where: {
           code: couponCode.toUpperCase(),
           isActive: true,
-          OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
+          OR: [{ endsAt: null }, { endsAt: { gt: new Date() } }],
         },
       })
 
