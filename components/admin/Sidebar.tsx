@@ -28,7 +28,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 
-// ─── Navigation config ──────────────────────────────────────────────────────
+// --- Navigation config ------------------------------------------------------
 
 interface NavChild {
   href: string;
@@ -107,7 +107,7 @@ const NAV_SECTIONS: NavSection[] = [
   },
 ];
 
-// ─── NavLink ─────────────────────────────────────────────────────────────────
+// --- NavLink -----------------------------------------------------------------
 
 function NavLink({
   href,
@@ -181,7 +181,7 @@ function NavLink({
   );
 }
 
-// ─── NavGroup (collapsible with children) ────────────────────────────────────
+// --- NavGroup (collapsible with children) ------------------------------------
 
 function NavGroup({
   item,
