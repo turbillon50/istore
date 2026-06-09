@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import * as XLSX from 'xlsx'
 import { prisma } from '@/lib/prisma'
+import { ProductStatus } from '@prisma/client'
 
 // --- Types --------------------------------------------------------------------
 
@@ -207,7 +208,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ImportResult 
                 categoryId: categoryRecord.id,
                 brandId: brandRecord?.id,
                 weight: data.weight,
-                status: data.status === 'active' ? 'ACTIVE' : data.status === 'inactive' ? 'INACTIVE' : undefined,
+                status: data.status === 'active' ? ProductStatus.ACTIVE : data.status === 'inactive' ? ProductStatus.INACTIVE : undefined,
               },
             })
             updated++
@@ -223,7 +224,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ImportResult 
                 categoryId: categoryRecord.id,
                 brandId: brandRecord?.id,
                 weight: data.weight,
-                status: data.status === 'active' ? 'ACTIVE' : 'DRAFT',
+                status: data.status === 'active' ? ProductStatus.ACTIVE : ProductStatus.DRAFT,
               },
             })
             created++
