@@ -122,16 +122,19 @@ function UserMenu(props: ClosePanelProps) {
           { label: "Mi perfil", icon: User },
           { label: "Configuración", icon: Settings },
           { label: "Ayuda", icon: HelpCircle },
-        ].map(({ label, icon: Icon }) => (
-          <button
-            key={label}
-            onClick={onClose}
-            className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-[#a3a3a3] hover:text-[#e5e5e5] hover:bg-[#1a1a1a] transition-colors"
-          >
-            <Icon className="w-3.5 h-3.5" />
-            {label}
-          </button>
-        ))}
+        ].map((item) => {
+          const Icon = item.icon;
+          return (
+            <button
+              key={item.label}
+              onClick={onClose}
+              className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-[#a3a3a3] hover:text-[#e5e5e5] hover:bg-[#1a1a1a] transition-colors"
+            >
+              <Icon className="w-3.5 h-3.5" />
+              {item.label}
+            </button>
+          );
+        })}
       </div>
       <div className="border-t border-[#1a1a1a] py-1">
         <button
