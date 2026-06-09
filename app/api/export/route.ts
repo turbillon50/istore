@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import * as XLSX from 'xlsx'
 import { prisma } from '@/lib/prisma'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// --- Types --------------------------------------------------------------------
 
 type ExportType = 'products' | 'orders' | 'customers' | 'inventory' | 'quotes' | 'leads'
 type ExportFormat = 'xlsx' | 'csv'
 
-// ─── Data fetchers ────────────────────────────────────────────────────────────
+// --- Data fetchers ------------------------------------------------------------
 
 async function fetchProducts(): Promise<Record<string, unknown>[]> {
   const products = await prisma.product.findMany({
@@ -185,7 +185,7 @@ async function fetchLeads(startDate?: string, endDate?: string): Promise<Record<
   }))
 }
 
-// ─── XLSX / CSV builder ───────────────────────────────────────────────────────
+// --- XLSX / CSV builder -------------------------------------------------------
 
 function buildWorkbook(rows: Record<string, unknown>[], sheetName: string): XLSX.WorkBook {
   const ws = XLSX.utils.json_to_sheet(rows)
@@ -209,7 +209,7 @@ function buildWorkbook(rows: Record<string, unknown>[], sheetName: string): XLSX
   return wb
 }
 
-// ─── Route handler ────────────────────────────────────────────────────────────
+// --- Route handler ------------------------------------------------------------
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
