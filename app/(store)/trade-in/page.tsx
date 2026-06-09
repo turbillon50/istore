@@ -20,9 +20,9 @@ import {
   Star,
 } from "lucide-react";
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Data
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 const BRANDS = [
   { id: "apple", name: "Apple", logo: "🍎" },
@@ -102,9 +102,9 @@ const conditionColors: Record<string, string> = {
 
 const conditionInactive = "border-white/10 bg-white/[0.03] text-white/60 hover:border-white/25";
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Main
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 export default function TradeInPage() {
   const [step, setStep] = useState(1);
