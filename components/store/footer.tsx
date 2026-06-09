@@ -109,18 +109,21 @@ export default function Footer() {
 
             {/* Social */}
             <div className="flex items-center gap-3">
-              {socialLinks.map(({ icon: Icon, href, label }) => (
+              {socialLinks.map((sl) => {
+                const SlIcon = sl.icon;
+                return (
                 <a
-                  key={label}
-                  href={href}
+                  key={sl.label}
+                  href={sl.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={label}
+                  aria-label={sl.label}
                   className="w-9 h-9 rounded-full bg-white/5 border border-white/8 flex items-center justify-center text-white/40 hover:text-[#ffb77d] hover:bg-[#ff8c00]/10 hover:border-[#ff8c00]/30 transition-all"
                 >
-                  <Icon className="w-4 h-4" />
+                  <SlIcon className="w-4 h-4" />
                 </a>
-              ))}
+                );
+              })}
             </div>
           </div>
 
