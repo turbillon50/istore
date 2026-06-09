@@ -641,14 +641,17 @@ function SiteConfigTab() {
             { key: 'youtube' as keyof SiteConfig, label: 'YouTube', icon: Youtube, placeholder: 'canal' },
             { key: 'tiktok' as keyof SiteConfig, label: 'TikTok', icon: Link, placeholder: '@usuario' },
             { key: 'whatsapp' as keyof SiteConfig, label: 'WhatsApp', icon: Phone, placeholder: '+525512345678' },
-          ].map((socialItem) => (
-            <div key={key}>
-              <label className="block text-xs text-zinc-500 mb-1 flex items-center gap-1"><Icon size={11} /> {label}</label>
-              <input value={config[key]} onChange={e => update(key, e.target.value)} placeholder={placeholder}
-                className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-orange-500"
-              />
-            </div>
-          ))}
+          ].map((socialItem) => {
+            const SocialIcon = socialItem.icon;
+            return (
+              <div key={String(socialItem.key)}>
+                <label className="block text-xs text-zinc-500 mb-1 flex items-center gap-1"><SocialIcon size={11} /> {socialItem.label}</label>
+                <input value={config[socialItem.key]} onChange={e => update(socialItem.key, e.target.value)} placeholder={socialItem.placeholder}
+                  className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-orange-500"
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
