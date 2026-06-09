@@ -110,14 +110,6 @@ const nextConfig = {
       },
     ]
   },
-
-  generateBuildId: async () => '1781031754',
-
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // Cache bust: force webpack to ignore previous cache
-    config.cache = { type: 'filesystem', version: '1781031754' };
-    return config;
-  },
   compress: true,
   productionBrowserSourceMaps: false,
   swcMinify: true,
