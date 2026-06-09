@@ -102,8 +102,9 @@ export async function POST(req: NextRequest): Promise<NextResponse<ImportResult>
         const previousQty = existing?.quantity ?? 0
         const delta = data.quantity - previousQty
 
+        let inventoryItem
         if (existing) {
-          await prisma.inventoryItem.update({
+          inventoryItem = await prisma.inventoryItem.update({
             where: { id: existing.id },
             data: {
               quantity: data.quantity,
@@ -113,7 +114,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ImportResult>
           })
           updated++
         } else {
-          await prisma.inventoryItem.create({
+          inventoryItem = await prisma.inventoryItem.create({
             data: {
               productId: product.id,
               branchId: branch.id,
@@ -129,12 +130,9 @@ export async function POST(req: NextRequest): Promise<NextResponse<ImportResult>
         if (delta !== 0) {
           await prisma.inventoryMovement.create({
             data: {
-              productId: product.id,
-              branchId: branch.id,
+              inventoryId: inventoryItem.id,
               type: delta > 0 ? 'IN_ADJUSTMENT' : 'OUT_ADJUSTMENT',
               quantity: Math.abs(delta),
-              previousQuantity: previousQty,
-              newQuantity: data.quantity,
               reason: 'bulk_import',
             },
           })
