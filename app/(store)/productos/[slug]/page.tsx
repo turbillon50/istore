@@ -266,14 +266,14 @@ export default function ProductDetailPage() {
   const [addedToCart, setAddedToCart] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [showSpecsAll, setShowSpecsAll] = useState(false);
-  const [activeTab, setActiveTab] = useState<"specs" | "features" | "reviews">("specs");
+  const [activeTab, setActiveTab] = useState<string>("specs");
   const [expandedReview, setExpandedReview] = useState<string | null>(null);
 
   const imageRef = useRef<HTMLDivElement>(null);
 
   // Derived values
-  const colors = [...new Set(product.variants.map((v) => v.options.color).filter(Boolean))];
-  const storages = [...new Set(product.variants.map((v) => v.options.storage).filter(Boolean))];
+  const colors = Array.from(new Set(product.variants.map((v) => v.options.color).filter(Boolean)));
+  const storages = Array.from(new Set(product.variants.map((v) => v.options.storage).filter(Boolean)));
 
   const activeVariant = product.variants.find(
     (v) => v.options.color === selectedColor && v.options.storage === selectedStorage
