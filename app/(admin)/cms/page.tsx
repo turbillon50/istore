@@ -247,7 +247,7 @@ function SortableBlock({ block, onEdit, onRemove }: { block: Block; onEdit: (id:
 function PagesTab() {
   const [pages, setPages] = useState<CMSPage[]>(INITIAL_PAGES)
   const [selectedPageId, setSelectedPageId] = useState<string>('home')
-  const [activeTab, setActiveTab] = useState<'blocks' | 'seo'>('blocks')
+  const [activeTab, setActiveTab] = useState<string>('blocks')
   const [saving, setSaving] = useState(false)
   const [addBlockOpen, setAddBlockOpen] = useState(false)
   const [showNewPageModal, setShowNewPageModal] = useState(false)
