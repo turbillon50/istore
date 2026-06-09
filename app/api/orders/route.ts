@@ -6,7 +6,7 @@ import { z } from 'zod'
 
 const ADMIN_ROLES = ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SELLER']
 
-// --- GET /api/orders ----------------------------------------------------------
+// ─── GET /api/orders ──────────────────────────────────────────────────────────
 
 export async function GET(req: NextRequest) {
   try {
@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// --- POST /api/orders ---------------------------------------------------------
+// ─── POST /api/orders ─────────────────────────────────────────────────────────
 
 const orderItemSchema = z.object({
   productId: z.string(),
@@ -182,13 +182,18 @@ export async function POST(req: NextRequest) {
           couponId,
           notes,
           items: {
-            create: items.map((item) => ({
-              productId: item.productId,
-              variantId: item.variantId,
-              quantity: item.quantity,
-              unitPrice: item.unitPrice,
-              totalPrice: item.unitPrice * item.quantity,
-            })),
+            create: items.map((item) => {
+              const prod = products.find((p) => p.id === item.productId)!
+              return {
+                productId: item.productId,
+                variantId: item.variantId,
+                name: prod.name,
+                sku: prod.sku,
+                quantity: item.quantity,
+                unitPrice: item.unitPrice,
+                total: item.unitPrice * item.quantity,
+              }
+            }),
           },
         },
         include: {
@@ -223,9 +228,4 @@ export async function POST(req: NextRequest) {
       return newOrder
     })
 
-    return NextResponse.json({ data: order }, { status: 201 })
-  } catch (error) {
-    console.error('[POST /api/orders]', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-  }
-}
+    return NextResponse.json({ data: order }
