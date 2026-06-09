@@ -17,7 +17,7 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// --- Types --------------------------------------------------------------------
 
 type BannerZone = 'hero' | 'middle' | 'popup' | 'sidebar' | 'footer'
 type BannerStatus = 'active' | 'inactive' | 'scheduled'
@@ -41,7 +41,7 @@ interface Banner {
   stats: BannerStats
 }
 
-// ─── Mock data ────────────────────────────────────────────────────────────────
+// --- Mock data ----------------------------------------------------------------
 
 const ZONE_LABELS: Record<BannerZone, { label: string; icon: string; color: string }> = {
   hero:    { label: 'Hero Principal',   icon: '🖼️',  color: 'bg-purple-100 text-purple-700' },
@@ -89,7 +89,7 @@ const MOCK_BANNERS: Banner[] = [
   },
 ]
 
-// ─── Sortable Slide Card (for carousel ordering) ──────────────────────────────
+// --- Sortable Slide Card (for carousel ordering) ------------------------------
 
 function SortableSlide({ banner }: { banner: Banner }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
@@ -124,7 +124,7 @@ function SortableSlide({ banner }: { banner: Banner }) {
   )
 }
 
-// ─── Banner Card ──────────────────────────────────────────────────────────────
+// --- Banner Card --------------------------------------------------------------
 
 function BannerCard({
   banner,
@@ -232,7 +232,7 @@ function BannerCard({
   )
 }
 
-// ─── Edit Modal ───────────────────────────────────────────────────────────────
+// --- Edit Modal ---------------------------------------------------------------
 
 function EditModal({ banner, onClose, onSave }: { banner: Banner; onClose: () => void; onSave: (b: Banner) => void }) {
   const [form, setForm] = useState(banner)
@@ -331,7 +331,7 @@ function EditModal({ banner, onClose, onSave }: { banner: Banner; onClose: () =>
   )
 }
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
+// --- Main ---------------------------------------------------------------------
 
 export default function BannersPage() {
   const [banners, setBanners] = useState<Banner[]>(MOCK_BANNERS)
