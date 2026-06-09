@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma'
 import { getProducts } from '@/lib/db'
 import { z } from 'zod'
 
-// --- GET /api/products --------------------------------------------------------
+// ─── GET /api/products ────────────────────────────────────────────────────────
 
 export async function GET(req: NextRequest) {
   try {
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// --- POST /api/products -------------------------------------------------------
+// ─── POST /api/products ───────────────────────────────────────────────────────
 
 const createProductSchema = z.object({
   name: z.string().min(1).max(255),
@@ -45,13 +45,12 @@ const createProductSchema = z.object({
   costPrice: z.number().positive().optional(),
   categoryId: z.string(),
   brandId: z.string().optional(),
-  status: z.enum(['DRAFT', 'ACTIVE', 'INACTIVE', 'ARCHIVED']).default('DRAFT'),
+  status: z.enum(['DRAFT', 'ACTIVE', 'PAUSED', 'OUT_OF_STOCK', 'DISCONTINUED', 'ARCHIVED']).default('DRAFT'),
   isFeatured: z.boolean().default(false),
-  tags: z.array(z.string()).default([]),
   seoTitle: z.string().optional(),
-  seoDescription: z.string().optional(),
+  seoDesc: z.string().optional(),
   weight: z.number().optional(),
-  specifications: z.record(z.unknown()).optional(),
+  specs: z.record(z.unknown()).optional(),
 })
 
 export async function POST(req: NextRequest) {
@@ -107,10 +106,22 @@ export async function POST(req: NextRequest) {
 
     const product = await prisma.product.create({
       data: {
-        ...data,
+        name: data.name,
         slug,
-        tags: data.tags,
-        specifications: data.specifications ?? {},
+        sku: data.sku,
+        description: data.description,
+        shortDesc: data.shortDescription,
+        basePrice: data.basePrice,
+        comparePrice: data.compareAtPrice,
+        costPrice: data.costPrice,
+        categoryId: data.categoryId,
+        brandId: data.brandId,
+        status: data.status as any,
+        isFeatured: data.isFeatured,
+        seoTitle: data.seoTitle,
+        seoDesc: data.seoDesc,
+        weight: data.weight,
+        specs: data.specs ?? {},
       },
       include: {
         category: { select: { id: true, name: true, slug: true } },
