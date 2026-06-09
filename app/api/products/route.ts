@@ -40,7 +40,7 @@ const createProductSchema = z.object({
   sku: z.string().min(1).max(100),
   description: z.string().optional(),
   shortDescription: z.string().optional(),
-  basePrice: z.number().positive(),
+  basePrice: z.number().positive(),  // maps to price
   compareAtPrice: z.number().positive().optional(),
   costPrice: z.number().positive().optional(),
   categoryId: z.string(),
@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
         sku: data.sku,
         description: data.description,
         shortDesc: data.shortDescription,
-        basePrice: data.basePrice,
+        price: data.basePrice,
         comparePrice: data.compareAtPrice,
         costPrice: data.costPrice,
         categoryId: data.categoryId,
