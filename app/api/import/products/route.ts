@@ -201,4 +201,62 @@ export async function POST(req: NextRequest): Promise<NextResponse<ImportResult 
               where: { sku: data.sku },
               data: {
                 name: data.name,
-                pri
+                price: data.price,
+                cost: data.cost,
+                description: data.description,
+                categoryId: categoryRecord.id,
+                brandId: brandRecord?.id,
+                barcode: data.barcode,
+                weight: data.weight,
+                status: data.status ?? 'active',
+              },
+            })
+            updated++
+          } else {
+            await prisma.product.create({
+              data: {
+                sku: data.sku,
+                name: data.name,
+                price: data.price,
+                cost: data.cost,
+                description: data.description,
+                categoryId: categoryRecord.id,
+                brandId: brandRecord?.id,
+                barcode: data.barcode,
+                weight: data.weight,
+                status: data.status ?? 'active',
+                // Create initial inventory if stock provided
+                ...(data.stock !== undefined && {
+                  inventory: {
+                    create: {
+                      quantity: data.stock,
+                      branchId: 'default', // Adjust to your branch model
+                    },
+                  },
+                }),
+              },
+            })
+            created++
+          }
+        } catch (err) {
+          const message = err instanceof Error ? err.message : 'Error desconocido'
+          errorDetails.push({ row: rowIndex, sku: data.sku, message })
+        }
+      }))
+    }
+
+    return NextResponse.json({
+      success: true,
+      created,
+      updated,
+      errors: errorDetails.length,
+      errorDetails,
+    })
+  } catch (err) {
+    console.error('[import/products]', err)
+    return NextResponse.json(
+      { success: false, created: 0, updated: 0, errors: 1, errorDetails: [{ row: 0, message: 'Error interno del servidor' }] },
+      { status: 500 }
+    )
+  }
+}
