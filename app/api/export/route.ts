@@ -95,7 +95,7 @@ async function fetchCustomers(): Promise<Record<string, unknown>[]> {
     email:         u.email,
     phone:         u.phone ?? '',
     orders_count:  u.orders.length,
-    total_spent:   u.orders.reduce((sum, o) => sum + o.total, 0).toFixed(2),
+    total_spent:   u.orders.reduce((sum, o) => sum + Number(o.total), 0).toFixed(2),
     address:       u.addresses[0]?.street ?? '',
     city:          u.addresses[0]?.city ?? '',
     state:         u.addresses[0]?.state ?? '',
