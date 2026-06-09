@@ -177,7 +177,7 @@ async function handlePaymentApproved(payment: MercadoPagoPayment) {
     })
   }
 
-  await sendOrderConfirmation(order as Parameters<typeof sendOrderConfirmation>[0])
+  await sendOrderConfirmation(order as unknown as Parameters<typeof sendOrderConfirmation>[0])
 
   await triggerWorkflow(WORKFLOWS.PURCHASE_COMPLETE, {
     orderId: order.id,
