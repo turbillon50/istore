@@ -6,7 +6,7 @@ import { z } from 'zod'
 
 const ADMIN_ROLES = ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SELLER']
 
-// ─── GET /api/orders ──────────────────────────────────────────────────────────
+// --- GET /api/orders ----------------------------------------------------------
 
 export async function GET(req: NextRequest) {
   try {
@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// ─── POST /api/orders ─────────────────────────────────────────────────────────
+// --- POST /api/orders ---------------------------------------------------------
 
 const orderItemSchema = z.object({
   productId: z.string(),
