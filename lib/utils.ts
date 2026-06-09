@@ -1,72 +1,50 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { clsx, type ClassValue } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
+/** Merges Tailwind classes safely, resolving conflicts. */
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs))
 }
 
-// Coacciona cualquier entrada (null/undefined/NaN/string) a un número finito.
-const toFinite = (v: unknown) => {
-  const n = Number(v ?? 0);
-  return Number.isFinite(n) ? n : 0;
-};
-
-export function formatCurrency(value: number | null | undefined, currency = "MXN") {
-  return new Intl.NumberFormat("es-MX", {
-    style: "currency",
-    currency,
-    maximumFractionDigits: 0,
-  }).format(toFinite(value));
+/** Format a number as Mexican Peso currency. */
+export function formatCurrency(
+  amount: number | string,
+  options?: Intl.NumberFormatOptions
+): string {
+  const num = typeof amount === 'string' ? parseFloat(amount) : amount
+  return new Intl.NumberFormat('es-MX', {
+    style: 'currency',
+    currency: 'MXN',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+    ...options,
+  }).format(num)
 }
 
-export function formatNumber(value: number | null | undefined) {
-  return new Intl.NumberFormat("es-MX").format(toFinite(value));
+/** Calculate discount percentage between two prices. */
+export function discountPercent(price: number, comparePrice: number): number {
+  if (comparePrice <= 0 || price >= comparePrice) return 0
+  return Math.round(((comparePrice - price) / comparePrice) * 100)
 }
 
-export function formatDate(date: string | Date) {
-  const d = typeof date === "string" ? new Date(date) : date;
-  return new Intl.DateTimeFormat("es-MX", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(d);
+/** Slugify a string to URL-safe format. */
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_]+/g, '-')
+    .replace(/^-+|-+$/g, '')
 }
 
-export function formatDateTime(date: string | Date) {
-  const d = typeof date === "string" ? new Date(date) : date;
-  return new Intl.DateTimeFormat("es-MX", {
-    day: "2-digit",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(d);
+/** Truncate text to a max length with ellipsis. */
+export function truncate(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text
+  return text.slice(0, maxLength - 3) + '...'
 }
 
-export function timeAgo(date: string | Date) {
-  const d = typeof date === "string" ? new Date(date) : date;
-  const seconds = Math.floor((Date.now() - d.getTime()) / 1000);
-  const intervals: [number, string][] = [
-    [31536000, "año"],
-    [2592000, "mes"],
-    [86400, "día"],
-    [3600, "h"],
-    [60, "min"],
-  ];
-  for (const [secs, label] of intervals) {
-    const count = Math.floor(seconds / secs);
-    if (count >= 1) {
-      const plural = label.length > 3 && count > 1 ? "es" : label.length > 3 ? "" : "";
-      return `hace ${count} ${label}${plural}`;
-    }
-  }
-  return "hace un momento";
-}
-
-export function initials(name: string) {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
+/** Clamp a number between min and max. */
+export function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max)
 }

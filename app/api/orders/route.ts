@@ -1,80 +1,231 @@
-import { NextRequest, NextResponse } from "next/server";
-import { createOrder, updateOrderStatus } from "@/lib/data";
-import { sendEmail, orderEmail } from "@/lib/email";
+import { NextRequest, NextResponse } from 'next/server'
+import { auth } from '@clerk/nextjs/server'
+import prisma from '@/lib/prisma'
+import { getOrders } from '@/lib/db'
+import { z } from 'zod'
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+const ADMIN_ROLES = ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SELLER']
 
-const STATUSES = [
-  "Recibido", "Diagnóstico", "Autorización Pendiente", "En Reparación",
-  "Terminado", "Entregado", "Cancelado",
-];
+// ─── GET /api/orders ──────────────────────────────────────────────────────────
 
-const str = (v: unknown) => (typeof v === "string" ? v.trim() : "");
-
-export async function POST(req: NextRequest) {
-  let body: any;
+export async function GET(req: NextRequest) {
   try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: "JSON inválido" }, { status: 400 });
-  }
+    const { userId } = await auth()
 
-  const client = str(body?.client);
-  const device = str(body?.device);
-  if (!client) return NextResponse.json({ error: "Nombre del cliente requerido" }, { status: 400 });
-  if (!device) return NextResponse.json({ error: "Equipo requerido" }, { status: 400 });
-
-  const cost = Number(body?.cost);
-  try {
-    const order = await createOrder({
-      client,
-      clientPhone: str(body?.clientPhone) || undefined,
-      device,
-      brand: str(body?.brand) || undefined,
-      imei: str(body?.imei) || undefined,
-      issue: str(body?.issue) || undefined,
-      cost: Number.isFinite(cost) ? cost : 0,
-      branch: str(body?.branch) || undefined,
-    });
-
-    // Correo de confirmación de orden (si el cliente dio email válido).
-    const email = str(body?.clientEmail);
-    let emailed = false;
-    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      const e = orderEmail({
-        id: order.id, client: order.client, device: order.device,
-        issue: order.issue, cost: order.cost, status: order.status,
-      });
-      const r = await sendEmail({ to: email, subject: e.subject, html: e.html });
-      emailed = r.ok;
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    return NextResponse.json({ ok: true, order, emailed });
-  } catch (e) {
-    console.error("[api/orders POST]", e);
-    return NextResponse.json({ error: "No se pudo crear la orden" }, { status: 500 });
+    const dbUser = await prisma.user.findUnique({
+      where: { clerkId: userId },
+      select: { id: true, role: true },
+    })
+
+    if (!dbUser) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    const isAdmin = ADMIN_ROLES.includes(dbUser.role)
+    const { searchParams } = req.nextUrl
+
+    const filters = {
+      // Customers can only see their own orders
+      userId: isAdmin ? (searchParams.get('userId') ?? undefined) : dbUser.id,
+      status: searchParams.get('status') ?? undefined,
+      paymentStatus: searchParams.get('paymentStatus') ?? undefined,
+      search: isAdmin ? (searchParams.get('search') ?? undefined) : undefined,
+      dateFrom: searchParams.get('dateFrom') ? new Date(searchParams.get('dateFrom')!) : undefined,
+      dateTo: searchParams.get('dateTo') ? new Date(searchParams.get('dateTo')!) : undefined,
+      page: Number(searchParams.get('page') ?? 1),
+      limit: Math.min(Number(searchParams.get('limit') ?? 20), 100),
+    }
+
+    const result = await getOrders(filters)
+
+    return NextResponse.json(result)
+  } catch (error) {
+    console.error('[GET /api/orders]', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
-export async function PATCH(req: NextRequest) {
-  let body: any;
+// ─── POST /api/orders ─────────────────────────────────────────────────────────
+
+const orderItemSchema = z.object({
+  productId: z.string(),
+  variantId: z.string().optional(),
+  quantity: z.number().int().positive(),
+  unitPrice: z.number().positive(),
+})
+
+const createOrderSchema = z.object({
+  addressId: z.string(),
+  items: z.array(orderItemSchema).min(1),
+  couponCode: z.string().optional(),
+  notes: z.string().optional(),
+  paymentMethod: z.enum(['STRIPE', 'MERCADOPAGO', 'CASH', 'BANK_TRANSFER', 'FINANCING']),
+})
+
+export async function POST(req: NextRequest) {
   try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: "JSON inválido" }, { status: 400 });
-  }
-  const id = str(body?.id);
-  const status = str(body?.status);
-  if (!id) return NextResponse.json({ error: "id requerido" }, { status: 400 });
-  if (!STATUSES.includes(status))
-    return NextResponse.json({ error: "estado inválido" }, { status: 400 });
-  try {
-    const order = await updateOrderStatus(id, status);
-    if (!order) return NextResponse.json({ error: "orden no encontrada" }, { status: 404 });
-    return NextResponse.json({ ok: true, order });
-  } catch (e) {
-    console.error("[api/orders PATCH]", e);
-    return NextResponse.json({ error: "No se pudo actualizar" }, { status: 500 });
+    const { userId } = await auth()
+
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const dbUser = await prisma.user.findUnique({
+      where: { clerkId: userId },
+      select: { id: true, role: true },
+    })
+
+    if (!dbUser) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    const body = await req.json()
+    const parsed = createOrderSchema.safeParse(body)
+
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: 'Validation error', details: parsed.error.flatten() },
+        { status: 422 },
+      )
+    }
+
+    const { addressId, items, couponCode, notes, paymentMethod } = parsed.data
+
+    // Validate address belongs to user
+    const address = await prisma.address.findFirst({
+      where: { id: addressId, userId: dbUser.id },
+    })
+
+    if (!address) {
+      return NextResponse.json({ error: 'Address not found' }, { status: 404 })
+    }
+
+    // Verify inventory and fetch product prices
+    const productIds = items.map((i) => i.productId)
+    const products = await prisma.product.findMany({
+      where: { id: { in: productIds }, status: 'ACTIVE' },
+      include: { inventory: true },
+    })
+
+    if (products.length !== productIds.length) {
+      return NextResponse.json(
+        { error: 'One or more products are unavailable' },
+        { status: 422 },
+      )
+    }
+
+    for (const item of items) {
+      const product = products.find((p) => p.id === item.productId)
+      if (!product) continue
+      const inv = product.inventory.find((i) =>
+        item.variantId ? i.variantId === item.variantId : i.variantId === null,
+      )
+      const available = inv ? inv.quantity - inv.reserved : 0
+      if (available < item.quantity) {
+        return NextResponse.json(
+          { error: `Insufficient stock for: ${product.name}` },
+          { status: 422 },
+        )
+      }
+    }
+
+    // Apply coupon if provided
+    let discountAmount = 0
+    let couponId: string | undefined
+
+    if (couponCode) {
+      const coupon = await prisma.coupon.findFirst({
+        where: {
+          code: couponCode.toUpperCase(),
+          isActive: true,
+          OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
+        },
+      })
+
+      if (coupon) {
+        const subtotal = items.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0)
+        discountAmount =
+          coupon.discountType === 'PERCENTAGE'
+            ? subtotal * (Number(coupon.discountValue) / 100)
+            : Number(coupon.discountValue)
+        couponId = coupon.id
+      }
+    }
+
+    const subtotal = items.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0)
+    const shippingCost = subtotal >= 999 ? 0 : 99
+    const taxRate = 0.16
+    const taxAmount = (subtotal - discountAmount) * taxRate
+    const total = subtotal - discountAmount + shippingCost + taxAmount
+
+    // Generate order number
+    const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`
+
+    const order = await prisma.$transaction(async (tx) => {
+      const newOrder = await tx.order.create({
+        data: {
+          orderNumber,
+          userId: dbUser.id,
+          addressId,
+          status: 'PENDING',
+          paymentStatus: 'PENDING',
+          paymentMethod,
+          subtotal,
+          discountAmount,
+          shippingCost,
+          taxAmount,
+          total,
+          couponId,
+          notes,
+          items: {
+            create: items.map((item) => ({
+              productId: item.productId,
+              variantId: item.variantId,
+              quantity: item.quantity,
+              unitPrice: item.unitPrice,
+              totalPrice: item.unitPrice * item.quantity,
+            })),
+          },
+        },
+        include: {
+          items: {
+            include: {
+              product: { select: { name: true, sku: true, images: { take: 1 } } },
+            },
+          },
+          address: true,
+        },
+      })
+
+      // Reserve inventory
+      for (const item of items) {
+        await tx.inventoryItem.updateMany({
+          where: {
+            productId: item.productId,
+            ...(item.variantId ? { variantId: item.variantId } : { variantId: null }),
+          },
+          data: { reserved: { increment: item.quantity } },
+        })
+      }
+
+      // Update coupon usage
+      if (couponId) {
+        await tx.coupon.update({
+          where: { id: couponId },
+          data: { usageCount: { increment: 1 } },
+        })
+      }
+
+      return newOrder
+    })
+
+    return NextResponse.json({ data: order }, { status: 201 })
+  } catch (error) {
+    console.error('[POST /api/orders]', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

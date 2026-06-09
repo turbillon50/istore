@@ -1,0 +1,1139 @@
+// ============================================================
+// iStore Pro — Sistema Operativo de Tienda de Tecnología
+// Schema Prisma completo — Neon Postgres
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ============================================================
+// USUARIOS Y ACCESO
+// ============================================================
+
+model User {
+  id            String    @id @default(cuid())
+  clerkId       String    @unique
+  email         String    @unique
+  name          String?
+  phone         String?
+  avatar        String?
+  role          UserRole  @default(CUSTOMER)
+  permissions   Json      @default("{}")
+  isActive      Boolean   @default(true)
+  emailVerified Boolean   @default(false)
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relaciones
+  orders        Order[]
+  addresses     Address[]
+  reviews       Review[]
+  wishlist      WishlistItem[]
+  cartItems     CartItem[]
+  quotes        Quote[]
+  activityLogs  ActivityLog[]
+  serviceRequests ServiceRequest[]
+
+  @@index([clerkId])
+  @@index([email])
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  MANAGER
+  SELLER
+  SUPPORT
+  WAREHOUSE
+  CUSTOMER
+  GUEST
+}
+
+model Address {
+  id          String  @id @default(cuid())
+  userId      String
+  user        User    @relation(fields: [userId], references: [id])
+  label       String  @default("Casa")
+  street      String
+  exterior    String
+  interior    String?
+  colony      String
+  city        String
+  state       String
+  zip         String
+  country     String  @default("MX")
+  references  String?
+  isDefault   Boolean @default(false)
+  lat         Float?
+  lng         Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  orders      Order[]
+}
+
+// ============================================================
+// CATÁLOGO
+// ============================================================
+
+model Category {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  name        String
+  description String?
+  image       String?
+  icon        String?
+  color       String?
+  parentId    String?
+  parent      Category?  @relation("CategoryParent", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryParent")
+  isActive    Boolean    @default(true)
+  sortOrder   Int        @default(0)
+  seoTitle    String?
+  seoDesc     String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  products    Product[]
+
+  @@index([slug])
+  @@index([parentId])
+}
+
+model Brand {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  logo        String?
+  banner      String?
+  description String?
+  website     String?
+  isActive    Boolean   @default(true)
+  isFeatured  Boolean   @default(false)
+  sortOrder   Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  products    Product[]
+
+  @@index([slug])
+}
+
+model Product {
+  id              String        @id @default(cuid())
+  sku             String        @unique
+  slug            String        @unique
+  name            String
+  shortDesc       String?
+  description     String?       @db.Text
+  categoryId      String
+  category        Category      @relation(fields: [categoryId], references: [id])
+  brandId         String?
+  brand           Brand?        @relation(fields: [brandId], references: [id])
+  productType     ProductType   @default(PHONE)
+  status          ProductStatus @default(DRAFT)
+  isFeatured      Boolean       @default(false)
+  isNew           Boolean       @default(false)
+  isHot           Boolean       @default(false)
+
+  // Precios
+  price           Decimal       @db.Decimal(10, 2)
+  comparePrice    Decimal?      @db.Decimal(10, 2)
+  costPrice       Decimal?      @db.Decimal(10, 2)
+
+  // Media
+  images          Json          @default("[]")  // [{ url, alt, order, isMain }]
+  videos          Json          @default("[]")  // [{ url, thumbnail, type }]
+
+  // SEO
+  seoTitle        String?
+  seoDesc         String?
+  seoKeywords     String?
+
+  // Especificaciones
+  specs           Json          @default("{}")  // Dynamic key-value specs
+  features        Json          @default("[]")  // Array of feature strings
+
+  // Opciones
+  hasVariants     Boolean       @default(false)
+
+  // Estadísticas
+  totalSold       Int           @default(0)
+  totalViews      Int           @default(0)
+  rating          Float         @default(0)
+  reviewCount     Int           @default(0)
+
+  // Configuración
+  taxClass        String?       @default("IVA_16")
+  weight          Float?
+  dimensions      Json?         // { length, width, height, unit }
+
+  // Timestamps
+  publishedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // Relaciones
+  variants        ProductVariant[]
+  inventory       InventoryItem[]
+  reviews         Review[]
+  orderItems      OrderItem[]
+  wishlist        WishlistItem[]
+  cartItems       CartItem[]
+  promotionItems  PromotionItem[]
+  quoteItems      QuoteItem[]
+
+  @@index([slug])
+  @@index([sku])
+  @@index([categoryId])
+  @@index([brandId])
+  @@index([status])
+}
+
+enum ProductType {
+  PHONE
+  TABLET
+  LAPTOP
+  ACCESSORY
+  WEARABLE
+  AUDIO
+  GAMING
+  SMART_HOME
+  SERVICE
+  REFURBISHED
+  PART
+  OTHER
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  OUT_OF_STOCK
+  DISCONTINUED
+  ARCHIVED
+}
+
+model ProductVariant {
+  id          String   @id @default(cuid())
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku         String   @unique
+  name        String
+  options     Json     @default("{}")  // { color: "Negro", storage: "256GB" }
+  price       Decimal  @db.Decimal(10, 2)
+  comparePrice Decimal? @db.Decimal(10, 2)
+  images      Json     @default("[]")
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  inventory   InventoryItem[]
+  orderItems  OrderItem[]
+  cartItems   CartItem[]
+
+  @@index([productId])
+  @@index([sku])
+}
+
+// ============================================================
+// INVENTARIO
+// ============================================================
+
+model InventoryItem {
+  id              String         @id @default(cuid())
+  productId       String
+  product         Product        @relation(fields: [productId], references: [id])
+  variantId       String?
+  variant         ProductVariant? @relation(fields: [variantId], references: [id])
+  branchId        String?
+  branch          Branch?        @relation(fields: [branchId], references: [id])
+
+  quantity        Int            @default(0)
+  reserved        Int            @default(0)
+  minStock        Int            @default(5)
+  maxStock        Int            @default(100)
+  reorderPoint    Int            @default(10)
+
+  location        String?        // Shelf/rack location
+  serialNumbers   Json           @default("[]")
+  imeis           Json           @default("[]")
+
+  lastCountAt     DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  movements       InventoryMovement[]
+
+  @@unique([productId, variantId, branchId])
+  @@index([productId])
+  @@index([branchId])
+}
+
+model InventoryMovement {
+  id            String        @id @default(cuid())
+  inventoryId   String
+  inventory     InventoryItem @relation(fields: [inventoryId], references: [id])
+  type          MovementType
+  quantity      Int
+  reason        String?
+  reference     String?       // Order ID, Purchase ID, etc.
+  userId        String?
+  notes         String?
+  createdAt     DateTime      @default(now())
+
+  @@index([inventoryId])
+  @@index([type])
+}
+
+enum MovementType {
+  IN_PURCHASE
+  IN_RETURN
+  IN_ADJUSTMENT
+  IN_TRANSFER
+  OUT_SALE
+  OUT_DAMAGE
+  OUT_THEFT
+  OUT_ADJUSTMENT
+  OUT_TRANSFER
+  RESERVED
+  RELEASED
+}
+
+// ============================================================
+// PEDIDOS
+// ============================================================
+
+model Order {
+  id              String       @id @default(cuid())
+  orderNumber     String       @unique
+  userId          String?
+  user            User?        @relation(fields: [userId], references: [id])
+  guestEmail      String?
+  guestPhone      String?
+
+  status          OrderStatus  @default(PENDING)
+  paymentStatus   PaymentStatus @default(PENDING)
+  fulfillmentStatus FulfillmentStatus @default(UNFULFILLED)
+
+  addressId       String?
+  address         Address?     @relation(fields: [addressId], references: [id])
+  shippingData    Json?        // Snapshot of address at time of order
+
+  items           OrderItem[]
+
+  subtotal        Decimal      @db.Decimal(10, 2)
+  discountAmount  Decimal      @db.Decimal(10, 2) @default(0)
+  shippingAmount  Decimal      @db.Decimal(10, 2) @default(0)
+  taxAmount       Decimal      @db.Decimal(10, 2) @default(0)
+  total           Decimal      @db.Decimal(10, 2)
+
+  currency        String       @default("MXN")
+
+  couponCode      String?
+  promotionId     String?
+
+  paymentMethod   String?
+  paymentProvider String?      // stripe | mercadopago | cash | transfer
+  paymentRef      String?
+  paidAt          DateTime?
+
+  branchId        String?
+  branch          Branch?      @relation(fields: [branchId], references: [id])
+  sellerId        String?
+
+  notes           String?
+  internalNotes   String?
+
+  source          OrderSource  @default(WEB)
+
+  trackingNumber  String?
+  shippingProvider String?
+  shippedAt       DateTime?
+  deliveredAt     DateTime?
+
+  cancelledAt     DateTime?
+  cancelReason    String?
+
+  financingId     String?
+  financing       Financing?   @relation(fields: [financingId], references: [id])
+
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  statusHistory   OrderStatusHistory[]
+  payments        Payment[]
+  invoices        Invoice[]
+
+  @@index([userId])
+  @@index([orderNumber])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id          String          @id @default(cuid())
+  orderId     String
+  order       Order           @relation(fields: [orderId], references: [id])
+  productId   String
+  product     Product         @relation(fields: [productId], references: [id])
+  variantId   String?
+  variant     ProductVariant? @relation(fields: [variantId], references: [id])
+
+  name        String
+  sku         String
+  image       String?
+  options     Json            @default("{}")
+
+  quantity    Int
+  unitPrice   Decimal         @db.Decimal(10, 2)
+  discount    Decimal         @db.Decimal(10, 2) @default(0)
+  total       Decimal         @db.Decimal(10, 2)
+
+  createdAt   DateTime        @default(now())
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model OrderStatusHistory {
+  id        String      @id @default(cuid())
+  orderId   String
+  order     Order       @relation(fields: [orderId], references: [id])
+  status    OrderStatus
+  comment   String?
+  userId    String?
+  createdAt DateTime    @default(now())
+
+  @@index([orderId])
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  READY
+  SHIPPED
+  DELIVERED
+  COMPLETED
+  CANCELLED
+  REFUNDED
+  ON_HOLD
+}
+
+enum PaymentStatus {
+  PENDING
+  AUTHORIZED
+  PAID
+  PARTIAL
+  REFUNDED
+  FAILED
+  CANCELLED
+}
+
+enum FulfillmentStatus {
+  UNFULFILLED
+  PARTIAL
+  FULFILLED
+  RETURNED
+}
+
+enum OrderSource {
+  WEB
+  MOBILE
+  POS
+  PHONE
+  WHATSAPP
+  MARKETPLACE
+}
+
+model Payment {
+  id          String        @id @default(cuid())
+  orderId     String
+  order       Order         @relation(fields: [orderId], references: [id])
+  amount      Decimal       @db.Decimal(10, 2)
+  currency    String        @default("MXN")
+  provider    String
+  method      String
+  status      String
+  reference   String?
+  metadata    Json          @default("{}")
+  processedAt DateTime?
+  createdAt   DateTime      @default(now())
+
+  @@index([orderId])
+}
+
+// ============================================================
+// CARRITO
+// ============================================================
+
+model CartItem {
+  id          String          @id @default(cuid())
+  sessionId   String?
+  userId      String?
+  user        User?           @relation(fields: [userId], references: [id])
+  productId   String
+  product     Product         @relation(fields: [productId], references: [id])
+  variantId   String?
+  variant     ProductVariant? @relation(fields: [variantId], references: [id])
+  quantity    Int             @default(1)
+  options     Json            @default("{}")
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([userId])
+  @@index([sessionId])
+}
+
+// ============================================================
+// PROMOCIONES Y DESCUENTOS
+// ============================================================
+
+model Promotion {
+  id            String         @id @default(cuid())
+  name          String
+  description   String?
+  type          PromotionType
+  discountType  DiscountType
+  discountValue Decimal        @db.Decimal(10, 2)
+  minPurchase   Decimal?       @db.Decimal(10, 2)
+  maxUses       Int?
+  usedCount     Int            @default(0)
+  isActive      Boolean        @default(true)
+  showBadge     Boolean        @default(true)
+  badgeText     String?
+  conditions    Json           @default("{}")
+  startsAt      DateTime?
+  endsAt        DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  items         PromotionItem[]
+  coupons       Coupon[]
+
+  @@index([isActive])
+}
+
+model PromotionItem {
+  id          String    @id @default(cuid())
+  promotionId String
+  promotion   Promotion @relation(fields: [promotionId], references: [id])
+  productId   String
+  product     Product   @relation(fields: [productId], references: [id])
+
+  @@unique([promotionId, productId])
+}
+
+model Coupon {
+  id            String     @id @default(cuid())
+  code          String     @unique
+  promotionId   String?
+  promotion     Promotion? @relation(fields: [promotionId], references: [id])
+  discountType  DiscountType
+  discountValue Decimal    @db.Decimal(10, 2)
+  minPurchase   Decimal?   @db.Decimal(10, 2)
+  maxUses       Int?
+  usedCount     Int        @default(0)
+  isActive      Boolean    @default(true)
+  startsAt      DateTime?
+  endsAt        DateTime?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@index([code])
+}
+
+enum PromotionType {
+  PRODUCT
+  CATEGORY
+  BRAND
+  CART
+  FLASH_SALE
+  BUNDLE
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+  BUY_X_GET_Y
+  FREE_SHIPPING
+}
+
+// ============================================================
+// CMS DINÁMICO
+// ============================================================
+
+model Page {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  title       String
+  description String?
+  template    PageTemplate @default(LANDING)
+  blocks      Json        @default("[]")   // Array of content blocks
+  isPublished Boolean     @default(false)
+  isHome      Boolean     @default(false)
+  seoTitle    String?
+  seoDesc     String?
+  seoImage    String?
+  sortOrder   Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  publishedAt DateTime?
+
+  @@index([slug])
+}
+
+enum PageTemplate {
+  HOME
+  LANDING
+  CATEGORY
+  BRAND
+  PRODUCT
+  BLOG
+  CUSTOM
+}
+
+model Banner {
+  id          String       @id @default(cuid())
+  name        String
+  zone        BannerZone
+  type        BannerType   @default(IMAGE)
+  title       String?
+  subtitle    String?
+  description String?
+  cta         String?
+  ctaUrl      String?
+  image       String?
+  imageMobile String?
+  video       String?
+  overlay     Boolean      @default(false)
+  overlayColor String?     @default("rgba(0,0,0,0.4)")
+  textColor   String?      @default("#ffffff")
+  bgColor     String?
+  isActive    Boolean      @default(true)
+  sortOrder   Int          @default(0)
+  startsAt    DateTime?
+  endsAt      DateTime?
+  clicks      Int          @default(0)
+  impressions Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([zone, isActive])
+}
+
+enum BannerZone {
+  HERO_MAIN
+  HERO_SECONDARY
+  HOME_MIDDLE
+  HOME_BOTTOM
+  CATEGORY_TOP
+  SIDEBAR
+  POPUP
+  ANNOUNCEMENT
+}
+
+enum BannerType {
+  IMAGE
+  VIDEO
+  HTML
+}
+
+model CarouselSlide {
+  id          String   @id @default(cuid())
+  carouselId  String
+  carousel    Carousel @relation(fields: [carouselId], references: [id])
+  title       String?
+  subtitle    String?
+  image       String
+  imageMobile String?
+  href        String?
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Carousel {
+  id          String          @id @default(cuid())
+  name        String
+  zone        String
+  autoplay    Boolean         @default(true)
+  interval    Int             @default(5000)
+  isActive    Boolean         @default(true)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  slides      CarouselSlide[]
+}
+
+model SiteConfig {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       Json
+  group       String   @default("general")
+  label       String?
+  description String?
+  type        String   @default("text")   // text|image|color|json|boolean|number
+  updatedAt   DateTime @updatedAt
+
+  @@index([group])
+}
+
+model MenuItem {
+  id          String     @id @default(cuid())
+  menuId      String
+  menu        Menu       @relation(fields: [menuId], references: [id])
+  label       String
+  href        String?
+  target      String?
+  icon        String?
+  parentId    String?
+  parent      MenuItem?  @relation("MenuItemParent", fields: [parentId], references: [id])
+  children    MenuItem[] @relation("MenuItemParent")
+  sortOrder   Int        @default(0)
+  isActive    Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Menu {
+  id        String     @id @default(cuid())
+  name      String
+  handle    String     @unique  // main-nav, footer-left, footer-right, etc.
+  isActive  Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  items     MenuItem[]
+}
+
+model Faq {
+  id          String   @id @default(cuid())
+  question    String
+  answer      String   @db.Text
+  category    String?
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ============================================================
+// SUCURSALES
+// ============================================================
+
+model Branch {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  address     String
+  city        String
+  state       String
+  zip         String
+  phone       String?
+  email       String?
+  lat         Float?
+  lng         Float?
+  hours       Json     @default("{}")  // { mon: "9:00-20:00", ... }
+  images      Json     @default("[]")
+  services    Json     @default("[]")
+  isMain      Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  inventory   InventoryItem[]
+  orders      Order[]
+}
+
+// ============================================================
+// SERVICIOS TÉCNICOS
+// ============================================================
+
+model ServiceRequest {
+  id              String          @id @default(cuid())
+  folio           String          @unique
+  userId          String?
+  user            User?           @relation(fields: [userId], references: [id])
+  guestName       String?
+  guestEmail      String?
+  guestPhone      String?
+  deviceBrand     String
+  deviceModel     String
+  deviceSerial    String?
+  deviceImei      String?
+  problemDesc     String          @db.Text
+  diagnosis       String?         @db.Text
+  estimatedCost   Decimal?        @db.Decimal(10, 2)
+  finalCost       Decimal?        @db.Decimal(10, 2)
+  status          ServiceStatus   @default(RECEIVED)
+  priority        ServicePriority @default(NORMAL)
+  technicianId    String?
+  branchId        String?
+  images          Json            @default("[]")
+  parts           Json            @default("[]")
+  notes           String?
+  warranty        Int             @default(30)  // days
+  receivedAt      DateTime        @default(now())
+  diagnosedAt     DateTime?
+  repairedAt      DateTime?
+  deliveredAt     DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([folio])
+  @@index([status])
+}
+
+enum ServiceStatus {
+  RECEIVED
+  DIAGNOSING
+  WAITING_PARTS
+  WAITING_APPROVAL
+  IN_REPAIR
+  TESTING
+  READY
+  DELIVERED
+  CANCELLED
+  WARRANTY
+}
+
+enum ServicePriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+// ============================================================
+// FINANCIAMIENTO
+// ============================================================
+
+model Financing {
+  id            String   @id @default(cuid())
+  name          String
+  provider      String
+  logo          String?
+  minAmount     Decimal  @db.Decimal(10, 2)
+  maxAmount     Decimal  @db.Decimal(10, 2)
+  plans         Json     @default("[]")  // [{ months, rate, minAmount }]
+  requirements  Json     @default("[]")
+  isActive      Boolean  @default(true)
+  sortOrder     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  orders        Order[]
+}
+
+// ============================================================
+// TRADE-IN
+// ============================================================
+
+model TradeIn {
+  id            String       @id @default(cuid())
+  folio         String       @unique
+  userId        String?
+  guestEmail    String?
+  guestPhone    String?
+  deviceBrand   String
+  deviceModel   String
+  deviceStorage String?
+  deviceColor   String?
+  deviceImei    String?
+  condition     TradeInCondition
+  images        Json         @default("[]")
+  estimatedValue Decimal?    @db.Decimal(10, 2)
+  finalValue    Decimal?     @db.Decimal(10, 2)
+  status        TradeInStatus @default(PENDING)
+  notes         String?
+  expiresAt     DateTime?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+enum TradeInCondition {
+  EXCELLENT
+  GOOD
+  FAIR
+  POOR
+  BROKEN
+}
+
+enum TradeInStatus {
+  PENDING
+  EVALUATING
+  OFFERED
+  ACCEPTED
+  REJECTED
+  COMPLETED
+  EXPIRED
+}
+
+// ============================================================
+// RESEÑAS
+// ============================================================
+
+model Review {
+  id          String    @id @default(cuid())
+  productId   String
+  product     Product   @relation(fields: [productId], references: [id])
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  rating      Int
+  title       String?
+  body        String?   @db.Text
+  images      Json      @default("[]")
+  isVerified  Boolean   @default(false)
+  isApproved  Boolean   @default(false)
+  helpfulCount Int      @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([productId, userId])
+  @@index([productId])
+}
+
+// ============================================================
+// WISHLIST Y COTIZACIONES
+// ============================================================
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+model Quote {
+  id          String      @id @default(cuid())
+  folio       String      @unique
+  userId      String?
+  user        User?       @relation(fields: [userId], references: [id])
+  guestName   String?
+  guestEmail  String?
+  guestPhone  String?
+  status      QuoteStatus @default(PENDING)
+  items       QuoteItem[]
+  subtotal    Decimal     @db.Decimal(10, 2)
+  discount    Decimal     @db.Decimal(10, 2) @default(0)
+  total       Decimal     @db.Decimal(10, 2)
+  validUntil  DateTime?
+  notes       String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model QuoteItem {
+  id        String  @id @default(cuid())
+  quoteId   String
+  quote     Quote   @relation(fields: [quoteId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2)
+  total     Decimal @db.Decimal(10, 2)
+}
+
+enum QuoteStatus {
+  PENDING
+  SENT
+  VIEWED
+  ACCEPTED
+  REJECTED
+  EXPIRED
+  CONVERTED
+}
+
+// ============================================================
+// LEADS Y COMUNICACIONES
+// ============================================================
+
+model Lead {
+  id          String     @id @default(cuid())
+  name        String
+  email       String?
+  phone       String?
+  source      String?
+  campaign    String?
+  interest    String?
+  message     String?
+  status      LeadStatus @default(NEW)
+  assignedTo  String?
+  score       Int        @default(0)
+  tags        Json       @default("[]")
+  metadata    Json       @default("{}")
+  lastContactAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  communications Communication[]
+
+  @@index([status])
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  PROPOSAL
+  NEGOTIATING
+  CONVERTED
+  LOST
+  INACTIVE
+}
+
+model Communication {
+  id          String    @id @default(cuid())
+  leadId      String?
+  lead        Lead?     @relation(fields: [leadId], references: [id])
+  userId      String?
+  channel     CommChannel
+  direction   CommDirection
+  subject     String?
+  body        String    @db.Text
+  status      String
+  metadata    Json      @default("{}")
+  sentAt      DateTime?
+  readAt      DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([leadId])
+}
+
+enum CommChannel {
+  EMAIL
+  SMS
+  WHATSAPP
+  PUSH
+  CHAT
+  PHONE
+}
+
+enum CommDirection {
+  INBOUND
+  OUTBOUND
+}
+
+// ============================================================
+// FACTURACIÓN
+// ============================================================
+
+model Invoice {
+  id          String   @id @default(cuid())
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id])
+  folio       String   @unique
+  series      String   @default("A")
+  rfc         String?
+  razonSocial String?
+  cfdiUse     String?
+  regime      String?
+  address     Json?
+  xml         String?  @db.Text
+  pdf         String?
+  uuid        String?
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ============================================================
+// ANALÍTICAS Y BITÁCORA
+// ============================================================
+
+model Analytics {
+  id          String   @id @default(cuid())
+  event       String
+  page        String?
+  productId   String?
+  userId      String?
+  sessionId   String?
+  metadata    Json     @default("{}")
+  ip          String?
+  userAgent   String?
+  country     String?
+  device      String?
+  source      String?
+  campaign    String?
+  createdAt   DateTime @default(now())
+
+  @@index([event])
+  @@index([productId])
+  @@index([createdAt])
+}
+
+model ActivityLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  action      String
+  entity      String
+  entityId    String?
+  oldValue    Json?
+  newValue    Json?
+  ip          String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([entity])
+  @@index([createdAt])
+}
+
+// ============================================================
+// MÓDULOS FUTUROS (preparados, desactivados)
+// ============================================================
+
+model LoyaltyAccount {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  points      Int      @default(0)
+  tier        String   @default("bronze")
+  totalEarned Int      @default(0)
+  totalSpent  Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GiftCard {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  balance     Decimal  @db.Decimal(10, 2)
+  initialBalance Decimal @db.Decimal(10, 2)
+  currency    String   @default("MXN")
+  isActive    Boolean  @default(true)
+  expiresAt   DateTime?
+  userId      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Affiliate {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  code        String   @unique
+  commissionRate Decimal @db.Decimal(5, 2) @default(5)
+  totalEarned Decimal  @db.Decimal(10, 2) @default(0)
+  balance     Decimal  @db.Decimal(10, 2) @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

@@ -1,71 +1,85 @@
-import { NextResponse, type NextRequest } from "next/server";
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { ACCESS_COOKIE, ACCESS_MAX_AGE, tokenRole } from "@/lib/access";
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-const clerkEnabled = Boolean(
-  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY
-);
+// ─── Route matchers ──────────────────────────────────────────────────────────
 
-// Rutas públicas. Todo lo demás (dashboard, admin, checkout, data, onboarding)
-// exige sesión Clerk **o** una llave de acceso válida (patrón liga-llave).
-// /km/* sirve el manifest de la liga instalable (se valida en su route).
-const isPublic = createRouteMatcher([
-  "/",
-  "/pro",
-  "/login(.*)",
-  "/registro(.*)",
-  "/api/health",
-  "/api/webhooks/(.*)",
-  "/km/(.*)",
-]);
+const isPublicRoute = createRouteMatcher([
+  '/',
+  '/productos(.*)',
+  '/categorias(.*)',
+  '/marcas(.*)',
+  '/servicios',
+  '/financiamiento',
+  '/trade-in',
+  '/sucursales',
+  '/api/webhooks(.*)',
+  '/api/products',
+  '/api/products/(.*)',
+  // Auth pages (Clerk handles these automatically but being explicit is safer)
+  '/sign-in(.*)',
+  '/sign-up(.*)',
+])
 
-function setKeyCookie(res: NextResponse, token: string): NextResponse {
-  res.cookies.set(ACCESS_COOKIE, token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: ACCESS_MAX_AGE,
-  });
-  return res;
-}
+const isProtectedRoute = createRouteMatcher([
+  '/cuenta(.*)',
+  '/carrito',
+  '/checkout(.*)',
+])
 
-// Liga-llave. Devuelve una respuesta si maneja el request por completo
-// (instala cookie desde la liga, o concede acceso con cookie válida);
-// devuelve null para que continúe la lógica de Clerk.
-function ligaLlave(req: NextRequest): NextResponse | null {
-  const segments = req.nextUrl.pathname.split("/").filter(Boolean);
+const isAdminRoute = createRouteMatcher(['/admin(.*)'])
 
-  // 1) ¿La ruta es exactamente un token de acceso /<TOKEN>? -> instala la
-  //    cookie de 1 año y deja renderizar la página de instalación.
-  if (segments.length === 1 && tokenRole(segments[0])) {
-    return setKeyCookie(NextResponse.next(), segments[0]);
+// ─── Middleware ───────────────────────────────────────────────────────────────
+
+export default clerkMiddleware(async (auth, req: NextRequest) => {
+  const { userId, sessionClaims, redirectToSignIn } = await auth()
+
+  // 1. Public routes — allow through unconditionally
+  if (isPublicRoute(req)) {
+    return NextResponse.next()
   }
 
-  // 2) ¿Trae ya una cookie de llave válida? -> acceso total, sin Clerk.
-  if (tokenRole(req.cookies.get(ACCESS_COOKIE)?.value)) {
-    return NextResponse.next();
+  // 2. Admin routes — must be authenticated AND have admin role
+  if (isAdminRoute(req)) {
+    if (!userId) {
+      return redirectToSignIn({ returnBackUrl: req.url })
+    }
+
+    const role =
+      (sessionClaims?.metadata as { role?: string } | undefined)?.role ??
+      (sessionClaims?.publicMetadata as { role?: string } | undefined)?.role
+
+    if (role !== 'admin') {
+      // Redirect non-admins to home with an error param
+      const homeUrl = new URL('/', req.url)
+      homeUrl.searchParams.set('error', 'unauthorized')
+      return NextResponse.redirect(homeUrl)
+    }
+
+    return NextResponse.next()
   }
 
-  return null;
-}
+  // 3. Protected routes — must be authenticated
+  if (isProtectedRoute(req)) {
+    if (!userId) {
+      return redirectToSignIn({ returnBackUrl: req.url })
+    }
+    return NextResponse.next()
+  }
 
-export default clerkEnabled
-  ? clerkMiddleware(async (auth, req) => {
-      const handled = ligaLlave(req);
-      if (handled) return handled;
-      if (!isPublic(req)) {
-        const { userId, redirectToSignIn } = await auth();
-        if (!userId) return redirectToSignIn({ returnBackUrl: req.url });
-      }
-    })
-  : function middleware(req: NextRequest) {
-      return ligaLlave(req) ?? NextResponse.next();
-    };
+  // 4. All other routes — allow through (add more guards here as needed)
+  return NextResponse.next()
+})
 
 export const config = {
   matcher: [
-    "/((?!_next|favicon|icon|apple-touch-icon|og\\.png|manifest\\.json|sw\\.js|.*\\.(?:png|svg|jpg|jpeg|webp|ico|css|js|map|txt|woff2?)).*)",
-    "/(api|trpc)(.*)",
+    /*
+     * Match all request paths EXCEPT:
+     * - _next/static  (static files)
+     * - _next/image   (image optimization)
+     * - favicon.ico
+     * - public assets (png, jpg, svg, ico, webp, woff2, etc.)
+     */
+    '/((?!_next/static|_next/image|favicon\\.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff2?|ttf|otf|eot|mp4|mp3|pdf)$).*)',
   ],
-};
+}

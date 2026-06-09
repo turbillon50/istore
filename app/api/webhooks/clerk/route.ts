@@ -1,91 +1,165 @@
-import { NextResponse } from "next/server";
-import crypto from "node:crypto";
-import { sql } from "@/lib/db";
-import { ensureSchema } from "@/lib/schema";
-import { sendEmail, welcomeEmail } from "@/lib/email";
+import { NextRequest, NextResponse } from 'next/server'
+import { Webhook } from 'svix'
+import { WebhookEvent } from '@clerk/nextjs/server'
+import prisma from '@/lib/prisma'
+import { sendWelcome } from '@/lib/resend'
+import { triggerWorkflow, WORKFLOWS } from '@/lib/n8n-workflows'
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+const webhookSecret = process.env.CLERK_WEBHOOK_SECRET!
 
-// Verifica la firma svix (estándar de Clerk) SIN el SDK svix:
-// signedContent = `${id}.${timestamp}.${body}` firmado con HMAC-SHA256
-// usando el secreto base64 (quitando el prefijo "whsec_").
-function verify(secret: string, headers: Headers, body: string): boolean {
-  const id = headers.get("svix-id");
-  const ts = headers.get("svix-timestamp");
-  const sigHeader = headers.get("svix-signature");
-  if (!id || !ts || !sigHeader) return false;
+export async function POST(req: NextRequest) {
+  const body = await req.text()
 
-  const key = Buffer.from(secret.replace(/^whsec_/, ""), "base64");
-  const expected = crypto
-    .createHmac("sha256", key)
-    .update(`${id}.${ts}.${body}`)
-    .digest("base64");
+  const svixId = req.headers.get('svix-id')
+  const svixTimestamp = req.headers.get('svix-timestamp')
+  const svixSignature = req.headers.get('svix-signature')
 
-  // El header trae una o varias firmas "v1,<sig>" separadas por espacio.
-  for (const part of sigHeader.split(" ")) {
-    const sig = part.split(",")[1];
-    if (!sig) continue;
-    const a = Buffer.from(sig);
-    const b = Buffer.from(expected);
-    if (a.length === b.length && crypto.timingSafeEqual(a, b)) return true;
-  }
-  return false;
-}
-
-function primaryEmail(data: any): string | null {
-  const list = data?.email_addresses;
-  if (!Array.isArray(list) || !list.length) return null;
-  const primaryId = data.primary_email_address_id;
-  const found = list.find((e: any) => e.id === primaryId) ?? list[0];
-  return found?.email_address ?? null;
-}
-
-export async function POST(req: Request) {
-  const secret = process.env.CLERK_WEBHOOK_SIGNING_SECRET;
-  if (!secret) {
-    return NextResponse.json({ error: "webhook no configurado" }, { status: 503 });
+  if (!svixId || !svixTimestamp || !svixSignature) {
+    return NextResponse.json({ error: 'Missing svix headers' }, { status: 400 })
   }
 
-  const body = await req.text();
-  if (!verify(secret, req.headers, body)) {
-    return NextResponse.json({ error: "firma inválida" }, { status: 401 });
-  }
+  let event: WebhookEvent
 
-  let evt: { type: string; data: any };
   try {
-    evt = JSON.parse(body);
-  } catch {
-    return NextResponse.json({ error: "JSON inválido" }, { status: 400 });
+    const wh = new Webhook(webhookSecret)
+    event = wh.verify(body, {
+      'svix-id': svixId,
+      'svix-timestamp': svixTimestamp,
+      'svix-signature': svixSignature,
+    }) as WebhookEvent
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error'
+    console.error('[Clerk Webhook] Signature verification failed:', message)
+    return NextResponse.json({ error: `Webhook Error: ${message}` }, { status: 400 })
   }
 
   try {
-    await ensureSchema();
-    const data = evt.data ?? {};
+    switch (event.type) {
+      case 'user.created':
+        await handleUserCreated(event.data)
+        break
 
-    if (evt.type === "user.created" || evt.type === "user.updated") {
-      const email = primaryEmail(data);
-      if (!email) return NextResponse.json({ ok: true, skipped: "sin email" });
-      const name = [data.first_name, data.last_name].filter(Boolean).join(" ") || email;
-      // Primer usuario = dueño (admin); el resto entra como staff por defecto.
-      const [{ n }] = (await sql`SELECT count(*)::int AS n FROM users`) as { n: number }[];
-      const role = evt.type === "user.created" && n === 0 ? "Administrador" : "Vendedor";
-      await sql`INSERT INTO users (email, name, role, branch, status)
-        VALUES (${email}, ${name}, ${role}, 'Centro', 'Activo')
-        ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name`;
+      case 'user.updated':
+        await handleUserUpdated(event.data)
+        break
 
-      if (evt.type === "user.created") {
-        const w = welcomeEmail(data.first_name || name);
-        await sendEmail({ to: email, subject: w.subject, html: w.html });
-      }
-    } else if (evt.type === "user.deleted") {
-      const email = primaryEmail(data);
-      if (email) await sql`UPDATE users SET status = 'Inactivo' WHERE email = ${email}`;
+      case 'user.deleted':
+        await handleUserDeleted(event.data)
+        break
+
+      default:
+        console.log('[Clerk Webhook] Unhandled event type:', event.type)
     }
 
-    return NextResponse.json({ ok: true });
-  } catch (e) {
-    console.error("[webhooks/clerk]", e);
-    return NextResponse.json({ error: "Error interno" }, { status: 500 });
+    return NextResponse.json({ received: true })
+  } catch (error) {
+    console.error('[Clerk Webhook] Processing error:', error)
+    return NextResponse.json({ error: 'Webhook processing failed' }, { status: 500 })
   }
+}
+
+async function handleUserCreated(data: WebhookEvent['data'] & { object: 'user' }) {
+  if (!('id' in data)) return
+
+  const primaryEmail = data.email_addresses?.find(
+    (e: { id: string; email_address: string }) => e.id === data.primary_email_address_id,
+  )?.email_address
+
+  const primaryPhone = data.phone_numbers?.find(
+    (p: { id: string; phone_number: string }) => p.id === data.primary_phone_number_id,
+  )?.phone_number
+
+  if (!primaryEmail) {
+    console.warn('[Clerk] User created without email:', data.id)
+    return
+  }
+
+  const fullName = [data.first_name, data.last_name].filter(Boolean).join(' ') || null
+
+  const user = await prisma.user.create({
+    data: {
+      clerkId: data.id,
+      email: primaryEmail,
+      name: fullName,
+      phone: primaryPhone ?? null,
+      avatar: data.image_url ?? null,
+      role: 'CUSTOMER',
+      emailVerified: data.email_addresses?.find(
+        (e: { id: string; email_address: string; verification?: { status: string } }) =>
+          e.id === data.primary_email_address_id,
+      )?.verification?.status === 'verified',
+      isActive: true,
+    },
+  })
+
+  // Create loyalty account
+  await prisma.loyaltyAccount.create({
+    data: {
+      userId: user.id,
+      points: 0,
+      tier: 'BRONZE',
+    },
+  })
+
+  // Send welcome email
+  await sendWelcome({ id: user.id, name: user.name ?? 'Cliente', email: user.email })
+
+  // Trigger n8n lead capture workflow
+  await triggerWorkflow(WORKFLOWS.LEAD_CAPTURED, {
+    name: user.name ?? '',
+    email: user.email,
+    phone: user.phone ?? '',
+    source: 'clerk_signup',
+  })
+}
+
+async function handleUserUpdated(data: WebhookEvent['data'] & { object: 'user' }) {
+  if (!('id' in data)) return
+
+  const primaryEmail = data.email_addresses?.find(
+    (e: { id: string; email_address: string }) => e.id === data.primary_email_address_id,
+  )?.email_address
+
+  const primaryPhone = data.phone_numbers?.find(
+    (p: { id: string; phone_number: string }) => p.id === data.primary_phone_number_id,
+  )?.phone_number
+
+  const fullName = [data.first_name, data.last_name].filter(Boolean).join(' ') || null
+
+  const existing = await prisma.user.findUnique({
+    where: { clerkId: data.id },
+  })
+
+  if (!existing) {
+    console.warn('[Clerk] user.updated for unknown user:', data.id)
+    return
+  }
+
+  await prisma.user.update({
+    where: { clerkId: data.id },
+    data: {
+      ...(primaryEmail ? { email: primaryEmail } : {}),
+      name: fullName,
+      phone: primaryPhone ?? existing.phone,
+      avatar: data.image_url ?? existing.avatar,
+      emailVerified:
+        data.email_addresses?.find(
+          (e: { id: string; verification?: { status: string } }) =>
+            e.id === data.primary_email_address_id,
+        )?.verification?.status === 'verified',
+      updatedAt: new Date(),
+    },
+  })
+}
+
+async function handleUserDeleted(data: WebhookEvent['data']) {
+  if (!('id' in data) || !data.id) return
+
+  await prisma.user.update({
+    where: { clerkId: data.id },
+    data: {
+      isActive: false,
+      updatedAt: new Date(),
+    },
+  })
 }
