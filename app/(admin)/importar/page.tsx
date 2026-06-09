@@ -148,7 +148,8 @@ type ImportCardProps = {
   onImported: (entry: HistoryEntry) => void
 }
 
-function ImportCard({ card, onImported }: ImportCardProps) {
+function ImportCard(props: ImportCardProps) {
+  const { card, onImported } = props;
   const [state, setState] = useState<ImportState>({
     stage: 'idle', file: null, preview: [], validCount: 0, errorCount: 0,
     progress: 0, result: null, errorMsg: '',
