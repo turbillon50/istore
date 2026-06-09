@@ -218,7 +218,7 @@ export async function POST(req: NextRequest) {
       if (appliedCouponId) {
         await tx.coupon.update({
           where: { id: appliedCouponId },
-          data: { usageCount: { increment: 1 } },
+          data: { usedCount: { increment: 1 } },
         })
       }
 
