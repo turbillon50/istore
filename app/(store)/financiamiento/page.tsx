@@ -19,9 +19,9 @@ import {
   DollarSign,
 } from "lucide-react";
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Data
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 const FINANCING_OPTIONS = [
   {
@@ -125,9 +125,9 @@ const FAQS = [
   },
 ];
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Calculator
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 function calculateMonthly(amount: number, months: number, annualRate: number): number {
   if (annualRate === 0) return Math.ceil(amount / months);
@@ -163,9 +163,9 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Main
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 export default function FinanciamientoPage() {
   const [productPrice, setProductPrice] = useState(27999);
