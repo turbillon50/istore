@@ -36,7 +36,7 @@ import {
 } from "recharts";
 import { motion } from "framer-motion";
 
-// ─── Seeded deterministic data ────────────────────────────────────────────────
+// --- Seeded deterministic data ------------------------------------------------
 
 function seeded(seed: number, min: number, max: number) {
   const x = Math.sin(seed) * 10000;
@@ -85,7 +85,7 @@ const alerts = [
   { type: "danger", message: "AirPods Pro 2 — Agotado en línea", time: "hace 5 hr" },
 ];
 
-// ─── Status config ────────────────────────────────────────────────────────────
+// --- Status config ------------------------------------------------------------
 
 const STATUS_CONFIG = {
   Pendiente: {
@@ -126,7 +126,7 @@ const ALERT_STYLE = {
   info: { text: "text-blue-400", bg: "bg-blue-400/8", border: "border-blue-400/20", dot: "bg-blue-400" },
 };
 
-// ─── KPI Card ─────────────────────────────────────────────────────────────────
+// --- KPI Card -----------------------------------------------------------------
 
 interface KpiProps {
   title: string;
@@ -202,7 +202,7 @@ function KpiCard({ title, value, trend, trendLabel, icon: Icon, accentColor, spa
   );
 }
 
-// ─── Custom chart tooltip ─────────────────────────────────────────────────────
+// --- Custom chart tooltip -----------------------------------------------------
 
 function SalesTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
@@ -224,7 +224,7 @@ function SalesTooltip({ active, payload, label }: any) {
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// --- Page ---------------------------------------------------------------------
 
 export default function DashboardPage() {
   const [chartMode, setChartMode] = useState<"30d" | "7d">("30d");
