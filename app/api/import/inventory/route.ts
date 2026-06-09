@@ -131,7 +131,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ImportResult>
             data: {
               productId: product.id,
               branchId: branch.id,
-              type: delta > 0 ? 'adjustment_in' : 'adjustment_out',
+              type: delta > 0 ? 'IN_ADJUSTMENT' : 'OUT_ADJUSTMENT',
               quantity: Math.abs(delta),
               previousQuantity: previousQty,
               newQuantity: data.quantity,
