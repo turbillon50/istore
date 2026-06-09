@@ -202,13 +202,12 @@ export async function POST(req: NextRequest): Promise<NextResponse<ImportResult 
               data: {
                 name: data.name,
                 price: data.price,
-                cost: data.cost,
+                costPrice: data.cost,
                 description: data.description,
                 categoryId: categoryRecord.id,
                 brandId: brandRecord?.id,
-                barcode: data.barcode,
                 weight: data.weight,
-                status: data.status ?? 'active',
+                status: data.status === 'active' ? 'ACTIVE' : data.status === 'inactive' ? 'INACTIVE' : undefined,
               },
             })
             updated++
@@ -216,24 +215,15 @@ export async function POST(req: NextRequest): Promise<NextResponse<ImportResult 
             await prisma.product.create({
               data: {
                 sku: data.sku,
+                slug: data.sku.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
                 name: data.name,
                 price: data.price,
-                cost: data.cost,
+                costPrice: data.cost,
                 description: data.description,
                 categoryId: categoryRecord.id,
                 brandId: brandRecord?.id,
-                barcode: data.barcode,
                 weight: data.weight,
-                status: data.status ?? 'active',
-                // Create initial inventory if stock provided
-                ...(data.stock !== undefined && {
-                  inventory: {
-                    create: {
-                      quantity: data.stock,
-                      branchId: 'default', // Adjust to your branch model
-                    },
-                  },
-                }),
+                status: data.status === 'active' ? 'ACTIVE' : 'DRAFT',
               },
             })
             created++
