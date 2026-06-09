@@ -278,7 +278,7 @@ function ImportCard({
         >
           <Upload size={22} />
           <p className="text-xs font-medium">Arrastra o haz clic para subir</p>
-          <p className="text-[10px] text-zinc-600">XLSX o CSV — máx. 10MB</p>
+          <p className="text-[10px] text-zinc-600">XLSX o CSV - max. 10MB</p>
           <input ref={fileRef} type="file" accept=".xlsx,.csv,.xls" className="hidden"
             onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f) }}
           />
