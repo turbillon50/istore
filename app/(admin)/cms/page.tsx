@@ -215,7 +215,8 @@ const INITIAL_CONFIG: SiteConfig = {
 
 // --- Sortable Block Row -------------------------------------------------------
 
-function SortableBlock({ block, onEdit, onRemove }: { block: Block; onEdit: (id: string) => void; onRemove: (id: string) => void }) {
+type SortableBlockProps = { block: Block; onEdit: (id: string) => void; onRemove: (id: string) => void }
+function SortableBlock({ block, onEdit, onRemove }: SortableBlockProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: block.id })
   const meta = BLOCK_TYPES.find(b => b.type === block.type)
   return (
