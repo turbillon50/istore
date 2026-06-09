@@ -208,7 +208,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ImportResult 
                 categoryId: categoryRecord.id,
                 brandId: brandRecord?.id,
                 weight: data.weight,
-                status: data.status === 'active' ? ProductStatus.ACTIVE : data.status === 'inactive' ? ProductStatus.INACTIVE : undefined,
+                status: data.status === 'active' ? ProductStatus.ACTIVE : data.status === 'inactive' ? ProductStatus.ARCHIVED : undefined,
               },
             })
             updated++
