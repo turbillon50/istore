@@ -96,12 +96,12 @@ async function handlePaymentSucceeded(intent: Stripe.PaymentIntent) {
     data: {
       orderId: order.id,
       provider: 'STRIPE',
-      externalId: intent.id,
+      reference: intent.id,
       amount: intent.amount / 100,
       currency: intent.currency.toUpperCase(),
       status: 'COMPLETED',
       method: intent.payment_method_types[0] ?? 'card',
-      paidAt: new Date(),
+      processedAt: new Date(),
       metadata: { intentId: intent.id, charges: intent.latest_charge },
     },
   })
@@ -171,7 +171,7 @@ async function handlePaymentFailed(intent: Stripe.PaymentIntent) {
     data: {
       orderId,
       provider: 'STRIPE',
-      externalId: intent.id,
+      reference: intent.id,
       amount: intent.amount / 100,
       currency: intent.currency.toUpperCase(),
       status: 'FAILED',
