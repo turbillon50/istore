@@ -1,7 +1,7 @@
 import prisma from '@/lib/prisma'
 import { Prisma } from '@prisma/client'
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// --- Types -------------------------------------------------------------------
 
 export interface ProductFilters {
   category?: string
@@ -45,7 +45,7 @@ export interface PaginationMeta {
   hasPrev: boolean
 }
 
-// ─── Products ────────────────────────────────────────────────────────────────
+// --- Products ----------------------------------------------------------------
 
 export async function getProducts(filters: ProductFilters = {}) {
   const {
@@ -157,7 +157,7 @@ export async function getProductBySlug(slug: string) {
   return product
 }
 
-// ─── Categories ──────────────────────────────────────────────────────────────
+// --- Categories --------------------------------------------------------------
 
 export async function getCategories() {
   return prisma.category.findMany({
@@ -173,7 +173,7 @@ export async function getCategories() {
   })
 }
 
-// ─── Brands ──────────────────────────────────────────────────────────────────
+// --- Brands ------------------------------------------------------------------
 
 export async function getBrands() {
   return prisma.brand.findMany({
@@ -185,7 +185,7 @@ export async function getBrands() {
   })
 }
 
-// ─── Orders ──────────────────────────────────────────────────────────────────
+// --- Orders ------------------------------------------------------------------
 
 export async function getOrders(filters: OrderFilters = {}) {
   const {
@@ -257,7 +257,7 @@ export async function getOrders(filters: OrderFilters = {}) {
   }
 }
 
-// ─── Inventory ───────────────────────────────────────────────────────────────
+// --- Inventory ---------------------------------------------------------------
 
 export async function getInventory(filters: InventoryFilters = {}) {
   const { lowStock, outOfStock, productId, search, page = 1, limit = 50 } = filters
@@ -330,7 +330,7 @@ export async function getInventory(filters: InventoryFilters = {}) {
   }
 }
 
-// ─── Dashboard Stats ─────────────────────────────────────────────────────────
+// --- Dashboard Stats ---------------------------------------------------------
 
 export async function getDashboardStats() {
   const now = new Date()
