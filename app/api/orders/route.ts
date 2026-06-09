@@ -165,6 +165,19 @@ export async function POST(req: NextRequest) {
     // Generate order number
     const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`
 
+    const orderItemsData = items.map((item) => {
+      const prod = products.find((p) => p.id === item.productId)!
+      return {
+        productId: item.productId,
+        variantId: item.variantId,
+        name: prod.name,
+        sku: prod.sku,
+        quantity: item.quantity,
+        unitPrice: item.unitPrice,
+        total: item.unitPrice * item.quantity,
+      }
+    })
+
     const order = await prisma.$transaction(async (tx) => {
       const newOrder = await tx.order.create({
         data: {
@@ -182,18 +195,7 @@ export async function POST(req: NextRequest) {
           couponId,
           notes,
           items: {
-            create: items.map((item) => {
-              const prod = products.find((p) => p.id === item.productId)!
-              return {
-                productId: item.productId,
-                variantId: item.variantId,
-                name: prod.name,
-                sku: prod.sku,
-                quantity: item.quantity,
-                unitPrice: item.unitPrice,
-                total: item.unitPrice * item.quantity,
-              }
-            }),
+            create: orderItemsData,
           },
         },
         include: {
@@ -228,4 +230,6 @@ export async function POST(req: NextRequest) {
       return newOrder
     })
 
-    return NextResponse.json({ data: order }
+    return NextResponse.json({ data: order }, { status: 201 })
+  } catch (error) {
+    co
