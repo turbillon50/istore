@@ -149,12 +149,12 @@ async function handlePaymentApproved(payment: MercadoPagoPayment) {
     data: {
       orderId: order.id,
       provider: 'MERCADOPAGO',
-      externalId: String(payment.id),
+      reference: String(payment.id),
       amount: payment.transaction_amount,
       currency: payment.currency_id,
       status: 'COMPLETED',
       method: payment.payment_method_id,
-      paidAt: new Date(payment.date_approved ?? new Date()),
+      processedAt: new Date(payment.date_approved ?? new Date()),
       metadata: {
         paymentId: payment.id,
         statusDetail: payment.status_detail,
@@ -221,7 +221,7 @@ async function handlePaymentRejected(payment: MercadoPagoPayment) {
     data: {
       orderId,
       provider: 'MERCADOPAGO',
-      externalId: String(payment.id),
+      reference: String(payment.id),
       amount: payment.transaction_amount,
       currency: payment.currency_id,
       status: 'FAILED',
@@ -258,7 +258,7 @@ async function handlePaymentRefunded(payment: MercadoPagoPayment) {
     data: {
       orderId,
       provider: 'MERCADOPAGO',
-      externalId: String(payment.id),
+      reference: String(payment.id),
       amount: payment.transaction_amount,
       currency: payment.currency_id,
       status: 'REFUNDED',
