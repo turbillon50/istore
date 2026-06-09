@@ -66,7 +66,8 @@ const STATUSES = ["Todos", "Activo", "Inactivo", "Agotado"];
 
 // --- Helpers ------------------------------------------------------------------
 
-function StatusBadge({ status }: { status: Product["status"] }) {
+type StatusBadgeProps = { status: string }
+function StatusBadge({ status }: StatusBadgeProps) {
   const map = {
     Activo:   { cls: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20", icon: CheckCircle2 },
     Inactivo: { cls: "text-[#525252] bg-[#1a1a1a] border-[#262626]",            icon: XCircle },
@@ -81,7 +82,8 @@ function StatusBadge({ status }: { status: Product["status"] }) {
   );
 }
 
-function ProductAvatar({ name, sku }: { name: string; sku: string }) {
+type ProductAvatarProps = { name: string; sku: string }
+function ProductAvatar({ name, sku }: ProductAvatarProps) {
   const colors: Record<string, string> = {
     APL: "from-[#1a1a2e] to-[#16213e]",
     SAM: "from-[#0d1b2a] to-[#1b2838]",
