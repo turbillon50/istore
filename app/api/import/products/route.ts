@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import * as XLSX from 'xlsx'
 import { prisma } from '@/lib/prisma'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// --- Types --------------------------------------------------------------------
 
 interface ValidationError {
   row: number
@@ -53,7 +53,7 @@ interface ImportResult {
   errorDetails: { row: number; sku?: string; message: string }[]
 }
 
-// ─── Validator ────────────────────────────────────────────────────────────────
+// --- Validator ----------------------------------------------------------------
 
 function validateRow(row: Record<string, unknown>, index: number): { valid: boolean; data?: ProductRow; error?: string } {
   const sku = String(row.sku ?? '').trim()
@@ -84,7 +84,7 @@ function validateRow(row: Record<string, unknown>, index: number): { valid: bool
   }
 }
 
-// ─── Apply column mappings ────────────────────────────────────────────────────
+// --- Apply column mappings ----------------------------------------------------
 
 function applyMappings(rawRow: Record<string, unknown>, mappings: ColumnMapping[]): Record<string, unknown> {
   const mapped: Record<string, unknown> = {}
@@ -96,7 +96,7 @@ function applyMappings(rawRow: Record<string, unknown>, mappings: ColumnMapping[
   return mapped
 }
 
-// ─── Route handler ────────────────────────────────────────────────────────────
+// --- Route handler ------------------------------------------------------------
 
 export async function POST(req: NextRequest): Promise<NextResponse<ImportResult | PreviewResponse>> {
   try {
@@ -126,7 +126,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ImportResult 
       return { rowIndex, rawRow: mapped, ...result }
     })
 
-    // ── PREVIEW mode: return validation results without touching DB ──
+    // -- PREVIEW mode: return validation results without touching DB --
     if (!confirm) {
       const previewRows: PreviewRow[] = validated.map(({ rowIndex, rawRow, valid, error }) => {
         const errors: ValidationError[] = []
