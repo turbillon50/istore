@@ -5,7 +5,7 @@ import AIAssistant from "@/components/store/ai-assistant";
 
 export const metadata: Metadata = {
   title: {
-    default: "iStore Pro — Tecnología que inspira",
+    default: "iStore Pro  -  Tecnología que inspira",
     template: "%s | iStore Pro",
   },
   description:
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     locale: "es_MX",
     url: "https://i-store.shop",
     siteName: "iStore Pro",
-    title: "iStore Pro — Tecnología que inspira",
+    title: "iStore Pro  -  Tecnología que inspira",
     description: "Los mejores smartphones, accesorios y servicios tecnológicos de México.",
   },
 };
@@ -29,4 +29,9 @@ export default function StoreLayout({
   return (
     <div className="min-h-screen bg-[#131313] flex flex-col">
       <Navbar />
-      <main className="fl
+      <main className="flex-1">{children}</main>
+      <Footer />
+      <AIAssistant />
+    </div>
+  );
+}
