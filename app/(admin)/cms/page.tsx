@@ -46,7 +46,7 @@ import {
   X,
 } from 'lucide-react'
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// --- Types -------------------------------------------------------------------
 
 type BlockType = 'hero' | 'products' | 'banner' | 'text' | 'html' | 'faq' | 'brands'
 type MainTab = 'pages' | 'site-config' | 'banners' | 'menus'
@@ -123,7 +123,7 @@ interface MenuData {
   items: MenuItem[]
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+// --- Constants ----------------------------------------------------------------
 
 const BLOCK_TYPES: { type: BlockType; label: string; icon: string; color: string }[] = [
   { type: 'hero',     label: 'Hero / Banner',    icon: '🖼️',  color: 'bg-purple-500/10 text-purple-400 border-purple-500/20' },
@@ -212,7 +212,7 @@ const INITIAL_CONFIG: SiteConfig = {
   facebook: 'istoRepro', instagram: 'istorepro', twitter: 'istorepro', youtube: '', tiktok: '', whatsapp: '+525512345678',
 }
 
-// ─── Sortable Block Row ───────────────────────────────────────────────────────
+// --- Sortable Block Row -------------------------------------------------------
 
 function SortableBlock({ block, onEdit, onRemove }: { block: Block; onEdit: (id: string) => void; onRemove: (id: string) => void }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: block.id })
@@ -242,7 +242,7 @@ function SortableBlock({ block, onEdit, onRemove }: { block: Block; onEdit: (id:
   )
 }
 
-// ─── Pages Tab ────────────────────────────────────────────────────────────────
+// --- Pages Tab ----------------------------------------------------------------
 
 function PagesTab() {
   const [pages, setPages] = useState<CMSPage[]>(INITIAL_PAGES)
