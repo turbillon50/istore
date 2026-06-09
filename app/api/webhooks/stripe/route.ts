@@ -126,7 +126,7 @@ async function handlePaymentSucceeded(intent: Stripe.PaymentIntent) {
   // Trigger n8n workflow
   await triggerWorkflow(WORKFLOWS.PURCHASE_COMPLETE, {
     orderId: order.id,
-    customerEmail: order.user.email,
+    customerEmail: order.user?.email ?? '',
     items: order.items.map((i) => ({
       name: i.product.name,
       quantity: i.quantity,
