@@ -213,7 +213,7 @@ function SalesTooltip(props: any) {
       <p className="text-[#737373] text-xs mb-2 font-medium">Día {label}</p>
       <div className="space-y-1">
         <p className="text-[#f97316] text-sm font-bold">
-          {`$${payload[0]?.value?.toLocaleString()}`}
+          ${payload[0]?.value?.toLocaleString()}
           <span className="text-xs font-normal text-[#737373] ml-1">ventas</span>
         </p>
         {payload[1] && (
@@ -400,4 +400,185 @@ export default function DashboardPage() {
         >
           <div className="flex items-center justify-between px-5 py-4 border-b border-[#1a1a1a]">
             <h2 className="text-sm font-semibold text-[#e5e5e5]">Alertas</h2>
-            <span className="text-[10px] fon
+            <span className="text-[10px] font-bold text-[#f97316] bg-[#f97316]/10 px-2 py-0.5 rounded-full">
+              {alerts.filter((a) => a.type !== "info").length} activas
+            </span>
+          </div>
+
+          <div className="flex-1 overflow-y-auto p-3 space-y-2">
+            {alerts.map((alert, i) => {
+              const s = ALERT_STYLE[alert.type as keyof typeof ALERT_STYLE];
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: 6 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + i * 0.04 }}
+                  className={`flex gap-2.5 p-2.5 rounded-lg border text-xs ${s.bg} ${s.border}`}
+                >
+                  <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 mt-1 ${s.dot}`} />
+                  <div className="flex-1 min-w-0">
+                    <p className={`${s.text} leading-relaxed`}>{alert.message}</p>
+                    <p className="text-[#3a3a3a] mt-0.5">{alert.time}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Quick actions */}
+          <div className="px-4 py-4 border-t border-[#1a1a1a]">
+            <p className="text-[10px] font-semibold text-[#3a3a3a] uppercase tracking-wider mb-3">
+              Acciones rápidas
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { label: "Nuevo producto", icon: Plus, href: "/productos/nuevo" },
+                { label: "Ver inventario", icon: Package, href: "/inventario" },
+                { label: "Importar CSV", icon: Upload, href: "/importar" },
+                { label: "Ver reportes", icon: FileText, href: "/reportes" },
+              ].map((action) => {
+                const Icon = action.icon;
+                return (
+                  <Link
+                    key={action.label}
+                    href={action.href}
+                    className="flex items-center gap-2 px-3 py-2 bg-[#0f0f0f] border border-[#1a1a1a] rounded-lg text-xs text-[#737373] hover:text-[#e5e5e5] hover:border-[#262626] transition-colors"
+                  >
+                    <Icon className="w-3.5 h-3.5 text-[#f97316]" />
+                    {action.label}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Recent orders + Top products */}
+      <div className="grid grid-cols-1 xl:grid-cols-5 gap-4">
+        {/* Recent orders */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.25 }}
+          className="xl:col-span-3 bg-[#111] border border-[#1a1a1a] rounded-xl overflow-hidden"
+        >
+          <div className="flex items-center justify-between px-5 py-4 border-b border-[#1a1a1a]">
+            <h2 className="text-sm font-semibold text-[#e5e5e5]">Pedidos recientes</h2>
+            <Link
+              href="/pedidos"
+              className="flex items-center gap-1 text-xs text-[#f97316] hover:underline"
+            >
+              Ver todos <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-[#141414]">
+                  {["Pedido", "Cliente", "Total", "Estado", ""].map((h) => (
+                    <th
+                      key={h}
+                      className="px-4 py-2.5 text-left text-[10px] text-[#3a3a3a] font-semibold uppercase tracking-wider"
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#111]">
+                {recentOrders.map((order, i) => {
+                  const cfg =
+                    STATUS_CONFIG[order.status as keyof typeof STATUS_CONFIG];
+                  const Icon = cfg?.icon ?? Clock;
+                  return (
+                    <tr key={i} className="hover:bg-[#0f0f0f] transition-colors cursor-pointer">
+                      <td className="px-4 py-3 font-mono text-[#525252] text-[11px]">
+                        {order.id}
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-full bg-[#1f1f1f] flex items-center justify-center text-[9px] font-bold text-[#737373] flex-shrink-0">
+                            {order.avatar}
+                          </div>
+                          <div>
+                            <p className="text-[#e5e5e5] font-medium">{order.customer}</p>
+                            <p className="text-[#404040] text-[10px]">{order.product}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-[#e5e5e5] font-semibold tabular-nums">
+                        {order.total}
+                      </td>
+                      <td className="px-4 py-3">
+                        <span
+                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border
+                            ${cfg?.color} ${cfg?.bg} ${cfg?.border}`}
+                        >
+                          <Icon className="w-2.5 h-2.5" />
+                          {order.status}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-[#333] text-[10px] whitespace-nowrap">
+                        {order.time}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </motion.div>
+
+        {/* Top products */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, duration: 0.25 }}
+          className="xl:col-span-2 bg-[#111] border border-[#1a1a1a] rounded-xl overflow-hidden"
+        >
+          <div className="flex items-center justify-between px-5 py-4 border-b border-[#1a1a1a]">
+            <h2 className="text-sm font-semibold text-[#e5e5e5]">Top productos</h2>
+            <span className="text-xs text-[#404040]">últimos 30 días</span>
+          </div>
+          <div className="p-3 space-y-1">
+            {topProducts.map((p, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-3 px-2 py-2.5 rounded-lg hover:bg-[#0f0f0f] transition-colors cursor-pointer"
+              >
+                <span className="text-xs font-bold text-[#333] w-4 flex-shrink-0 tabular-nums">
+                  {i + 1}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-medium text-[#e5e5e5] truncate">{p.name}</p>
+                  <p className="text-[10px] text-[#404040] font-mono">{p.sku}</p>
+                </div>
+                <div className="text-right flex-shrink-0">
+                  <p className="text-xs font-bold text-[#f97316]">{p.revenue}</p>
+                  <div className="flex items-center gap-1 justify-end mt-0.5">
+                    <span className="text-[10px] text-[#404040]">{p.sales} uds</span>
+                    <span
+                      className={`text-[10px] font-semibold ${
+                        p.change >= 0 ? "text-emerald-400" : "text-red-400"
+                      }`}
+                    >
+                      {p.change >= 0 ? "+" : ""}
+                      {p.change}%
+                    </span>
+                  </div>
+                </div>
+                {p.stock < 10 && (
+                  <span className="text-[10px] font-bold text-red-400 bg-red-400/10 px-1.5 py-0.5 rounded-md flex-shrink-0">
+                    ¡{p.stock}!
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
