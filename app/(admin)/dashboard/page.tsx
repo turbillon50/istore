@@ -78,11 +78,11 @@ const topProducts = [
 ];
 
 const alerts = [
-  { type: "danger", message: 'MacBook Pro M3 14" — Solo 7 unidades en stock', time: "ahora" },
+  { type: "danger", message: 'MacBook Pro M3 14"  -  Solo 7 unidades en stock', time: "ahora" },
   { type: "warning", message: "12 pedidos llevan más de 48h en 'Procesando'", time: "hace 1 hr" },
   { type: "warning", message: "Promo 'Verano 2026' vence mañana", time: "hace 2 hr" },
   { type: "info", message: "Importación de 200 SKUs completada exitosamente", time: "hace 3 hr" },
-  { type: "danger", message: "AirPods Pro 2 — Agotado en línea", time: "hace 5 hr" },
+  { type: "danger", message: "AirPods Pro 2  -  Agotado en línea", time: "hace 5 hr" },
 ];
 
 // --- Status config ------------------------------------------------------------
