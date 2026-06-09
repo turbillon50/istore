@@ -21,9 +21,9 @@ import {
 } from "lucide-react";
 import ProductCard from "@/components/store/product-card";
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Types
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 interface CartItem {
   id: string;
@@ -39,9 +39,9 @@ interface CartItem {
   quantity: number;
 }
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Mock data
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 const INITIAL_CART: CartItem[] = [
   {
@@ -95,9 +95,9 @@ const UPSELL_PRODUCTS = [
   },
 ];
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Shipping tiers
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 const FREE_SHIPPING_THRESHOLD = 999;
 
@@ -205,7 +205,7 @@ export default function CartPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* ── Cart items ── */}
+          {/* -- Cart items -- */}
           <div className="lg:col-span-2 space-y-4">
             {/* Shipping progress */}
             <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-4">
@@ -343,7 +343,7 @@ export default function CartPage() {
             </div>
           </div>
 
-          {/* ── Order summary ── */}
+          {/* -- Order summary -- */}
           <div className="lg:col-span-1">
             <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-5 sticky top-24">
               <h2 className="text-base font-bold text-white mb-5">Resumen del pedido</h2>
