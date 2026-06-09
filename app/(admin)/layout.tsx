@@ -59,7 +59,7 @@ const NOTIFICATIONS = [
     id: 1,
     type: "warning",
     title: "Stock bajo",
-    message: "MacBook Pro M3 — solo 7 unidades",
+    message: "MacBook Pro M3 - solo 7 unidades",
     time: "hace 5 min",
     read: false,
   },
