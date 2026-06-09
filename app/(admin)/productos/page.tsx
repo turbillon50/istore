@@ -174,12 +174,14 @@ function InlineEditCell(props: InlineEditCellProps) {
 // --- Page ---------------------------------------------------------------------
 
 export default function ProductosPage() {
-  const [data, setData] = useState<Product[]>(MOCK);
+  const initialData: Product[] = MOCK;
+  const [data, setData] = useState(initialData);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("Todos");
   const [brand, setBrand] = useState("Todos");
   const [status, setStatus] = useState("Todos");
-  const [editProduct, setEditProduct] = useState<Product | null>(null);
+  type ProductOrNull = Product | null;
+  const [editProduct, setEditProduct] = useState<ProductOrNull>(null);
   const [editingCell, setEditingCell] = useState<EditingCell>(null);
 
   const filtered = useMemo(
