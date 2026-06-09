@@ -433,7 +433,8 @@ function ImportCard(props: ImportCardProps) {
 // --- Export Card --------------------------------------------------------------
 
 function ExportCard({ card }: { card: typeof EXPORT_CARDS[0] }) {
-  const [format, setFormat] = useState<'xlsx' | 'csv'>('xlsx')
+  type FormatType = 'xlsx' | 'csv'
+  const [format, setFormat] = useState<FormatType>('xlsx')
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
   const [loading, setLoading] = useState(false)
