@@ -139,7 +139,8 @@ interface KpiProps {
   delay?: number;
 }
 
-function KpiCard({ title, value, trend, trendLabel, icon: Icon, accentColor, sparkline, delay = 0 }: KpiProps) {
+function KpiCard(props: KpiProps) {
+  const { title, value, trend, trendLabel, icon: Icon, accentColor, sparkline, delay = 0 } = props;
   const isPositive = trend >= 0;
   const TrendIcon = isPositive ? TrendingUp : TrendingDown;
   const sparkData = sparkline.map((v) => ({ v }));
@@ -204,7 +205,8 @@ function KpiCard({ title, value, trend, trendLabel, icon: Icon, accentColor, spa
 
 // --- Custom chart tooltip -----------------------------------------------------
 
-function SalesTooltip({ active, payload, label }: any) {
+function SalesTooltip(props: any) {
+  const { active, payload, label } = props;
   if (!active || !payload?.length) return null;
   return (
     <div className="bg-[#1a1a1a] border border-[#262626] rounded-xl p-3 shadow-2xl">
