@@ -30,9 +30,9 @@ import {
 } from "lucide-react";
 import ProductCard from "@/components/store/product-card";
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Types
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 interface ProductImage {
   url: string;
@@ -98,9 +98,9 @@ interface Product {
   }[];
 }
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Mock data (replace with real API call)
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 const MOCK_PRODUCT: Product = {
   id: "prod_01",
@@ -203,9 +203,9 @@ const MOCK_PRODUCT: Product = {
   ],
 };
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Star Rating component
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 function StarRating({ rating, size = "sm" }: { rating: number; size?: "sm" | "md" | "lg" }) {
   const sizeClass = size === "sm" ? "w-3.5 h-3.5" : size === "md" ? "w-4 h-4" : "w-5 h-5";
@@ -223,9 +223,9 @@ function StarRating({ rating, size = "sm" }: { rating: number; size?: "sm" | "md
   );
 }
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Color options mapping
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 const COLOR_MAP: Record<string, string> = {
   "Natural Titanium": "#b0a090",
@@ -243,9 +243,9 @@ const COLOR_MAP: Record<string, string> = {
   "Plateado": "#9ca3af",
 };
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Main Page Component
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -366,7 +366,7 @@ export default function ProductDetailPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-16">
 
-            {/* ── LEFT: Gallery ── */}
+            {/* -- LEFT: Gallery -- */}
             <div className="space-y-4">
               {/* Main image */}
               <motion.div
@@ -475,7 +475,7 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            {/* ── RIGHT: Product info ── */}
+            {/* -- RIGHT: Product info -- */}
             <div className="space-y-6">
               {/* Header */}
               <div>
@@ -721,7 +721,7 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* ── Tabs: Specs / Features / Reviews ── */}
+          {/* -- Tabs: Specs / Features / Reviews -- */}
           <div className="mt-16">
             {/* Tab headers */}
             <div className="flex border-b border-white/10 mb-8 overflow-x-auto">
@@ -883,7 +883,7 @@ export default function ProductDetailPage() {
             </AnimatePresence>
           </div>
 
-          {/* ── Related products ── */}
+          {/* -- Related products -- */}
           <div className="mt-16">
             <h2 className="text-2xl font-black text-white mb-6">También te puede interesar</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
