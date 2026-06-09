@@ -121,7 +121,7 @@ export async function POST(req: NextRequest) {
         seoTitle: data.seoTitle,
         seoDesc: data.seoDesc,
         weight: data.weight,
-        specs: data.specs ?? {},
+        specs: (data.specs ?? {}) as any,
       },
       include: {
         category: { select: { id: true, name: true, slug: true } },
