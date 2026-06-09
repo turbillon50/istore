@@ -330,7 +330,7 @@ export default function ProductosPage() {
         header: "Estado",
         enableSorting: true,
         size: 110,
-        cell: ({ getValue }) => <StatusBadge status={getValue() as Product["status"]} />,
+        cell: ({ getValue }) => <StatusBadge status={(getValue() as any)} />,
       },
       {
         id: "actions",
@@ -370,7 +370,7 @@ export default function ProductosPage() {
     category !== "Todos" ? { label: category, clear: () => setCategory("Todos") } : null,
     brand !== "Todos" ? { label: brand, clear: () => setBrand("Todos") } : null,
     status !== "Todos" ? { label: status, clear: () => setStatus("Todos") } : null,
-  ].filter((x): x is { label: string; clear: () => void } => x !== null);
+  ].filter(Boolean) as Array<{ label: string; clear: () => void }>;
 
   return (
     <div className="space-y-5 max-w-[1600px]">
