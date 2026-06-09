@@ -74,7 +74,9 @@ function StatusBadge(props: StatusBadgeProps) {
     Inactivo: { cls: "text-[#525252] bg-[#1a1a1a] border-[#262626]",            icon: XCircle },
     Agotado:  { cls: "text-red-400 bg-red-400/10 border-red-400/20",            icon: AlertTriangle },
   };
-  const { cls, icon: Icon } = map[status];
+  const entry = (map as Record<string, {cls: string; icon: React.ElementType}>)[status] || { cls: "text-[#525252] bg-[#1a1a1a] border-[#262626]", icon: XCircle };
+  const { cls } = entry;
+  const Icon = entry.icon;
   return (
     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold border ${cls}`}>
       <Icon className="w-2.5 h-2.5" />
