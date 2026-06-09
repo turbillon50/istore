@@ -15,7 +15,7 @@ import {
   Search,
 } from 'lucide-react'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// --- Types --------------------------------------------------------------------
 
 type BannerZone =
   | 'HERO_MAIN'
@@ -50,7 +50,7 @@ interface Banner {
 
 type FormState = Omit<Banner, 'id' | 'clicks' | 'impressions' | 'createdAt'>
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+// --- Constants ----------------------------------------------------------------
 
 const BANNER_ZONES: { zone: BannerZone; label: string; description: string; color: string }[] = [
   { zone: 'HERO_MAIN',       label: 'Hero Principal',     description: 'Banner grande en portada',     color: 'bg-purple-500/15 text-purple-300 border-purple-500/20' },
@@ -77,7 +77,7 @@ const MOCK_BANNERS: Banner[] = [
   { id: '5', name: 'Popup - Newsletter', zone: 'POPUP', title: '10% de descuento', subtitle: 'En tu primera compra', cta: 'Obtener cupón', ctaUrl: '#newsletter', image: '', imageMobile: '', bgColor: '#1e293b', textColor: '#ffffff', isActive: true, sortOrder: 1, startsAt: '', endsAt: '', clicks: 445, impressions: 8200, createdAt: '2024-10-28' },
 ]
 
-// ─── Banner Card ──────────────────────────────────────────────────────────────
+// --- Banner Card --------------------------------------------------------------
 
 function BannerCard({
   banner,
@@ -186,7 +186,7 @@ function BannerCard({
   )
 }
 
-// ─── Banner Form ──────────────────────────────────────────────────────────────
+// --- Banner Form --------------------------------------------------------------
 
 function BannerForm({
   initial,
@@ -391,7 +391,7 @@ function BannerForm({
   )
 }
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
+// --- Main Page ----------------------------------------------------------------
 
 export default function BannersPage() {
   const [banners, setBanners] = useState<Banner[]>(MOCK_BANNERS)
