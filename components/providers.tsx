@@ -11,7 +11,7 @@ import {
 } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
 
-// ─── TanStack Query ───────────────────────────────────────────────────────────
+// --- TanStack Query -----------------------------------------------------------
 // Use a singleton on the server, per-request on the client to avoid
 // sharing state across users.
 
@@ -44,13 +44,13 @@ function getQueryClient() {
   return browserQueryClient
 }
 
-// ─── Props ────────────────────────────────────────────────────────────────────
+// --- Props --------------------------------------------------------------------
 
 interface ProvidersProps {
   children: React.ReactNode
 }
 
-// ─── Providers ────────────────────────────────────────────────────────────────
+// --- Providers ----------------------------------------------------------------
 
 export function Providers({ children }: ProvidersProps) {
   const queryClient = getQueryClient()
