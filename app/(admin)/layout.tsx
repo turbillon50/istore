@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import Sidebar from "@/components/admin/Sidebar";
 
-// ─── Breadcrumbs ──────────────────────────────────────────────────────────────
+// --- Breadcrumbs --------------------------------------------------------------
 
 const LABEL_MAP: Record<string, string> = {
   dashboard: "Dashboard",
@@ -52,7 +52,7 @@ function getBreadcrumbs(pathname: string): { label: string; href: string }[] {
   });
 }
 
-// ─── Notification mock data ───────────────────────────────────────────────────
+// --- Notification mock data ---------------------------------------------------
 
 const NOTIFICATIONS = [
   {
@@ -96,7 +96,7 @@ const notifDotColor: Record<string, string> = {
   danger: "bg-red-400",
 };
 
-// ─── UserMenu ─────────────────────────────────────────────────────────────────
+// --- UserMenu -----------------------------------------------------------------
 
 function UserMenu({ onClose }: { onClose: () => void }) {
   return (
@@ -143,7 +143,7 @@ function UserMenu({ onClose }: { onClose: () => void }) {
   );
 }
 
-// ─── NotifPanel ───────────────────────────────────────────────────────────────
+// --- NotifPanel ---------------------------------------------------------------
 
 function NotifPanel({ onClose }: { onClose: () => void }) {
   const unread = NOTIFICATIONS.filter((n) => !n.read).length;
