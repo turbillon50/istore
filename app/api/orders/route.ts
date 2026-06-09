@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(result)
   } catch (error) {
-    console.error('[GET /api/orders]', error)
+    console.error('GET /api/orders error', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
@@ -127,7 +127,7 @@ export async function POST(req: NextRequest) {
       const available = inv ? inv.quantity - inv.reserved : 0
       if (available < item.quantity) {
         return NextResponse.json(
-          { error: `Insufficient stock for: ${product.name}` },
+          { error: 'Insufficient stock for: ' + product.name },
           { status: 422 },
         )
       }
@@ -147,10 +147,10 @@ export async function POST(req: NextRequest) {
       })
 
       if (coupon) {
-        const subtotal = items.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0)
+        const subtotalForCoupon = items.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0)
         discountAmount =
           coupon.discountType === 'PERCENTAGE'
-            ? subtotal * (Number(coupon.discountValue) / 100)
+            ? subtotalForCoupon * (Number(coupon.discountValue) / 100)
             : Number(coupon.discountValue)
         couponId = coupon.id
       }
@@ -163,7 +163,7 @@ export async function POST(req: NextRequest) {
     const total = subtotal - discountAmount + shippingCost + taxAmount
 
     // Generate order number
-    const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`
+    const orderNumber = 'ORD-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase()
 
     const orderItemsData = items.map((item) => {
       const prod = products.find((p) => p.id === item.productId)!
@@ -232,4 +232,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ data: order }, { status: 201 })
   } catch (error) {
-    co
+    console.error('POST /api/orders error', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}
