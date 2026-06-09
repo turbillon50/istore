@@ -20,7 +20,7 @@ const config: Config = {
     extend: {
       colors: {
         // Obsidian & Ember Design System
-        // ─── Surfaces ───────────────────────────────────────────────
+        // --- Surfaces -----------------------------------------------
         surface: {
           DEFAULT: '#131313',
           50:  '#f5f5f5',
@@ -43,7 +43,7 @@ const config: Config = {
         },
         'surface-variant': '#2a2a2a',
 
-        // ─── Primary (Ember Orange) ──────────────────────────────────
+        // --- Primary (Ember Orange) ----------------------------------
         primary: {
           DEFAULT: '#ff8c00',
           50:  '#fff7ed',
@@ -60,14 +60,14 @@ const config: Config = {
           foreground: '#ffffff',
         },
 
-        // ─── On-Surface (text/icon colors) ──────────────────────────
+        // --- On-Surface (text/icon colors) --------------------------
         'on-surface': {
           DEFAULT: '#f5f5f5',
           muted:   '#a8a8a8',
           faint:   '#525252',
         },
 
-        // ─── Semantic ────────────────────────────────────────────────
+        // --- Semantic ------------------------------------------------
         success: {
           DEFAULT: '#22c55e',
           foreground: '#ffffff',
@@ -85,7 +85,7 @@ const config: Config = {
           foreground: '#ffffff',
         },
 
-        // ─── shadcn/ui aliases ───────────────────────────────────────
+        // --- shadcn/ui aliases ---------------------------------------
         background:  'hsl(var(--background))',
         foreground:  'hsl(var(--foreground))',
         card: {
@@ -113,7 +113,7 @@ const config: Config = {
         ring:   'hsl(var(--ring))',
       },
 
-      // ─── Border Radius ─────────────────────────────────────────────
+      // --- Border Radius ---------------------------------------------
       borderRadius: {
         lg:  'var(--radius)',
         md:  'calc(var(--radius) - 2px)',
@@ -122,14 +122,14 @@ const config: Config = {
         '2xl': '1.5rem',
       },
 
-      // ─── Typography ────────────────────────────────────────────────
+      // --- Typography ------------------------------------------------
       fontFamily: {
         inter: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
         sans:  ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
         mono:  ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
 
-      // ─── Animations ────────────────────────────────────────────────
+      // --- Animations ------------------------------------------------
       keyframes: {
         fadeIn: {
           '0%':   { opacity: '0' },
@@ -199,7 +199,7 @@ const config: Config = {
         'accordion-up':   'accordion-up 0.2s ease-out',
       },
 
-      // ─── Box Shadows ───────────────────────────────────────────────
+      // --- Box Shadows -----------------------------------------------
       boxShadow: {
         'ember-sm':  '0 0 8px 2px rgba(255, 140, 0, 0.25)',
         'ember-md':  '0 0 16px 4px rgba(255, 140, 0, 0.35)',
@@ -208,7 +208,7 @@ const config: Config = {
         'glass':     '0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.06)',
       },
 
-      // ─── Background Images ─────────────────────────────────────────
+      // --- Background Images -----------------------------------------
       backgroundImage: {
         'ember-gradient':   'linear-gradient(135deg, #ff8c00 0%, #ffb77d 100%)',
         'ember-radial':     'radial-gradient(circle at center, #ff8c00 0%, #ea7000 100%)',
