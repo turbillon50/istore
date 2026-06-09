@@ -2,7 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// ─── Route matchers ──────────────────────────────────────────────────────────
+// --- Route matchers ----------------------------------------------------------
 
 const isPublicRoute = createRouteMatcher([
   '/',
@@ -29,7 +29,7 @@ const isProtectedRoute = createRouteMatcher([
 
 const isAdminRoute = createRouteMatcher(['/admin(.*)'])
 
-// ─── Middleware ───────────────────────────────────────────────────────────────
+// --- Middleware ---------------------------------------------------------------
 
 export default clerkMiddleware(async (auth, req: NextRequest) => {
   const { userId, sessionClaims, redirectToSignIn } = await auth()
