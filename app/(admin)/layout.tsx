@@ -40,7 +40,8 @@ const LABEL_MAP: Record<string, string> = {
   editar: "Editar",
 };
 
-function getBreadcrumbs(pathname: string): { label: string; href: string }[] {
+type BreadcrumbItem = { label: string; href: string }
+function getBreadcrumbs(pathname: string): BreadcrumbItem[] {
   const segments = pathname.split("/").filter(Boolean);
   let accumulated = "";
   return segments.map((seg) => {
