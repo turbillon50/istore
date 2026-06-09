@@ -263,12 +263,15 @@ export default function ServiciosPage() {
               { icon: CheckCircle2, text: "+10,000 reparaciones" },
               { icon: Shield, text: "Garantía por escrito" },
               { icon: Clock, text: "Mismo día" },
-            ].map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-1.5">
-                <Icon className="w-4 h-4 text-[#ffb77d]" />
-                {text}
+            ].map((svc) => {
+              const SvcIcon = svc.icon;
+              return (
+              <div key={svc.text} className="flex items-center gap-1.5">
+                <SvcIcon className="w-4 h-4 text-[#ffb77d]" />
+                {svc.text}
               </div>
-            ))}
+              );
+            })}
           </motion.div>
         </div>
       </section>
