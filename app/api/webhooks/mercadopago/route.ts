@@ -181,7 +181,7 @@ async function handlePaymentApproved(payment: MercadoPagoPayment) {
 
   await triggerWorkflow(WORKFLOWS.PURCHASE_COMPLETE, {
     orderId: order.id,
-    customerEmail: order.user.email,
+    customerEmail: order.user?.email ?? '',
     items: order.items.map((i) => ({
       name: i.product.name,
       quantity: i.quantity,
