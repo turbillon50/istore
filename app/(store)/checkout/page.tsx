@@ -27,9 +27,9 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Zod schemas per step
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 const datosSchema = z.object({
   email: z.string().email("Email inválido"),
@@ -46,9 +46,9 @@ const datosSchema = z.object({
 
 type DatosForm = z.infer<typeof datosSchema>;
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Mock order items
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 const ORDER_ITEMS = [
   {
@@ -78,9 +78,9 @@ const MX_STATES = [
   "Veracruz", "Yucatán", "Zacatecas",
 ];
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Step definitions
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 const STEPS = [
   { id: 1, label: "Datos" },
@@ -89,9 +89,9 @@ const STEPS = [
   { id: 4, label: "Confirmación" },
 ];
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Shipping options
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 const SHIPPING_OPTIONS = [
   {
@@ -120,9 +120,9 @@ const SHIPPING_OPTIONS = [
   },
 ];
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Payment options
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 const PAYMENT_OPTIONS = [
   { id: "card", label: "Tarjeta de crédito / débito", icon: CreditCard },
@@ -130,9 +130,9 @@ const PAYMENT_OPTIONS = [
   { id: "cash", label: "Pago en efectivo (OXXO / 7-Eleven)", icon: Banknote },
 ];
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Field component
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 function FormField({
   label,
@@ -177,9 +177,9 @@ function Select({ children, className = "", ...props }: React.SelectHTMLAttribut
   );
 }
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Main component
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 export default function CheckoutPage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -348,11 +348,11 @@ export default function CheckoutPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* ── Main form area ── */}
+          {/* -- Main form area -- */}
           <div className="lg:col-span-2">
             <AnimatePresence mode="wait">
 
-              {/* ── STEP 1: Datos ── */}
+              {/* -- STEP 1: Datos -- */}
               {currentStep === 1 && (
                 <motion.form
                   key="step1"
@@ -481,7 +481,7 @@ export default function CheckoutPage() {
                 </motion.form>
               )}
 
-              {/* ── STEP 2: Envío ── */}
+              {/* -- STEP 2: Envío -- */}
               {currentStep === 2 && (
                 <motion.div
                   key="step2"
@@ -553,7 +553,7 @@ export default function CheckoutPage() {
                 </motion.div>
               )}
 
-              {/* ── STEP 3: Pago ── */}
+              {/* -- STEP 3: Pago -- */}
               {currentStep === 3 && (
                 <motion.div
                   key="step3"
@@ -694,7 +694,7 @@ export default function CheckoutPage() {
             </AnimatePresence>
           </div>
 
-          {/* ── Order summary sidebar ── */}
+          {/* -- Order summary sidebar -- */}
           <div className="lg:col-span-1">
             <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-5 sticky top-24">
               <h2 className="text-sm font-bold text-white mb-4">Resumen</h2>
