@@ -143,13 +143,12 @@ const MOCK_HISTORY: HistoryEntry[] = [
 
 // --- Import Dropzone ----------------------------------------------------------
 
-function ImportCard({
-  card,
-  onImported,
-}: {
-  card: (typeof IMPORT_CARDS)[0]
+type ImportCardProps = {
+  card: (typeof IMPORT_CARDS)[number]
   onImported: (entry: HistoryEntry) => void
-}) {
+}
+
+function ImportCard({ card, onImported }: ImportCardProps) {
   const [state, setState] = useState<ImportState>({
     stage: 'idle', file: null, preview: [], validCount: 0, errorCount: 0,
     progress: 0, result: null, errorMsg: '',
