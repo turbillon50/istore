@@ -21,7 +21,7 @@ import {
 import DataTable from "@/components/admin/DataTable";
 import KPICard from "@/components/admin/KPICard";
 
-// ─── Types & Mock ──────────────────────────────────────────────────────────────
+// --- Types & Mock --------------------------------------------------------------
 
 interface InventoryItem {
   id: string;
@@ -67,7 +67,7 @@ const MOCK_MOVEMENTS: Movement[] = [
 
 const BRANCHES = ["Todas las sucursales", "CDMX", "MTY", "GDL"];
 
-// ─── Columns ──────────────────────────────────────────────────────────────────
+// --- Columns ------------------------------------------------------------------
 
 function buildColumns(onViewHistory: (item: InventoryItem) => void, onAdjust: (item: InventoryItem) => void): ColumnDef<InventoryItem, any>[] {
   return [
@@ -174,7 +174,7 @@ function buildColumns(onViewHistory: (item: InventoryItem) => void, onAdjust: (i
   ];
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// --- Page ---------------------------------------------------------------------
 
 export default function InventarioPage() {
   const [search, setSearch] = useState("");
