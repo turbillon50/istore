@@ -86,6 +86,10 @@ export async function POST(req: NextRequest): Promise<NextResponse<ImportResult>
           create: {
             name: data.branch,
             slug: data.branch.toLowerCase().replace(/\s+/g, '-'),
+            address: '',
+            city: '',
+            state: '',
+            zip: '',
           },
           update: {},
         })
